@@ -11,8 +11,7 @@ class Ecran4 extends StatefulWidget {
 
 class _Ecran4State extends State<Ecran4> {
   List<dynamic> jsonData = [];
-  int rowsPerPage = 10;
-  int currentPage = 0;
+  int genresPerPage = 10; // Nombre de localisations à afficher par page
   List<String> genresList = [];
 
   @override
@@ -51,20 +50,23 @@ class _Ecran4State extends State<Ecran4> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Les localisation'),
+        title: const Text('Les localisations'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            GridView.builder(
+      body: Column(
+        children: [
+          Expanded(
+            child: GridView.builder(
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // Nombre de colonnes dans la grille
                 crossAxisSpacing: 16.0,
                 mainAxisSpacing: 16.0,
               ),
-              itemCount: genresList.length,
+              itemCount: (genresList.length / genresPerPage).ceil() * genresPerPage,
               itemBuilder: (context, index) {
+                if (index >= genresList.length) {
+                  return SizedBox.shrink();
+                }
                 String genre = genresList[index];
                 int count = jsonData.where((book) => book['localisation'] == genre).length;
                 return Card(
@@ -77,13 +79,13 @@ class _Ecran4State extends State<Ecran4> {
                 );
               },
             ),
-            BottomAppBar(
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Text('Nombre de tableaux disponibles : ${jsonData.length}'),
-              ),
-            ),
-          ],
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 8.0),
+          child: Text('Nombre de localisations : ${genresList.length}'),
         ),
       ),
     );

@@ -11,7 +11,7 @@ class Ecran1 extends StatefulWidget {
 
 class _Ecran1State extends State<Ecran1> {
   List<dynamic> jsonData = [];
-  int rowsPerPage = 5;
+  int rowsPerPage = 4;
   int currentPage = 0;
 
   @override
@@ -39,23 +39,31 @@ class _Ecran1State extends State<Ecran1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Les livres'),
+        title: Text('Les livres (${jsonData.length})'), // Afficher le nombre total de livres
       ),
       body: SingleChildScrollView(
         child: PaginatedDataTable(
           header: Text('Les livres'),
           rowsPerPage: rowsPerPage,
-          columnSpacing: 16.0, // Espace entre les colonnes
-          dataRowMinHeight: 56.0, // Hauteur minimale des lignes du tableau
-          dataRowMaxHeight: 56.0, // Hauteur maximale des lignes du tableau
-          headingRowHeight: 64.0, // Hauteur de la ligne d'en-tête
-          horizontalMargin: 16.0, // Marge horizontale du contenu du tableau
+          availableRowsPerPage: [4, 8, 15],
+          onRowsPerPageChanged: (int? value) {
+            if (value != null) {
+              setState(() {
+                rowsPerPage = value;
+              });
+            }
+          },
+          columnSpacing: 16.0,
+          dataRowMinHeight: 56.0,
+          dataRowMaxHeight: 56.0,
+          headingRowHeight: 64.0,
+          horizontalMargin: 16.0,
           onPageChanged: (int newPage) {
             setState(() {
               currentPage = newPage;
             });
           },
-          source: _DataSource(jsonData),
+          source: _DataSource(jsonData, rowsPerPage, currentPage), // Passer la variable rowsPerPage et currentPage comme arguments
           columns: const [
             DataColumn(
               label: Text('Titre'),
@@ -78,20 +86,22 @@ class _Ecran1State extends State<Ecran1> {
 
 class _DataSource extends DataTableSource {
   final List<dynamic> _jsonData;
+  final int _rowsPerPage; // Ajouter la variable _rowsPerPage
   int _selectedRowCount = 0;
+  final int currentPage;
 
-  _DataSource(this._jsonData);
+  _DataSource(this._jsonData, this._rowsPerPage, this.currentPage);
 
   @override
   DataRow? getRow(int index) {
-    if (index >= _jsonData.length) {
-      // Retourne null lorsque l'index est en dehors des limites des données
+    int realIndex = index + currentPage * _rowsPerPage; // Utiliser la variable _rowsPerPage
+    if (realIndex >= _jsonData.length) {
       return null;
     }
     return DataRow(
       cells: [
-        DataCell(Text(_jsonData[index]['Titre'])),
-        DataCell(Text(_jsonData[index]['Nom Auteur'])),
+        DataCell(Text(_jsonData[realIndex]['Titre'])),
+        DataCell(Text(_jsonData[realIndex]['Nom Auteur'])),
       ],
     );
   }
@@ -104,4 +114,12 @@ class _DataSource extends DataTableSource {
 
   @override
   int get selectedRowCount => _selectedRowCount;
+
+  @override
+  void notifyListeners() {
+    // Mettre à jour le nombre de livres pour l'auteur sélectionné
+    String? selectedAuthor = _jsonData[currentPage * _rowsPerPage]['Nom Auteur'];
+    _selectedRowCount = _jsonData.where((book) => book['Nom Auteur'] == selectedAuthor).length;
+    super.notifyListeners();
+  }
 }
