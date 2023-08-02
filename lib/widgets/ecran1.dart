@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'fiche.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
+import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
 
 class Ecran1 extends StatefulWidget {
   const Ecran1({Key? key}) : super(key: key);
@@ -35,6 +37,13 @@ class _Ecran1State extends State<Ecran1> {
     }
   }
 
+  void _afficherFicheLivre(Livre livre) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FichePage(livre: livre)), // Afficher la page de la fiche du livre
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +72,7 @@ class _Ecran1State extends State<Ecran1> {
               currentPage = newPage;
             });
           },
-          source: _DataSource(jsonData, rowsPerPage, currentPage), // Passer la variable rowsPerPage et currentPage comme arguments
+          source: _DataSource(jsonData, rowsPerPage, currentPage, _afficherFicheLivre), // Passer la variable _afficherFicheLivre comme argument
           columns: const [
             DataColumn(
               label: Text('Titre'),
@@ -89,8 +98,9 @@ class _DataSource extends DataTableSource {
   final int _rowsPerPage; // Ajouter la variable _rowsPerPage
   int _selectedRowCount = 0;
   final int currentPage;
+  final Function(Livre) _afficherFicheLivre; // Ajouter cette variable
 
-  _DataSource(this._jsonData, this._rowsPerPage, this.currentPage);
+  _DataSource(this._jsonData, this._rowsPerPage, this.currentPage, this._afficherFicheLivre);
 
   @override
   DataRow? getRow(int index) {
@@ -98,10 +108,23 @@ class _DataSource extends DataTableSource {
     if (realIndex >= _jsonData.length) {
       return null;
     }
+    var livre = Livre.fromJson(_jsonData[realIndex]); // Convertir en objet Livre
     return DataRow(
+      onSelectChanged: (bool? selected) {
+        if (selected != null && selected) {
+          _afficherFicheLivre(livre); // Afficher la fiche du livre lorsque l'on clique sur le titre
+        }
+      },
       cells: [
-        DataCell(Text(_jsonData[realIndex]['Titre'])),
-        DataCell(Text(_jsonData[realIndex]['Nom Auteur'])),
+        DataCell(
+          InkWell( // Ajouter InkWell ici pour rendre le titre cliquable
+            onTap: () => _afficherFicheLivre(livre),
+            child: Text(
+              _jsonData[realIndex]['Titre'] ?? 'Titre manquant',
+            ),
+          ),
+        ),
+        DataCell(Text(_jsonData[realIndex]['Nom Auteur'] ?? 'Auteur manquant')),
       ],
     );
   }
