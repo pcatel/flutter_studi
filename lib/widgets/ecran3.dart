@@ -50,6 +50,16 @@ class _Ecran3State extends State<Ecran3> {
     return auteursList;
   }
 
+  void _afficherFicheAuteur(String nomAuteur) {
+    List<dynamic>? livres = jsonData?.where((book) => book['Nom Auteur'] == nomAuteur).toList();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FicheAuteur(nomAuteur: nomAuteur, livres: livres),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +75,7 @@ class _Ecran3State extends State<Ecran3> {
             DataColumn(label: Text('Auteur')),
             DataColumn(label: Text('Nbre de livre')),
           ],
-          source: _DataSource(auteursList, jsonData, context),
+          source: _DataSource(auteursList, jsonData, _afficherFicheAuteur), // Passer la méthode _afficherFicheAuteur ici
           onPageChanged: (int newPage) {
             setState(() {
               currentPage = newPage;
@@ -93,20 +103,10 @@ class _Ecran3State extends State<Ecran3> {
 class _DataSource extends DataTableSource {
   final List<String> _auteursList;
   final List<dynamic>? _jsonData;
-  final BuildContext _context;
+  final Function(String) _onRowTap; // Ajouter la variable _onRowTap
   int _selectedRowCount = 0;
 
-  _DataSource(this._auteursList, this._jsonData, this._context);
-
-  void _afficherFicheAuteur(String nomAuteur) {
-    List<dynamic>? livres = _jsonData?.where((book) => book['Nom Auteur'] == nomAuteur).toList();
-    Navigator.push(
-      _context,
-      MaterialPageRoute(
-        builder: (context) => FicheAuteur(nomAuteur: nomAuteur, livres: livres),
-      ),
-    );
-  }
+  _DataSource(this._auteursList, this._jsonData, this._onRowTap); // Passer _onRowTap au constructeur
 
   @override
   DataRow? getRow(int index) {
@@ -119,7 +119,7 @@ class _DataSource extends DataTableSource {
     return DataRow(
       onSelectChanged: (bool? selected) {
         if (selected != null && selected) {
-          _afficherFicheAuteur(nomAuteur);
+          _onRowTap(nomAuteur); // Utiliser la méthode _onRowTap passée au constructeur
         }
       },
       cells: [
@@ -167,47 +167,36 @@ class FicheAuteur extends StatelessWidget {
           children: [
             Text('Nombre de livres de l\'auteur : ${livres?.length ?? 0}'),
             if (livres != null)
-              PaginatedDataTable(
-                columns: const [
+              DataTable(
+                columns: [
                   DataColumn(label: Text('Titre')),
-                  DataColumn(label: Text('Localisation')),
+                  DataColumn(label: Text('Genre')),
+                  DataColumn(label: Text('Année')),
                 ],
-                source: _LivreDataSource(livres!),
-                rowsPerPage: 10,
+                rows: livres!
+                    .map(
+                      (livre) => DataRow(
+                        cells: [
+                          DataCell(Text(livre['Titre'] ?? '')),
+                          DataCell(Text(livre['Genre'] ?? '')),
+                          DataCell(Text(livre['Année'] ?? '')),
+                        ],
+                        // Utilisez FichePage lorsque l'utilisateur clique sur un titre de livre
+                        onSelectChanged: (_) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FichePage(livre: Livre.fromJson(livre)),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                    .toList(),
               ),
           ],
         ),
       ),
     );
   }
-}
-
-class _LivreDataSource extends DataTableSource {
-  final List<dynamic> _livres;
-  int _selectedRowCount = 0;
-
-  _LivreDataSource(this._livres);
-
-  @override
-  DataRow? getRow(int index) {
-    if (index >= _livres.length) {
-      return null;
-    }
-    var livre = _livres[index];
-    return DataRow(
-      cells: [
-        DataCell(Text(livre['Titre'] ?? '-')),
-        DataCell(Text(livre['localisation'] ?? '-')),
-      ],
-    );
-  }
-
-  @override
-  int get rowCount => _livres.length;
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get selectedRowCount => _selectedRowCount;
 }
