@@ -141,7 +141,7 @@ class MyDrawerWidget extends StatelessWidget {
                 height: 240,
                 child: Image.asset('assets/images/aPropos.jpg'),
               ),
-              title: const Text('A propos'),
+              title: const Text('Gestion'),
               onTap: () {
                 Navigator.pop(context); // Ferme le drawer avant la navigation
                 Navigator.push(
