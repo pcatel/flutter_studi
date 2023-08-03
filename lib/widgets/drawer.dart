@@ -33,71 +33,122 @@ class MyDrawerWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.person),
+            leading: SizedBox(
+              width: 48,
+              height: 240,
+              child: Image.asset('assets/images/livres.jpg'),
+            ),
             title: const Text(' Les livres '),
             onTap: () {
-                Navigator.pop(context); // Ferme le drawer avant la navigation
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Ecran1()),
-                );
-              },
+              Navigator.pop(context); // Ferme le drawer avant la navigation
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Ecran1()),
+              );
+            },
+          ),
+          Divider(
+          color: Colors.black,
+          thickness: 2,
+          
           ),
           ListTile(
-            leading: const Icon(Icons.book),
-            title: const Text(' Les genres '),
-            onTap: () {
+              leading: SizedBox(
+                width: 48,
+                height: 240,
+                child: Image.asset('assets/images/genre.jpg'),
+              ),
+              title: const Text(' Les genres '),
+              onTap: () {
                 Navigator.pop(context); // Ferme le drawer avant la navigation
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Ecran2()),
                 );
-              }
+              }),
+          
+          Divider(
+          color: Colors.black,
+         thickness: 2,
+          
           ),
+          
           ListTile(
-            leading: const Icon(Icons.workspace_premium),
-            title: const Text(' Les auteurs '),
-            onTap: () {
+              leading: SizedBox(
+                width: 48,
+                height: 240,
+                child: Image.asset('assets/images/auteur.jpg'),
+              ),
+              title: const Text(' Les auteurs '),
+              onTap: () {
                 Navigator.pop(context); // Ferme le drawer avant la navigation
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Ecran3()),
                 );
-              }
+              }),
+          
+          Divider(
+          color: Colors.black,
+          thickness: 2,
+          
           ),
+          
           ListTile(
-            leading: const Icon(Icons.video_label),
-            title: const Text(' Les localisations '),
-            onTap: () {
+              leading: SizedBox(
+                width: 48,
+                height: 240,
+                child: Image.asset('assets/images/localisation.jpg'),
+              ),
+              title: const Text(' Les localisations '),
+              onTap: () {
                 Navigator.pop(context); // Ferme le drawer avant la navigation
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Ecran4()),
                 );
-              }
+              }),
+          Divider(
+          color: Colors.black,
+          thickness: 2,
+          
           ),
+          
+          
           ListTile(
-            leading: const Icon(Icons.edit),
-            title: const Text(' Rechercher '),
-             onTap: () {
+              leading: SizedBox(
+                width: 48,
+                height: 240,
+                child: Image.asset('assets/images/rechercher.jpg'),
+              ),
+              title: const Text(' Rechercher '),
+              onTap: () {
                 Navigator.pop(context); // Ferme le drawer avant la navigation
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Ecran5()),
                 );
-              }
+              }),
+          Divider(
+          color: Colors.black,
+          thickness: 2,
+          
           ),
+          
           ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('A propos'),
-           onTap: () {
+              leading: SizedBox(
+                width: 48,
+                height: 240,
+                child: Image.asset('assets/images/aPropos.jpg'),
+              ),
+              title: const Text('A propos'),
+              onTap: () {
                 Navigator.pop(context); // Ferme le drawer avant la navigation
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Ecran6()),
                 );
-              }
-          ),
+              }),
         ],
       ),
     );
