@@ -76,7 +76,6 @@ class _BarreIconesState extends State<BarreIcones> {
           MaterialPageRoute(builder: (context) => Ecran6()),
         );
         break;
-
       default:
         break;
     }
@@ -84,23 +83,42 @@ class _BarreIconesState extends State<BarreIcones> {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      onTap: _onItemTapped,
-      type: BottomNavigationBarType.fixed,
-      items: _images.asMap().entries.map((entry) {
-        int index = entry.key;
-        String imagePath = entry.value;
-        String label = _labels[index];
-        return BottomNavigationBarItem(
-          icon: Image.asset(
-            imagePath,
-            height: 36,
-            width: 36,
-          ),
-          label: label,
-        );
-      }).toList(),
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 167, 202, 232), // Couleur de l'arrière-plan
+        borderRadius: BorderRadius.circular(10), // Vous pouvez ajuster le rayon de bordure selon vos préférences
+      ),
+      child: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: const Color.fromARGB(255, 3, 53, 82),
+        selectedItemColor: Colors.white, // Couleur de l'icône sélectionnée
+        unselectedItemColor: Colors.grey, // Couleur des icônes non sélectionnées
+        items: _images.asMap().entries.map((entry) {
+          int index = entry.key;
+          String imagePath = entry.value;
+          String label = _labels[index];
+          return BottomNavigationBarItem(
+            icon: Image.asset(
+              imagePath,
+              height: 36,
+              width: 36,
+            ),
+            label: label,
+          );
+        }).toList(),
+        selectedLabelStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          color: Colors.black, // Couleur du texte du label sélectionné
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+          color: Colors.black, // Couleur du texte du label non sélectionné
+        ),
+      ),
     );
   }
 }
