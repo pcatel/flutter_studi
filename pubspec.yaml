@@ -33,7 +33,7 @@ dependencies:
   http: ^0.13.3
   path_provider: ^2.0.5
   permission_handler: ^10.1.0
-
+  url_launcher: ^6.0.12
    
 
 
@@ -63,6 +63,13 @@ flutter:
     - assets/images/auteur.png
     - assets/images/rechercher.png
     - assets/images/administrer.png
+    - assets/images/facebook.png
+    - assets/images/instagram.png
+    - assets/images/tiktok.png
+    - assets/images/linkedin.png
+
+
+
     - data/livres.json
 
   # An image asset can refer to one or more resolution-specific "variants", see

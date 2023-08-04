@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'fiche.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
+import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
 
 class Ecran5 extends StatefulWidget {
   const Ecran5({Key? key}) : super(key: key);
@@ -10,8 +12,8 @@ class Ecran5 extends StatefulWidget {
 }
 
 class _Ecran5State extends State<Ecran5> {
-  List<Map<String, dynamic>> livres = [];
-  List<Map<String, dynamic>> resultatsRecherche = [];
+  List<Livre> livres = [];
+  List<Livre> resultatsRecherche = [];
   String critereRecherche = 'livre';
   String texteRecherche = '';
   bool afficherMessagePasDeLivres = false;
@@ -26,29 +28,7 @@ class _Ecran5State extends State<Ecran5> {
     final String jsonString = await rootBundle.loadString('data/livres.json');
     final List<dynamic> jsonData = json.decode(jsonString);
     setState(() {
-      livres = jsonData.cast<Map<String, dynamic>>();
-    });
-  }
-
-  void _rechercher() {
-    setState(() {
-      if (critereRecherche == 'livre') {
-        resultatsRecherche = livres
-            .where((livre) => (livre['Titre'] != null && livre['Titre'].toLowerCase().contains(texteRecherche.toLowerCase())))
-            .toList();
-      } else if (critereRecherche == 'auteur') {
-        resultatsRecherche = livres
-            .where((livre) => (livre['Nom Auteur'] != null && livre['Nom Auteur'].toLowerCase().contains(texteRecherche.toLowerCase())))
-            .toList();
-      } else if (critereRecherche == 'localisation') {
-        resultatsRecherche = livres
-            .where((livre) => (livre['localisation'] != null && livre['localisation'].toLowerCase().contains(texteRecherche.toLowerCase())))
-            .toList();
-      } else {
-        resultatsRecherche = [];
-      }
-
-      afficherMessagePasDeLivres = (texteRecherche.isNotEmpty && resultatsRecherche.isEmpty);
+      livres = jsonData.map((data) => Livre.fromJson(data)).toList();
     });
   }
 
@@ -123,9 +103,18 @@ class _Ecran5State extends State<Ecran5> {
                     ],
                     rows: resultatsRecherche.map((livre) {
                       return DataRow(cells: [
-                        DataCell(Text(livre['Titre'] ?? '')),
-                        DataCell(Text(livre['Nom Auteur'] ?? '')),
-                        DataCell(Text(livre['localisation'] ?? '')),
+                        DataCell(
+                          InkWell(
+                            onTap: () => _ouvrirFicheLivre(livre),
+                            child: _getHighlightedTextWidget(livre.titre),
+                          ),
+                        ),
+                        DataCell(
+                          _getHighlightedTextWidget(livre.nomAuteur),
+                        ),
+                        DataCell(
+                          _getHighlightedTextWidget(livre.localisation),
+                        ),
                       ]);
                     }).toList(),
                   ),
@@ -139,5 +128,76 @@ class _Ecran5State extends State<Ecran5> {
         ),
       ),
     );
+  }
+
+  void _rechercher() {
+    setState(() {
+      if (critereRecherche == 'livre') {
+        resultatsRecherche = livres
+            .where((livre) => livre.titre.toLowerCase().contains(texteRecherche.toLowerCase()))
+            .toList();
+      } else if (critereRecherche == 'auteur') {
+        resultatsRecherche = livres
+            .where((livre) => livre.nomAuteur.toLowerCase().contains(texteRecherche.toLowerCase()))
+            .toList();
+      } else if (critereRecherche == 'localisation') {
+        resultatsRecherche = livres
+            .where((livre) => livre.localisation.toLowerCase().contains(texteRecherche.toLowerCase()))
+            .toList();
+      } else {
+        resultatsRecherche = [];
+      }
+
+      afficherMessagePasDeLivres = (texteRecherche.isNotEmpty && resultatsRecherche.isEmpty);
+    });
+  }
+
+  void _ouvrirFicheLivre(Livre livre) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FichePage(livre: livre)), // Afficher la page de la fiche du livre
+    );
+  }
+
+  Widget _getHighlightedTextWidget(String text) {
+    final highlightedText = texteRecherche.isNotEmpty && text.toLowerCase().contains(texteRecherche.toLowerCase())
+        ? RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.black),
+              children: _getHighlightSpans(text, texteRecherche),
+            ),
+          )
+        : Text(text);
+    return highlightedText;
+  }
+
+  List<TextSpan> _getHighlightSpans(String text, String pattern) {
+    final List<TextSpan> spans = [];
+    int start = 0;
+
+    final patternRegExp = RegExp(pattern, caseSensitive: false);
+
+    final matches = patternRegExp.allMatches(text);
+
+    for (final match in matches) {
+      if (start != match.start) {
+        spans.add(TextSpan(text: text.substring(start, match.start)));
+      }
+
+      final highlightedText = TextSpan(
+        text: text.substring(match.start, match.end),
+        style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+      );
+
+      spans.add(highlightedText);
+
+      start = match.end;
+    }
+
+    if (start < text.length) {
+      spans.add(TextSpan(text: text.substring(start, text.length)));
+    }
+
+    return spans;
   }
 }
