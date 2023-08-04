@@ -106,34 +106,35 @@ class _Ecran5State extends State<Ecran5> {
                 ),
                 DropdownMenuItem(
                   value: 'localisation',
-                  child: Text('localisation'),
+                  child: Text('Localisation'),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: resultatsRecherche.isEmpty && afficherMessagePasDeLivres
-                    ? Center(
-                        child: Text('Pas de livres trouvés'),
-                      )
-                    : DataTable(
-                        columns: [
-                          DataColumn(label: Text('Titre')),
-                          DataColumn(label: Text('Nom Auteur')),
-                          DataColumn(label: Text('localisation')),
-                        ],
-                        rows: resultatsRecherche.map((livre) {
-                          return DataRow(cells: [
-                            DataCell(Text(livre['Titre'] ?? '')),
-                            DataCell(Text(livre['Nom Auteur'] ?? '')),
-                            DataCell(Text(livre['localisation'] ?? '')),
-                          ]);
-                        }).toList(),
-                      ),
+            if (resultatsRecherche.isNotEmpty)
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text('Titre')),
+                      DataColumn(label: Text('Nom Auteur')),
+                      DataColumn(label: Text('Localisation')),
+                    ],
+                    rows: resultatsRecherche.map((livre) {
+                      return DataRow(cells: [
+                        DataCell(Text(livre['Titre'] ?? '')),
+                        DataCell(Text(livre['Nom Auteur'] ?? '')),
+                        DataCell(Text(livre['localisation'] ?? '')),
+                      ]);
+                    }).toList(),
+                  ),
+                ),
               ),
-            ),
+            if (afficherMessagePasDeLivres)
+              Center(
+                child: Text('Pas de livres trouvés'),
+              ),
           ],
         ),
       ),
