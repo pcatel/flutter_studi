@@ -36,7 +36,7 @@ class MyDrawerWidget extends StatelessWidget {
             leading: SizedBox(
               width: 48,
               height: 240,
-              child: Image.asset('assets/images/livres.jpg'),
+              child: Image.asset('assets/images/livres.png'),
             ),
             title: const Text(' Les livres '),
             onTap: () {
@@ -56,7 +56,7 @@ class MyDrawerWidget extends StatelessWidget {
               leading: SizedBox(
                 width: 48,
                 height: 240,
-                child: Image.asset('assets/images/genre.jpg'),
+                child: Image.asset('assets/images/genre.png'),
               ),
               title: const Text(' Les genres '),
               onTap: () {
@@ -77,7 +77,7 @@ class MyDrawerWidget extends StatelessWidget {
               leading: SizedBox(
                 width: 48,
                 height: 240,
-                child: Image.asset('assets/images/auteur.jpg'),
+                child: Image.asset('assets/images/auteur.png'),
               ),
               title: const Text(' Les auteurs '),
               onTap: () {
@@ -98,7 +98,7 @@ class MyDrawerWidget extends StatelessWidget {
               leading: SizedBox(
                 width: 48,
                 height: 240,
-                child: Image.asset('assets/images/localisation.jpg'),
+                child: Image.asset('assets/images/localisation.png'),
               ),
               title: const Text(' Les localisations '),
               onTap: () {
@@ -119,7 +119,7 @@ class MyDrawerWidget extends StatelessWidget {
               leading: SizedBox(
                 width: 48,
                 height: 240,
-                child: Image.asset('assets/images/rechercher.jpg'),
+                child: Image.asset('assets/images/rechercher.png'),
               ),
               title: const Text(' Rechercher '),
               onTap: () {
@@ -139,7 +139,7 @@ class MyDrawerWidget extends StatelessWidget {
               leading: SizedBox(
                 width: 48,
                 height: 240,
-                child: Image.asset('assets/images/aPropos.jpg'),
+                child: Image.asset('assets/images/administrer.png'),
               ),
               title: const Text('Gestion'),
               onTap: () {
