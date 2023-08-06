@@ -121,7 +121,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   _labels[index],
                   style: const TextStyle(
-                   
                     color: Color.fromARGB(255, 3, 53, 82),
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
