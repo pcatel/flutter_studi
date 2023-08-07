@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'fiche.dart';
+import 'livre.dart';
 
 class Ecran4 extends StatefulWidget {
   const Ecran4({Key? key}) : super(key: key);
@@ -11,8 +13,7 @@ class Ecran4 extends StatefulWidget {
 
 class _Ecran4State extends State<Ecran4> {
   List<dynamic> jsonData = [];
-  int genresPerPage = 10; // Nombre de localisations à afficher par page
-  List<String> genresList = [];
+  List<String> localisationsList = [];
 
   @override
   void initState() {
@@ -22,28 +23,24 @@ class _Ecran4State extends State<Ecran4> {
 
   Future<void> _chargerDonnees() async {
     try {
-      // Charger le contenu du fichier JSON à l'aide de rootBundle
       String data = await rootBundle.loadString('data/livres.json');
-
-      // Convertir le contenu JSON en une liste d'objets Dart
       setState(() {
         jsonData = jsonDecode(data);
-        genresList = _extractGenres(jsonData);
+        localisationsList = _extractlocalisations(jsonData);
       });
     } catch (e) {
-      // Gérer les erreurs éventuelles
       print('Erreur lors du chargement des données : $e');
     }
   }
 
-  List<String> _extractGenres(List<dynamic> jsonData) {
-    Set<String> genresSet = Set();
+  List<String> _extractlocalisations(List<dynamic> jsonData) {
+    Set<String> localisationsSet = Set();
     for (var book in jsonData) {
       if (book.containsKey('localisation')) {
-        genresSet.add(book['localisation']);
+        localisationsSet.add(book['localisation']);
       }
     }
-    return genresSet.toList();
+    return localisationsSet.toList();
   }
 
   @override
@@ -54,26 +51,69 @@ class _Ecran4State extends State<Ecran4> {
       ),
       body: Column(
         children: [
+          SizedBox(height: 10),
           Expanded(
             child: GridView.builder(
-              shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Nombre de colonnes dans la grille
-                crossAxisSpacing: 16.0,
-                mainAxisSpacing: 16.0,
+                crossAxisCount: 3,
+                crossAxisSpacing: 32.0,
+                mainAxisSpacing: 32.0,
               ),
-              itemCount: (genresList.length / genresPerPage).ceil() * genresPerPage,
+              itemCount: localisationsList.length,
               itemBuilder: (context, index) {
-                if (index >= genresList.length) {
-                  return SizedBox.shrink();
-                }
-                String genre = genresList[index];
-                int count = jsonData.where((book) => book['localisation'] == genre).length;
-                return Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Center(
-                      child: Text('$genre ($count livres)'),
+                String localisation = localisationsList[index];
+                int count =
+                    jsonData.where((book) => book['localisation'] == localisation).length;
+                String imagePath =
+                    'assets/images/Localisations/${localisation.toLowerCase()}.jpg';
+
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Fichelocalisation(
+                          nomlocalisation: localisation,
+                          livres: jsonData
+                              .where((book) => book['localisation'] == localisation)
+                              .toList(),
+                        ),
+                      ),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Card(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(imagePath),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            Text(
+                              localisation,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              '($count titres)',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 );
@@ -82,10 +122,105 @@ class _Ecran4State extends State<Ecran4> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: Text('Nombre de localisations : ${genresList.length}'),
+    );
+  }
+}
+
+class Fichelocalisation extends StatefulWidget {
+  final String nomlocalisation;
+  final List<dynamic>? livres;
+
+  const Fichelocalisation({required this.nomlocalisation, this.livres, Key? key})
+      : super(key: key);
+
+  @override
+  _FichelocalisationState createState() => _FichelocalisationState();
+}
+
+class _FichelocalisationState extends State<Fichelocalisation> {
+  int livresPerPage = 4;
+  int currentPage = 1;
+
+  List<dynamic> getCurrentPageLivres() {
+    int startIndex = (currentPage - 1) * livresPerPage;
+    int endIndex = startIndex + livresPerPage;
+    return widget.livres!
+        .sublist(startIndex, endIndex < widget.livres!.length ? endIndex : widget.livres!.length);
+  }
+
+  void previousPage() {
+    if (currentPage > 1) {
+      setState(() {
+        currentPage--;
+      });
+    }
+  }
+
+  void nextPage() {
+    int totalPages = (widget.livres!.length / livresPerPage).ceil();
+    if (currentPage < totalPages) {
+      setState(() {
+        currentPage++;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<dynamic> currentLivres = getCurrentPageLivres();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.nomlocalisation),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text('Nombre de livres pour ce localisation : ${widget.livres?.length ?? 0}'),
+            DataTable(
+              columns: [
+                DataColumn(label: Text('Titre')),
+                DataColumn(label: Text('localisation')),
+                DataColumn(label: Text('Année')),
+              ],
+              rows: currentLivres
+                  .map(
+                    (livre) => DataRow(
+                      cells: [
+                        DataCell(Text(livre['Titre'] ?? '')),
+                        DataCell(Text(livre['localisation'] ?? '')),
+                        DataCell(Text(livre['Année'] ?? '')),
+                      ],
+                      onSelectChanged: (_) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FichePage(livre: Livre.fromJson(livre)),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                  .toList(),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_left),
+                  onPressed: previousPage,
+                ),
+                Text(
+                  'Rows per page $livresPerPage ${currentPage * livresPerPage - livresPerPage + 1}-${currentPage * livresPerPage} of ${widget.livres!.length}',
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_right),
+                  onPressed: nextPage,
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

@@ -79,13 +79,13 @@ flutter:
     - assets/images/Genres/vécu.jpg
     - assets/images/Genres/bd.jpg
     - assets/images/Genres/roman.jpg
-    - assets/images/Localisations/Bureau.jpg
-    - assets/images/Localisations/Chambre amis.jpg
-    - assets/images/Localisations/Chambre enfants.jpg
-    - assets/images/Localisations/Chambre.jpg
-    - assets/images/Localisations/Escalier.jpg
-    - assets/images/Localisations/Meuble TV.jpg
-    - assets/images/Localisations/Salon.jpg
+    - assets/images/Localisations/bureau.jpg
+    - assets/images/Localisations/chambre amis.jpg
+    - assets/images/Localisations/chambre enfants.jpg
+    - assets/images/Localisations/chambre.jpg
+    - assets/images/Localisations/escalier.jpg
+    - assets/images/Localisations/meuble tv.jpg
+    - assets/images/Localisations/salon.jpg
 
 
 
