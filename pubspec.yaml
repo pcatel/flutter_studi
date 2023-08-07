@@ -63,10 +63,22 @@ flutter:
     - assets/images/auteur.png
     - assets/images/rechercher.png
     - assets/images/administrer.png
-    - assets/images/facebook.png
-    - assets/images/instagram.png
-    - assets/images/tiktok.png
-    - assets/images/linkedin.png
+    - assets/images/Reseaux/facebook.png
+    - assets/images/Reseaux/instagram.png
+    - assets/images/Reseaux/tiktok.png
+    - assets/images/Reseaux/linkedin.png
+    - assets/images/Genres/cuisine.jpg
+    - assets/images/Genres/autres.jpg
+    - assets/images/Genres/histoire.jpg
+    - assets/images/Genres/humour.jpg
+    - assets/images/Genres/jeunesse.jpg
+    - assets/images/Genres/policier.jpg
+    - assets/images/Genres/pratique.jpg
+    - assets/images/Genres/récit.jpg
+    - assets/images/Genres/sf.jpg
+    - assets/images/Genres/vécu.jpg
+    - assets/images/Genres/bd.jpg
+    - assets/images/Genres/roman.jpg
 
 
 

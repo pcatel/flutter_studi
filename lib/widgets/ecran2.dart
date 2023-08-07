@@ -52,34 +52,79 @@ class _Ecran2State extends State<Ecran2> {
       appBar: AppBar(
         title: const Text('Les Genres'),
       ),
-      body: GridView.builder(
-        shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Nombre de colonnes dans la grille
-          crossAxisSpacing: 16.0,
-          mainAxisSpacing: 16.0,
-        ),
-        itemCount: (genresList.length / genresPerPage).ceil() * genresPerPage,
-        itemBuilder: (context, index) {
-          if (index >= genresList.length) {
-            return SizedBox.shrink();
-          }
-          String genre = genresList[index];
-          int count = jsonData.where((book) => book['Genre'] == genre).length;
-          return Card(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Center(
-                child: Text('$genre ($count livres)'),
+      body: Center(
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3, // Nombre de colonnes dans la grille
+                      crossAxisSpacing: 32.0,
+                      mainAxisSpacing: 32.0,
+                    ),
+                    itemCount: (genresList.length / genresPerPage).ceil() *
+                        genresPerPage,
+                    itemBuilder: (context, index) {
+                      if (index >= genresList.length) {
+                        return SizedBox.shrink();
+                      }
+                      String genre = genresList[index];
+                      int count = jsonData
+                          .where((book) => book['Genre'] == genre)
+                          .length;
+                      String imagePath =
+                          'assets/images/Genres/${genre.toLowerCase()}.jpg';
+
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(20.20),
+                        child: Card(
+                          child: Container(
+                          
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(imagePath),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child:
+                              
+                             
+                                Column(
+                                  children: [
+                                    Text(
+                                      genre,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      '($count titres)',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14.0,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              
+                          
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
-          );
-        },
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: Text('Nombre de genres : ${genresList.length}'),
+          ],
         ),
       ),
     );
