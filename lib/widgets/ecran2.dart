@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'fiche.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
+import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
 
 class Ecran2 extends StatefulWidget {
   const Ecran2({Key? key}) : super(key: key);
@@ -78,44 +80,53 @@ class _Ecran2State extends State<Ecran2> {
                       String imagePath =
                           'assets/images/Genres/${genre.toLowerCase()}.jpg';
 
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(20.20),
-                        child: Card(
-                          child: Container(
-                          
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(imagePath),
-                                fit: BoxFit.cover,
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FicheGenre(
+                                nomGenre: genre,
+                                livres: jsonData
+                                    .where((book) => book['Genre'] == genre)
+                                    .toList(),
                               ),
                             ),
-                            alignment: Alignment.center,
-                            child:
-                              
-                             
-                                Column(
-                                  children: [
-                                    Text(
-                                      genre,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    Text(
-                                      '($count titres)',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14.0,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
+                          );
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: Card(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(imagePath),
+                                  fit: BoxFit.cover,
                                 ),
-                              
-                          
+                              ),
+                              alignment: Alignment.center,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    genre,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    '($count titres)',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       );
@@ -124,6 +135,59 @@ class _Ecran2State extends State<Ecran2> {
                 ),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FicheGenre extends StatelessWidget {
+  final String nomGenre;
+  final List<dynamic>? livres;
+
+  const FicheGenre({required this.nomGenre, this.livres, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(nomGenre),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text('Nombre de livres de l\'auteur : ${livres?.length ?? 0}'),
+            if (livres != null)
+              DataTable(
+                columns: [
+                  DataColumn(label: Text('Titre')),
+                  DataColumn(label: Text('Genre')),
+                  DataColumn(label: Text('Année')),
+                ],
+                rows: livres!
+                    .map(
+                      (livre) => DataRow(
+                        cells: [
+                          DataCell(Text(livre['Titre'] ?? '')),
+                          DataCell(Text(livre['Genre'] ?? '')),
+                          DataCell(Text(livre['Année'] ?? '')),
+                        ],
+                        // Utilisez FichePage lorsque l'utilisateur clique sur un titre de livre
+                        onSelectChanged: (_) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  FichePage(livre: Livre.fromJson(livre)),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
           ],
         ),
       ),
