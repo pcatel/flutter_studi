@@ -70,7 +70,7 @@ class _Ecran3State extends State<Ecran3> {
         child: PaginatedDataTable(
           header: Text('Les livres'),
           rowsPerPage: _DataSource.rowsPerPageDataSource,
-          availableRowsPerPage: [4, 8, 15], // Liste des valeurs disponibles pour rowsPerPage
+          availableRowsPerPage: [4, 8, 12], // Liste des valeurs disponibles pour rowsPerPage
           columns: const [
             DataColumn(label: Text('Auteur')),
             DataColumn(label: Text('Nbre de livre')),

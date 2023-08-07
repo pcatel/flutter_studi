@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'fiche.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
-import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
+import 'fiche.dart';
+import 'livre.dart';
 
 class Ecran2 extends StatefulWidget {
   const Ecran2({Key? key}) : super(key: key);
@@ -13,7 +13,6 @@ class Ecran2 extends StatefulWidget {
 
 class _Ecran2State extends State<Ecran2> {
   List<dynamic> jsonData = [];
-  int genresPerPage = 10; // Nombre de genres à afficher par page
   List<String> genresList = [];
 
   @override
@@ -24,16 +23,12 @@ class _Ecran2State extends State<Ecran2> {
 
   Future<void> _chargerDonnees() async {
     try {
-      // Charger le contenu du fichier JSON à l'aide de rootBundle
       String data = await rootBundle.loadString('data/livres.json');
-
-      // Convertir le contenu JSON en une liste d'objets Dart
       setState(() {
         jsonData = jsonDecode(data);
         genresList = _extractGenres(jsonData);
       });
     } catch (e) {
-      // Gérer les erreurs éventuelles
       print('Erreur lors du chargement des données : $e');
     }
   }
@@ -54,95 +49,84 @@ class _Ecran2State extends State<Ecran2> {
       appBar: AppBar(
         title: const Text('Les Genres'),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Center(
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, // Nombre de colonnes dans la grille
-                      crossAxisSpacing: 32.0,
-                      mainAxisSpacing: 32.0,
-                    ),
-                    itemCount: (genresList.length / genresPerPage).ceil() *
-                        genresPerPage,
-                    itemBuilder: (context, index) {
-                      if (index >= genresList.length) {
-                        return SizedBox.shrink();
-                      }
-                      String genre = genresList[index];
-                      int count = jsonData
-                          .where((book) => book['Genre'] == genre)
-                          .length;
-                      String imagePath =
-                          'assets/images/Genres/${genre.toLowerCase()}.jpg';
+      body: Column(
+        children: [
+          SizedBox(height: 10),
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 32.0,
+                mainAxisSpacing: 32.0,
+              ),
+              itemCount: genresList.length,
+              itemBuilder: (context, index) {
+                String genre = genresList[index];
+                int count =
+                    jsonData.where((book) => book['Genre'] == genre).length;
+                String imagePath =
+                    'assets/images/Genres/${genre.toLowerCase()}.jpg';
 
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FicheGenre(
-                                nomGenre: genre,
-                                livres: jsonData
-                                    .where((book) => book['Genre'] == genre)
-                                    .toList(),
-                              ),
-                            ),
-                          );
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20.0),
-                          child: Card(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(imagePath),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              alignment: Alignment.center,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    genre,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Text(
-                                    '($count titres)',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14.0,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ),
-                            ),
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FicheGenre(
+                          nomGenre: genre,
+                          livres: jsonData
+                              .where((book) => book['Genre'] == genre)
+                              .toList(),
+                        ),
+                      ),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Card(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(imagePath),
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      );
-                    },
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            Text(
+                              genre,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              '($count titres)',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class FicheGenre extends StatelessWidget {
+class FicheGenre extends StatefulWidget {
   final String nomGenre;
   final List<dynamic>? livres;
 
@@ -150,44 +134,92 @@ class FicheGenre extends StatelessWidget {
       : super(key: key);
 
   @override
+  _FicheGenreState createState() => _FicheGenreState();
+}
+
+class _FicheGenreState extends State<FicheGenre> {
+  int livresPerPage = 4;
+  int currentPage = 1;
+
+  List<dynamic> getCurrentPageLivres() {
+    int startIndex = (currentPage - 1) * livresPerPage;
+    int endIndex = startIndex + livresPerPage;
+    return widget.livres!
+        .sublist(startIndex, endIndex < widget.livres!.length ? endIndex : widget.livres!.length);
+  }
+
+  void previousPage() {
+    if (currentPage > 1) {
+      setState(() {
+        currentPage--;
+      });
+    }
+  }
+
+  void nextPage() {
+    int totalPages = (widget.livres!.length / livresPerPage).ceil();
+    if (currentPage < totalPages) {
+      setState(() {
+        currentPage++;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<dynamic> currentLivres = getCurrentPageLivres();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(nomGenre),
+        title: Text(widget.nomGenre),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text('Nombre de livres de l\'auteur : ${livres?.length ?? 0}'),
-            if (livres != null)
-              DataTable(
-                columns: [
-                  DataColumn(label: Text('Titre')),
-                  DataColumn(label: Text('Genre')),
-                  DataColumn(label: Text('Année')),
-                ],
-                rows: livres!
-                    .map(
-                      (livre) => DataRow(
-                        cells: [
-                          DataCell(Text(livre['Titre'] ?? '')),
-                          DataCell(Text(livre['Genre'] ?? '')),
-                          DataCell(Text(livre['Année'] ?? '')),
-                        ],
-                        // Utilisez FichePage lorsque l'utilisateur clique sur un titre de livre
-                        onSelectChanged: (_) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  FichePage(livre: Livre.fromJson(livre)),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                    .toList(),
-              ),
+            Text('Nombre de livres pour ce genre : ${widget.livres?.length ?? 0}'),
+            DataTable(
+              columns: [
+                DataColumn(label: Text('Titre')),
+                DataColumn(label: Text('Genre')),
+                DataColumn(label: Text('Année')),
+              ],
+              rows: currentLivres
+                  .map(
+                    (livre) => DataRow(
+                      cells: [
+                        DataCell(Text(livre['Titre'] ?? '')),
+                        DataCell(Text(livre['Genre'] ?? '')),
+                        DataCell(Text(livre['Année'] ?? '')),
+                      ],
+                      onSelectChanged: (_) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FichePage(livre: Livre.fromJson(livre)),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                  .toList(),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_left),
+                  onPressed: previousPage,
+                ),
+                Text(
+                  'Rows per page $livresPerPage ${currentPage * livresPerPage - livresPerPage + 1}-${currentPage * livresPerPage} of ${widget.livres!.length}',
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_right),
+                  onPressed: nextPage,
+                ),
+              ],
+            ),
           ],
         ),
       ),
