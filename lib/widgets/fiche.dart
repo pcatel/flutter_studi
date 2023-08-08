@@ -29,7 +29,9 @@ class FichePage extends StatelessWidget {
             ),
             ListTile(
               title: Text('Résumé'),
-              subtitle: Text(livre.resume),
+              subtitle: livre.resume.url.isNotEmpty
+                  ? Image.network(Uri.parse("https://www.pascalcatel.com/biblio/${_sanitizeString(livre.resume.url)}").toString())
+                  : Text('Pas de résumé avec image'),
             ),
             ListTile(
               title: Text('Genre'),
@@ -53,11 +55,17 @@ class FichePage extends StatelessWidget {
             ),
             ListTile(
               title: Text('Photo'),
-              subtitle: Text(livre.photo), // Afficher le chemin de l'image comme du texte
+              subtitle: livre.photo.isNotEmpty
+                  ? Image.network(Uri.parse("https://www.pascalcatel.com/biblio/${_sanitizeString(livre.photo)}").toString())
+                  : Text('Pas de photo disponible'),
             ),
           ],
         ),
       ),
     );
+  }
+
+  String _sanitizeString(String input) {
+    return input.replaceAll(RegExp(r'[-\s]'), '');
   }
 }

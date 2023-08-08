@@ -1,14 +1,20 @@
+class ImageUrl {
+  final String url;
+
+  ImageUrl(this.url);
+}
+
 class Livre {
   String dateCreation;
   String titre;
   String nomAuteur;
   String prenomAuteur;
   String photo;
-  String resume;
+  ImageUrl resume;
   String genre;
   String localisation;
   String rayon;
-  String commentaire;
+  String commentaire; // Maintenant de type ImageUrl
   String pret;
 
   Livre({
@@ -32,7 +38,12 @@ class Livre {
       nomAuteur: json['Nom Auteur'] ?? '',
       prenomAuteur: json['Prénom Auteur'] ?? '',
       photo: json['Photo'] ?? '',
-      resume: json['Résumé'] ?? '',
+      resume: ImageUrl(json['Résumé'] ?? ''),
+
+
+
+
+      
       genre: json['Genre'] ?? '',
       localisation: json['Localisation'] ?? '',
       rayon: json['Rayon'] ?? '',

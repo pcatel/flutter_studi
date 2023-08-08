@@ -45,12 +45,34 @@ class _Ecran4State extends State<Ecran4> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double containerHeight = screenHeight * 0.1; // 1/10 of the screen height
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Les localisations'),
       ),
       body: Column(
         children: [
+          Container(
+            height: containerHeight,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/Localisations/bureau.jpg'), // Replace with your image path
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                'Your Container Content',
+                style: TextStyle(
+                  color: const Color.fromARGB(255, 86, 4, 4),
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
           SizedBox(height: 10),
           Expanded(
             child: GridView.builder(
@@ -62,10 +84,8 @@ class _Ecran4State extends State<Ecran4> {
               itemCount: localisationsList.length,
               itemBuilder: (context, index) {
                 String localisation = localisationsList[index];
-                int count =
-                    jsonData.where((book) => book['localisation'] == localisation).length;
-                String imagePath =
-                    'assets/images/Localisations/${localisation.toLowerCase()}.jpg';
+                int count = jsonData.where((book) => book['localisation'] == localisation).length;
+                String imagePath = 'assets/images/Localisations/${localisation.toLowerCase()}.jpg';
 
                 return InkWell(
                   onTap: () {
