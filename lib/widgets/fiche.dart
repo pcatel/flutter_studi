@@ -96,6 +96,27 @@ class FichePage extends StatelessWidget {
               color: Colors.yellow,
             ),
             SizedBox(height: 16),
+              // Pret
+            _buildRowWithColor(
+              child: Row(
+                    children: [
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    //_handleEdit(context);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                   // _handleDelete(context);
+                  },
+                ),
+              ],
+              ),
+              color: Colors.yellow,
+            ),
+            SizedBox(height: 16),
           ],
         ),
       ),
@@ -176,6 +197,7 @@ Widget build(BuildContext context) {
             },
           ),
         ),
+        
       ],
     ),
   );
