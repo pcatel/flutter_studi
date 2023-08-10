@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'livre.dart';
+import 'dart:convert';
+import 'dart:io';
 
 class FichePage extends StatelessWidget {
   final Livre livre;
@@ -108,9 +110,9 @@ class FichePage extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.delete),
-                  onPressed: () {
-                   // _handleDelete(context);
-                  },
+               onPressed: () {
+          _showDeleteConfirmationDialog(context, livre); // Passer "livre" en paramètre
+        },
                 ),
               ],
               ),
@@ -208,3 +210,49 @@ Widget build(BuildContext context) {
     return input.replaceAll(RegExp(r'[-\s]'), '');
   }
 }
+_showDeleteConfirmationDialog(BuildContext context, Livre livre) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Supprimer le livre'),
+        content: Text('Êtes-vous sûr de vouloir supprimer ce livre ?'),
+        actions: [
+          TextButton(
+            child: Text('Non'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('Oui'),
+            onPressed: () async {
+             await _deleteBookAndSave(livre);
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> _deleteBookAndSave(Livre livre) async {
+  final booksFilePath = 'data/livres.json';
+  
+  // Charger le contenu actuel du fichier JSON
+  final file = File(booksFilePath);
+  final content = await file.readAsString();
+  final jsonData = json.decode(content) as List<dynamic>;
+
+  // Supprimer le nœud du livre
+  jsonData.removeWhere((book) => book['titre'] == livre.titre);
+
+  // Écrire le contenu mis à jour dans le fichier JSON
+  final updatedContent = json.encode(jsonData);
+  await file.writeAsString(updatedContent);
+}
+
+
+
+
