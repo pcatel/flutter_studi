@@ -6,6 +6,7 @@ import 'ecran3.dart';
 import 'ecran4.dart';
 import 'ecran5.dart';
 import 'ecran6.dart';
+import 'ecran7.dart';
 
 class MyDrawerWidget extends StatelessWidget {
   const MyDrawerWidget({Key? key}) : super(key: key);
@@ -167,6 +168,25 @@ class MyDrawerWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const Ecran6()),
+                        );
+                      },
+                    ),
+                    Divider(
+                      color: Colors.black,
+                      thickness: 2,
+                    ),
+                    ListTile(
+                      leading: SizedBox(
+                        width: 48,
+                        height: 240,
+                        child: Image.asset('assets/images/administrer.png'),
+                      ),
+                      title: const Text('Chargement'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Ecran7()),
                         );
                       },
                     ),

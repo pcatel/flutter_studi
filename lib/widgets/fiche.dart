@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'livre.dart';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
 
 class FichePage extends StatelessWidget {
   final Livre livre;
@@ -13,7 +14,7 @@ class FichePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    backgroundColor: Color.fromARGB(255, 100, 198, 244),
+      backgroundColor: Color.fromARGB(255, 100, 198, 244),
       appBar: AppBar(
         title: Text(livre.titre),
       ),
@@ -98,23 +99,23 @@ class FichePage extends StatelessWidget {
               color: Colors.yellow,
             ),
             SizedBox(height: 16),
-              // Pret
+            // Actions
             _buildRowWithColor(
               child: Row(
-                    children: [
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    //_handleEdit(context);
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete),
-               onPressed: () {
-          _showDeleteConfirmationDialog(context, livre); // Passer "livre" en paramètre
-        },
-                ),
-              ],
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      //_handleEdit(context);
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      _showDeleteConfirmationDialog(context, livre);
+                    },
+                  ),
+                ],
               ),
               color: Colors.yellow,
             ),
@@ -149,7 +150,7 @@ class FichePage extends StatelessWidget {
     );
   }
 
-  void _showFullScreenImage(BuildContext context, String imageUrl, String type,) {
+  void _showFullScreenImage(BuildContext context, String imageUrl, String type) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -161,6 +162,53 @@ class FichePage extends StatelessWidget {
   String _sanitizeString(String input) {
     return input.replaceAll(RegExp(r'[-\s]'), '');
   }
+
+  void _showDeleteConfirmationDialog(BuildContext context, Livre livre) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Supprimer le livre'),
+          content: Text('Êtes-vous sûr de vouloir supprimer le livre ${livre.titre} ?'),
+          actions: [
+            TextButton(
+              child: Text('Non'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Oui'),
+              onPressed: () async {
+                await _deleteBookAndSave(livre);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _deleteBookAndSave(Livre livre) async {
+    try {
+      final booksFilePath = 'data/livres.json';
+
+      // Charger le contenu du fichier JSON à l'aide de rootBundle
+      final content = await rootBundle.loadString(booksFilePath);
+      final jsonData = json.decode(content) as List<dynamic>;
+
+      // Supprimer le nœud du livre
+      jsonData.removeWhere((book) => book['Titre'] == livre.titre);
+
+      // Écrire le contenu mis à jour dans le fichier JSON
+      final updatedContent = json.encode(jsonData);
+      final file = File(booksFilePath);
+      await file.writeAsString(updatedContent);
+    } catch (e) {
+      print("Erreur lors de la suppression du livre : $e");
+    }
+  }
 }
 
 class FullScreenImagePage extends StatelessWidget {
@@ -171,88 +219,40 @@ class FullScreenImagePage extends StatelessWidget {
   const FullScreenImagePage({required this.imageUrl, required this.type,  required this.titre, Key? key}) : super(key: key);
 
   @override
-Widget build(BuildContext context) {
-  return Scaffold(
-  backgroundColor: Color.fromARGB(255, 100, 198, 244),
-    appBar: AppBar(
-     title: Text(titre), 
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 100, 198, 244),
+      appBar: AppBar(
+        title: Text(titre),
       ),
-    body: Stack(
-      children: [
-        GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Center(
-            child: type == 'photo'
-                ? Image.network(Uri.parse("https://www.pascalcatel.com/biblio/${_sanitizeString(imageUrl)}").toString())
-                : type == 'resume'
+      body: Stack(
+        children: [
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Center(
+              child: type == 'photo'
                   ? Image.network(Uri.parse("https://www.pascalcatel.com/biblio/${_sanitizeString(imageUrl)}").toString())
-                   : SizedBox.shrink(),
+                  : type == 'resume'
+                  ? Image.network(Uri.parse("https://www.pascalcatel.com/biblio/${_sanitizeString(imageUrl)}").toString())
+                  : SizedBox.shrink(),
+            ),
           ),
-        ),
-        Positioned(
-          top: 16, // Ajustez la position verticale selon vos besoins
-          right: 16, // Ajustez la position horizontale selon vos besoins
-          child: IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          Positioned(
+            top: 16, // Ajustez la position verticale selon vos besoins
+            right: 16, // Ajustez la position horizontale selon vos besoins
+            child: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
-        ),
-        
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+    );
+  }
 
   String _sanitizeString(String input) {
     return input.replaceAll(RegExp(r'[-\s]'), '');
   }
 }
-_showDeleteConfirmationDialog(BuildContext context, Livre livre) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Supprimer le livre'),
-        content: Text('Êtes-vous sûr de vouloir supprimer ce livre ?'),
-        actions: [
-          TextButton(
-            child: Text('Non'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text('Oui'),
-            onPressed: () async {
-             await _deleteBookAndSave(livre);
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
-Future<void> _deleteBookAndSave(Livre livre) async {
-  final booksFilePath = 'data/livres.json';
-  
-  // Charger le contenu actuel du fichier JSON
-  final file = File(booksFilePath);
-  final content = await file.readAsString();
-  final jsonData = json.decode(content) as List<dynamic>;
-
-  // Supprimer le nœud du livre
-  jsonData.removeWhere((book) => book['titre'] == livre.titre);
-
-  // Écrire le contenu mis à jour dans le fichier JSON
-  final updatedContent = json.encode(jsonData);
-  await file.writeAsString(updatedContent);
-}
-
-
-
-
