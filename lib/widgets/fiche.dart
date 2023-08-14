@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'livre.dart';
-import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/services.dart';
+//import 'dart:convert';
+//import 'package:flutter/services.dart';
 
 class FichePage extends StatelessWidget {
   final Livre livre;
@@ -99,27 +98,6 @@ class FichePage extends StatelessWidget {
               color: Colors.yellow,
             ),
             SizedBox(height: 16),
-            // Actions
-            _buildRowWithColor(
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      //_handleEdit(context);
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      _showDeleteConfirmationDialog(context, livre);
-                    },
-                  ),
-                ],
-              ),
-              color: Colors.yellow,
-            ),
-            SizedBox(height: 16),
           ],
         ),
       ),
@@ -161,53 +139,6 @@ class FichePage extends StatelessWidget {
 
   String _sanitizeString(String input) {
     return input.replaceAll(RegExp(r'[-\s]'), '');
-  }
-
-  void _showDeleteConfirmationDialog(BuildContext context, Livre livre) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Supprimer le livre'),
-          content: Text('Êtes-vous sûr de vouloir supprimer le livre ${livre.titre} ?'),
-          actions: [
-            TextButton(
-              child: Text('Non'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Oui'),
-              onPressed: () async {
-                await _deleteBookAndSave(livre);
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _deleteBookAndSave(Livre livre) async {
-    try {
-      final booksFilePath = 'data/livres.json';
-
-      // Charger le contenu du fichier JSON à l'aide de rootBundle
-      final content = await rootBundle.loadString(booksFilePath);
-      final jsonData = json.decode(content) as List<dynamic>;
-
-      // Supprimer le nœud du livre
-      jsonData.removeWhere((book) => book['Titre'] == livre.titre);
-
-      // Écrire le contenu mis à jour dans le fichier JSON
-      final updatedContent = json.encode(jsonData);
-      final file = File(booksFilePath);
-      await file.writeAsString(updatedContent);
-    } catch (e) {
-      print("Erreur lors de la suppression du livre : $e");
-    }
   }
 }
 

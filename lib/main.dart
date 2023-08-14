@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_studi/widgets/home_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 
 void main() {
@@ -13,6 +14,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+    // Configuration de la localisation françaises
+      locale: const Locale("fr", "FR"),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale("fr", "FR"),
+      ],
     debugShowCheckedModeBanner: false,
       title: 'Titre de l\'application',
 

@@ -5,8 +5,6 @@ import 'ecran2.dart';
 import 'ecran3.dart';
 import 'ecran4.dart';
 import 'ecran5.dart';
-import 'ecran6.dart';
-import 'ecran7.dart';
 
 class MyDrawerWidget extends StatelessWidget {
   const MyDrawerWidget({Key? key}) : super(key: key);
@@ -22,18 +20,12 @@ class MyDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return Container(
-  
       child: Drawer(
-      
-      width: MediaQuery.of(context).size.width * 0.5,
-      
+        width: MediaQuery.of(context).size.width * 0.5,
         child: Container(
-        
           color: Color.fromARGB(255, 60, 166, 227),
           child: Column(
-          
             children: [
               // En-tête avec 20% de l'espace
               Container(
@@ -43,155 +35,148 @@ class MyDrawerWidget extends StatelessWidget {
                     color: Color.fromARGB(255, 3, 53, 82),
                   ),
                   child: UserAccountsDrawerHeader(
-                    decoration: BoxDecoration(color: Color.fromARGB(255, 3, 53, 82)),
-                    accountName: Text(
-                      "Pascal CATEL",
-                      style: TextStyle(fontSize: 18),
+                    decoration:
+                        BoxDecoration(color: Color.fromARGB(255, 3, 53, 82)),
+                    accountName: Row(
+                      children: [
+                        Text(
+                          "Pascal CATEL",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
                     ),
-                    accountEmail: Text("pcatel@pascalcatel.com"),
-                    currentAccountPictureSize: Size.square(50),
+                    accountEmail: Row(
+                      children: [
+                        Text(
+                          "pcatel@pascalcatel.com",
+                          style: TextStyle(fontSize: 14, color: Colors.yellow),
+                        ),
+                      ],
+                    ),
+                    currentAccountPictureSize: Size.square(100),
                     currentAccountPicture: CircleAvatar(
                       backgroundImage: AssetImage('assets/images/matete.png'),
+                      backgroundColor: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                 ),
               ),
               // Liste des éléments ListTile avec 60% de l'espace
-              Container(
-                height: MediaQuery.of(context).size.height * 0.6,
-                child: ListView(
-                  children: [
-                    ListTile(
-                      leading: SizedBox(
-                        width: 48,
-                        height: 240,
-                        child: Image.asset('assets/images/livres.png'),
-                      ),
-                      title: const Text(' Les livres '),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Ecran1()),
-                        );
-                      },
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: [
+                        ListTile(
+                         dense: true,
+                         visualDensity: VisualDensity(vertical: -3), // to compact
+
+                          leading: SizedBox(
+                            width: 24,
+                            height: 50,
+                            child: Image.asset('assets/images/livres.png'),
+                          ),
+                          title: const Text(' Livres '),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Ecran1()),
+                            );
+                          },
+                        ),
+                        Divider(
+                          color: Colors.white,
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          leading: SizedBox(
+                            width: 24,
+                            height: 50,
+                            child: Image.asset('assets/images/genre.png'),
+                          ),
+                          title: const Text(' Genres '),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Ecran2()),
+                            );
+                          },
+                        ),
+                        Divider(
+                          color: Colors.white,
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          leading: SizedBox(
+                            width: 24,
+                            height: 50,
+                            child: Image.asset('assets/images/auteur.png'),
+                          ),
+                          title: const Text(' Auteurs '),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Ecran3()),
+                            );
+                          },
+                        ),
+                        Divider(
+                          color: Colors.white,
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          leading: SizedBox(
+                            width: 24,
+                            height: 50,
+                            child:
+                                Image.asset('assets/images/localisation.png'),
+                          ),
+                          title: const Text(' Localisations '),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Ecran4()),
+                            );
+                          },
+                        ),
+                        Divider(
+                          color: Colors.white,
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          leading: SizedBox(
+                            width: 24,
+                            height: 50,
+                            child: Image.asset('assets/images/rechercher.png'),
+                          ),
+                          title: const Text(' Rechercher '),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Ecran5()),
+                            );
+                          },
+                        ),
+                         Divider(
+                          color: Colors.white,
+                          thickness: 1,
+                        ),
+                      ],
                     ),
-                    Divider(
-                      color: Colors.black,
-                      thickness: 2,
-                    ),
-                    ListTile(
-                      leading: SizedBox(
-                        width: 48,
-                        height: 240,
-                        child: Image.asset('assets/images/genre.png'),
-                      ),
-                      title: const Text(' Les genres '),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Ecran2()),
-                        );
-                      },
-                    ),
-                    Divider(
-                      color: Colors.black,
-                      thickness: 2,
-                    ),
-                    ListTile(
-                      leading: SizedBox(
-                        width: 48,
-                        height: 240,
-                        child: Image.asset('assets/images/auteur.png'),
-                      ),
-                      title: const Text(' Les auteurs '),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Ecran3()),
-                        );
-                      },
-                    ),
-                    Divider(
-                      color: Colors.black,
-                      thickness: 2,
-                    ),
-                    ListTile(
-                      leading: SizedBox(
-                        width: 48,
-                        height: 240,
-                        child: Image.asset('assets/images/localisation.png'),
-                      ),
-                      title: const Text(' Les localisations '),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Ecran4()),
-                        );
-                      },
-                    ),
-                    Divider(
-                      color: Colors.black,
-                      thickness: 2,
-                    ),
-                    ListTile(
-                      leading: SizedBox(
-                        width: 48,
-                        height: 240,
-                        child: Image.asset('assets/images/rechercher.png'),
-                      ),
-                      title: const Text(' Rechercher '),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Ecran5()),
-                        );
-                      },
-                    ),
-                    Divider(
-                      color: Colors.black,
-                      thickness: 2,
-                    ),
-                    ListTile(
-                      leading: SizedBox(
-                        width: 48,
-                        height: 240,
-                        child: Image.asset('assets/images/administrer.png'),
-                      ),
-                      title: const Text('Gestion'),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Ecran6()),
-                        );
-                      },
-                    ),
-                    Divider(
-                      color: Colors.black,
-                      thickness: 2,
-                    ),
-                    ListTile(
-                      leading: SizedBox(
-                        width: 48,
-                        height: 240,
-                        child: Image.asset('assets/images/administrer.png'),
-                      ),
-                      title: const Text('Chargement'),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Ecran7()),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               // Ligne des réseaux sociaux avec 20% de l'espace
               Container(

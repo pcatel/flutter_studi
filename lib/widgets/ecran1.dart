@@ -13,7 +13,7 @@ class Ecran1 extends StatefulWidget {
 
 class _Ecran1State extends State<Ecran1> {
   List<dynamic> jsonData = [];
-  int rowsPerPage = 4;
+  int rowsPerPage = 15;
   int currentPage = 0;
 
   @override
@@ -40,7 +40,9 @@ class _Ecran1State extends State<Ecran1> {
   void _afficherFicheLivre(Livre livre) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => FichePage(livre: livre)), // Afficher la page de la fiche du livre
+      MaterialPageRoute(
+          builder: (context) =>
+              FichePage(livre: livre)), // Afficher la page de la fiche du livre
     );
   }
 
@@ -48,13 +50,15 @@ class _Ecran1State extends State<Ecran1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Les livres (${jsonData.length})'), // Afficher le nombre total de livres
+        title: Text(
+            'Les livres (${jsonData.length})'), // Afficher le nombre total de livres
       ),
       body: SingleChildScrollView(
         child: PaginatedDataTable(
-          header: Text('Les livres'),
+          //header: Text('Les livres'),
+
           rowsPerPage: rowsPerPage,
-          availableRowsPerPage: [4, 8, 15],
+          availableRowsPerPage: [15, 25, 35],
           onRowsPerPageChanged: (int? value) {
             if (value != null) {
               setState(() {
@@ -63,8 +67,8 @@ class _Ecran1State extends State<Ecran1> {
             }
           },
           columnSpacing: 16.0,
-          dataRowMinHeight: 56.0,
-          dataRowMaxHeight: 56.0,
+          dataRowMinHeight: 40.0,
+          dataRowMaxHeight: 40.0,
           headingRowHeight: 64.0,
           horizontalMargin: 16.0,
           onPageChanged: (int newPage) {
@@ -72,23 +76,36 @@ class _Ecran1State extends State<Ecran1> {
               currentPage = newPage;
             });
           },
-          source: _DataSource(jsonData, rowsPerPage, currentPage, _afficherFicheLivre), // Passer la variable _afficherFicheLivre comme argument
+          source: _DataSource(jsonData, rowsPerPage, currentPage,
+              _afficherFicheLivre), // Passer la variable _afficherFicheLivre comme argument
           columns: const [
             DataColumn(
-              label: Text('Titre'),
+              label: Text(
+                'Titre', // Modifier ici
+
+                style: TextStyle(
+                  fontSize: 16, // Taille du texte
+                  color: Colors.blue, // Couleur du texte
+                  fontWeight: FontWeight.bold, // Style de la police (gras)
+                  // Ajoutez d'autres propriétés de style si nécessaire
+                ),
+              ),
             ),
             DataColumn(
-              label: Text('Nom Auteur'),
+              label: Text(
+                'Nom Auteur',
+                style: TextStyle(
+                  fontSize: 16, // Taille du texte
+                  color: Colors.blue, // Couleur du texte
+                  fontWeight: FontWeight.bold, // Style de la police (gras)
+                  // Ajoutez d'autres propriétés de style si nécessaire
+                ),
+              ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: Text('Nombre de tableaux disponibles : ${jsonData.length}'),
-        ),
-      ),
+      bottomNavigationBar: BottomAppBar(),
     );
   }
 }
@@ -100,24 +117,29 @@ class _DataSource extends DataTableSource {
   final int currentPage;
   final Function(Livre) _afficherFicheLivre; // Ajouter cette variable
 
-  _DataSource(this._jsonData, this._rowsPerPage, this.currentPage, this._afficherFicheLivre);
+  _DataSource(this._jsonData, this._rowsPerPage, this.currentPage,
+      this._afficherFicheLivre);
 
   @override
   DataRow? getRow(int index) {
-    int realIndex = index + currentPage * _rowsPerPage; // Utiliser la variable _rowsPerPage
+    int realIndex =
+        index + currentPage * _rowsPerPage; // Utiliser la variable _rowsPerPage
     if (realIndex >= _jsonData.length) {
       return null;
     }
-    var livre = Livre.fromJson(_jsonData[realIndex]); // Convertir en objet Livre
+    var livre =
+        Livre.fromJson(_jsonData[realIndex]); // Convertir en objet Livre
     return DataRow(
       onSelectChanged: (bool? selected) {
         if (selected != null && selected) {
-          _afficherFicheLivre(livre); // Afficher la fiche du livre lorsque l'on clique sur le titre
+          _afficherFicheLivre(
+              livre); // Afficher la fiche du livre lorsque l'on clique sur le titre
         }
       },
       cells: [
         DataCell(
-          InkWell( // Ajouter InkWell ici pour rendre le titre cliquable
+          InkWell(
+            // Ajouter InkWell ici pour rendre le titre cliquable
             onTap: () => _afficherFicheLivre(livre),
             child: Text(
               _jsonData[realIndex]['Titre'] ?? 'Titre manquant',
@@ -141,8 +163,10 @@ class _DataSource extends DataTableSource {
   @override
   void notifyListeners() {
     // Mettre à jour le nombre de livres pour l'auteur sélectionné
-    String? selectedAuthor = _jsonData[currentPage * _rowsPerPage]['Nom Auteur'];
-    _selectedRowCount = _jsonData.where((book) => book['Nom Auteur'] == selectedAuthor).length;
+    String? selectedAuthor =
+        _jsonData[currentPage * _rowsPerPage]['Nom Auteur'];
+    _selectedRowCount =
+        _jsonData.where((book) => book['Nom Auteur'] == selectedAuthor).length;
     super.notifyListeners();
   }
 }

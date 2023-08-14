@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const MyDrawerWidget(),
+      drawer: MyDrawerWidget(),
       backgroundColor: Color.fromARGB(255, 100, 198, 244),
       appBar: AppBar(
         title: const Text("PCL Biblio"),
