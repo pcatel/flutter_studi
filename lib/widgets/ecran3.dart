@@ -24,16 +24,12 @@ class _Ecran3State extends State<Ecran3> {
 
   Future<void> _chargerDonnees() async {
     try {
-      // Charger le contenu du fichier JSON à l'aide de rootBundle
       String data = await rootBundle.loadString('data/livres.json');
-
-      // Convertir le contenu JSON en une liste d'objets Dart
       setState(() {
         jsonData = jsonDecode(data);
         auteursList = _extractAuteurs(jsonData!);
       });
     } catch (e) {
-      // Gérer les erreurs éventuelles
       print('Erreur lors du chargement des données : $e');
     }
   }
@@ -116,14 +112,17 @@ class _DataSource extends DataTableSource {
     }
     String nomAuteur = _auteursList[realIndex];
     int count = _jsonData!.where((book) => book['Nom Auteur'] == nomAuteur).length;
-    return DataRow(
-      onSelectChanged: (bool? selected) {
-        if (selected != null && selected) {
-          _onRowTap(nomAuteur); // Utiliser la méthode _onRowTap passée au constructeur
-        }
-      },
+    return DataRow.byIndex(
+      index: index,
       cells: [
-        DataCell(Text(nomAuteur)),
+        DataCell(
+          GestureDetector(
+            onTap: () {
+              _onRowTap(nomAuteur); // Utiliser la méthode _onRowTap passée au constructeur
+            },
+            child: Text(nomAuteur),
+          ),
+        ),
         DataCell(Text('$count')),
       ],
     );
@@ -177,19 +176,22 @@ class FicheAuteur extends StatelessWidget {
                     .map(
                       (livre) => DataRow(
                         cells: [
-                          DataCell(Text(livre['Titre'] ?? '')),
+                          DataCell(
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FichePage(livre: Livre.fromJson(livre)),
+                                  ),
+                                );
+                              },
+                              child: Text(livre['Titre'] ?? ''),
+                            ),
+                          ),
                           DataCell(Text(livre['Genre'] ?? '')),
                           DataCell(Text(livre['Année'] ?? '')),
                         ],
-                        // Utilisez FichePage lorsque l'utilisateur clique sur un titre de livre
-                        onSelectChanged: (_) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FichePage(livre: Livre.fromJson(livre)),
-                            ),
-                          );
-                        },
                       ),
                     )
                     .toList(),

@@ -165,6 +165,13 @@ class _FicheGenreState extends State<FicheGenre> {
     }
   }
 
+  void _afficherFicheLivre(Livre livre) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FichePage(livre: livre)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     List<dynamic> currentLivres = getCurrentPageLivres();
@@ -187,19 +194,17 @@ class _FicheGenreState extends State<FicheGenre> {
                   .map(
                     (livre) => DataRow(
                       cells: [
-                        DataCell(Text(livre['Titre'] ?? '')),
+                        DataCell(
+                          InkWell(
+                            onTap: () {
+                              _afficherFicheLivre(Livre.fromJson(livre));
+                            },
+                            child: Text(livre['Titre'] ?? ''),
+                          ),
+                        ),
                         DataCell(Text(livre['Genre'] ?? '')),
                         DataCell(Text(livre['Année'] ?? '')),
                       ],
-                      onSelectChanged: (_) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                FichePage(livre: Livre.fromJson(livre)),
-                          ),
-                        );
-                      },
                     ),
                   )
                   .toList(),

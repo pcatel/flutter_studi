@@ -46,7 +46,7 @@ class _Ecran4State extends State<Ecran4> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double containerHeight = screenHeight * 0.1; // 1/10 of the screen height
+    double containerHeight = screenHeight * 0.1;
 
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +58,7 @@ class _Ecran4State extends State<Ecran4> {
             height: containerHeight,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/Localisations/bureau.jpg'), // Replace with your image path
+                image: AssetImage('assets/images/Localisations/bureau.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -114,14 +114,29 @@ class _Ecran4State extends State<Ecran4> {
                         alignment: Alignment.center,
                         child: Column(
                           children: [
-                            Text(
-                              localisation,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Fichelocalisation(
+                                      nomlocalisation: localisation,
+                                      livres: jsonData
+                                          .where((book) => book['localisation'] == localisation)
+                                          .toList(),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                localisation,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
                               ),
-                              textAlign: TextAlign.center,
                             ),
                             Text(
                               '($count titres)',
@@ -207,19 +222,23 @@ class _FichelocalisationState extends State<Fichelocalisation> {
                   .map(
                     (livre) => DataRow(
                       cells: [
-                        DataCell(Text(livre['Titre'] ?? '')),
+                        DataCell(
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      FichePage(livre: Livre.fromJson(livre)),
+                                ),
+                              );
+                            },
+                            child: Text(livre['Titre'] ?? ''),
+                          ),
+                        ),
                         DataCell(Text(livre['localisation'] ?? '')),
                         DataCell(Text(livre['Année'] ?? '')),
                       ],
-                      onSelectChanged: (_) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                FichePage(livre: Livre.fromJson(livre)),
-                          ),
-                        );
-                      },
                     ),
                   )
                   .toList(),
