@@ -72,7 +72,7 @@ class MyDrawerWidget extends StatelessWidget {
                       children: [
                         ListTile(
                          dense: true,
-                         visualDensity: VisualDensity(vertical: -3), // to compact
+                         visualDensity: VisualDensity(vertical: -4), // to compact
 
                           leading: SizedBox(
                             width: 24,
@@ -92,7 +92,9 @@ class MyDrawerWidget extends StatelessWidget {
                           color: Colors.white,
                           thickness: 1,
                         ),
-                        ListTile(
+                       ListTile(
+                         dense: true,
+                         visualDensity: VisualDensity(vertical: -4), // to compact
                           leading: SizedBox(
                             width: 24,
                             height: 50,
@@ -112,7 +114,9 @@ class MyDrawerWidget extends StatelessWidget {
                           color: Colors.white,
                           thickness: 1,
                         ),
-                        ListTile(
+                       ListTile(
+                         dense: true,
+                         visualDensity: VisualDensity(vertical: -4), // to compact
                           leading: SizedBox(
                             width: 24,
                             height: 50,
@@ -133,6 +137,8 @@ class MyDrawerWidget extends StatelessWidget {
                           thickness: 1,
                         ),
                         ListTile(
+                         dense: true,
+                         visualDensity: VisualDensity(vertical: -4), // to compact
                           leading: SizedBox(
                             width: 24,
                             height: 50,
@@ -153,7 +159,9 @@ class MyDrawerWidget extends StatelessWidget {
                           color: Colors.white,
                           thickness: 1,
                         ),
-                        ListTile(
+                       ListTile(
+                         dense: true,
+                         visualDensity: VisualDensity(vertical: -4), // to compact
                           leading: SizedBox(
                             width: 24,
                             height: 50,
