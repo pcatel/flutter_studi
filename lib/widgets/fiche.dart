@@ -17,7 +17,6 @@ class FichePage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Auteur
           Expanded(
             flex: 10,
             child: _buildRowWithColor(
@@ -31,28 +30,13 @@ class FichePage extends StatelessWidget {
               color: Colors.blue,
             ),
           ),
-          SizedBox(height: 16),
-          // Photo et Résumé
           Expanded(
             flex: 50,
             child: _buildRowWithColor(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _buildImageContainer(context, livre.photo, 'photo'),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: _buildImageContainer(
-                        context, livre.resume.url, 'resume'),
-                  ),
-                ],
-              ),
+              child: _buildImageContainerRow(context),
               color: Colors.green,
             ),
           ),
-          SizedBox(height: 16),
-          // Genre
           Expanded(
             flex: 10,
             child: _buildRowWithColor(
@@ -66,8 +50,6 @@ class FichePage extends StatelessWidget {
               color: Colors.orange,
             ),
           ),
-          SizedBox(height: 16),
-          // Localisation et Rayon
           Expanded(
             flex: 10,
             child: _buildRowWithColor(
@@ -85,8 +67,6 @@ class FichePage extends StatelessWidget {
               color: Colors.purple,
             ),
           ),
-          SizedBox(height: 16),
-          // Commentaire
           Expanded(
             flex: 10,
             child: _buildRowWithColor(
@@ -100,8 +80,6 @@ class FichePage extends StatelessWidget {
               color: Colors.red,
             ),
           ),
-          SizedBox(height: 16),
-          // Pret
           Expanded(
             flex: 10,
             child: _buildRowWithColor(
@@ -115,13 +93,13 @@ class FichePage extends StatelessWidget {
               color: Colors.yellow,
             ),
           ),
-          SizedBox(height: 16),
         ],
       ),
     );
   }
 
-  Widget _buildRowWithColor({required Widget child, required Color color}) {
+  Widget _buildRowWithColor(
+      {required Widget child, required Color color}) {
     return Container(
       color: color,
       padding: EdgeInsets.all(8),
@@ -129,13 +107,23 @@ class FichePage extends StatelessWidget {
     );
   }
 
+  Widget _buildImageContainerRow(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: _buildImageContainer(context, livre.photo, 'photo'),
+        ),
+        SizedBox(width: 16),
+        Expanded(
+          child: _buildImageContainer(context, livre.resume.url, 'resume'),
+        ),
+      ],
+    );
+  }
+
   Widget _buildImageContainer(BuildContext context, String url, String type) {
     return GestureDetector(
-      onTap: () => _showFullScreenImage(
-        context,
-        url,
-        type,
-      ),
+      onTap: () => _showFullScreenImage(context, url, type),
       child: Container(
         width: imageSize,
         height: imageSize,
@@ -203,8 +191,8 @@ class FullScreenImagePage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 16, // Ajustez la position verticale selon vos besoins
-            right: 16, // Ajustez la position horizontale selon vos besoins
+            top: 16,
+            right: 16,
             child: IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
