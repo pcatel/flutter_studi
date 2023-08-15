@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: MyDrawerWidget(),
-      backgroundColor: Color.fromARGB(255, 100, 198, 244),
+      backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: const Text("PCL Biblio"),
         titleSpacing: 00.0,
@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottomLeft: Radius.circular(25)),
         ),
         elevation: 0.00,
-        backgroundColor: const Color.fromARGB(255, 3, 53, 82),
+        backgroundColor: Color(0xFF430C05),
       ),
       body: GridView.builder(
         padding: const EdgeInsets.all(16),

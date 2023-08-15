@@ -24,7 +24,7 @@ class MyDrawerWidget extends StatelessWidget {
       child: Drawer(
         width: MediaQuery.of(context).size.width * 0.5,
         child: Container(
-          color: Color.fromARGB(255, 60, 166, 227),
+          color: Color(0xFF430C05),
           child: Column(
             children: [
               // En-tête avec 20% de l'espace
@@ -32,16 +32,18 @@ class MyDrawerWidget extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.3,
                 child: const DrawerHeader(
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 3, 53, 82),
+                    color: Color(0xFFD46F4D),
                   ),
                   child: UserAccountsDrawerHeader(
-                    decoration:
-                        BoxDecoration(color: Color.fromARGB(255, 3, 53, 82)),
+                    decoration: BoxDecoration(color: Color(0xFFD46F4D)),
                     accountName: Row(
                       children: [
                         Text(
                           "Pascal CATEL",
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(
+                              color: Color(0xFF00353F),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -49,7 +51,10 @@ class MyDrawerWidget extends StatelessWidget {
                       children: [
                         Text(
                           "pcatel@pascalcatel.com",
-                          style: TextStyle(fontSize: 14, color: Colors.yellow),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF430C05),
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -71,15 +76,25 @@ class MyDrawerWidget extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       children: [
                         ListTile(
-                         dense: true,
-                         visualDensity: VisualDensity(vertical: -4), // to compact
+                          dense: true,
+                          visualDensity:
+                              VisualDensity(vertical: -4), // to compact
 
                           leading: SizedBox(
                             width: 24,
                             height: 50,
-                            child: Image.asset('assets/images/livres.png'),
+                            child: Image.asset(
+                              'assets/images/livres.png',
+                              color: Color(0xFF08C5D1),
+                            ),
                           ),
-                          title: const Text(' Livres '),
+                          title: const Text(
+                            "Livres",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFFFFBF66),
+                                fontWeight: FontWeight.bold),
+                          ),
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.push(
@@ -92,15 +107,23 @@ class MyDrawerWidget extends StatelessWidget {
                           color: Colors.white,
                           thickness: 1,
                         ),
-                       ListTile(
-                         dense: true,
-                         visualDensity: VisualDensity(vertical: -4), // to compact
+                        ListTile(
+                          dense: true,
+                          visualDensity:
+                              VisualDensity(vertical: -4), // to compact
                           leading: SizedBox(
                             width: 24,
                             height: 50,
-                            child: Image.asset('assets/images/genre.png'),
+                            child: Image.asset('assets/images/genre.png',
+                            color: Color(0xFF08C5D1)),
                           ),
-                          title: const Text(' Genres '),
+                          title: const Text(
+                            "Genres",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFFFFBF66),
+                                fontWeight: FontWeight.bold),
+                          ),
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.push(
@@ -114,15 +137,22 @@ class MyDrawerWidget extends StatelessWidget {
                           color: Colors.white,
                           thickness: 1,
                         ),
-                       ListTile(
-                         dense: true,
-                         visualDensity: VisualDensity(vertical: -4), // to compact
+                        ListTile(
+                          dense: true,
+                          visualDensity:
+                              VisualDensity(vertical: -4), // to compact
                           leading: SizedBox(
                             width: 24,
                             height: 50,
-                            child: Image.asset('assets/images/auteur.png'),
+                            child: Image.asset('assets/images/auteur.png',color: Color(0xFF08C5D1),),
                           ),
-                          title: const Text(' Auteurs '),
+                          title: const Text(
+                            "Auteurs",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFFFFBF66),
+                                fontWeight: FontWeight.bold),
+                          ),
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.push(
@@ -137,15 +167,22 @@ class MyDrawerWidget extends StatelessWidget {
                           thickness: 1,
                         ),
                         ListTile(
-                         dense: true,
-                         visualDensity: VisualDensity(vertical: -4), // to compact
+                          dense: true,
+                          visualDensity:
+                              VisualDensity(vertical: -4), // to compact
                           leading: SizedBox(
                             width: 24,
                             height: 50,
                             child:
-                                Image.asset('assets/images/localisation.png'),
+                                Image.asset('assets/images/localisation.png',color: Color(0xFF08C5D1),),
                           ),
-                          title: const Text(' Localisations '),
+                          title: const Text(
+                            "Localisations",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFFFFBF66),
+                                fontWeight: FontWeight.bold),
+                          ),
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.push(
@@ -159,15 +196,22 @@ class MyDrawerWidget extends StatelessWidget {
                           color: Colors.white,
                           thickness: 1,
                         ),
-                       ListTile(
-                         dense: true,
-                         visualDensity: VisualDensity(vertical: -4), // to compact
+                        ListTile(
+                          dense: true,
+                          visualDensity:
+                              VisualDensity(vertical: -4), // to compact
                           leading: SizedBox(
                             width: 24,
                             height: 50,
-                            child: Image.asset('assets/images/rechercher.png'),
+                            child: Image.asset('assets/images/rechercher.png',color: Color(0xFF08C5D1),),
                           ),
-                          title: const Text(' Rechercher '),
+                          title: const Text(
+                            "Rechercher",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFFFFBF66),
+                                fontWeight: FontWeight.bold),
+                          ),
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.push(
@@ -177,7 +221,7 @@ class MyDrawerWidget extends StatelessWidget {
                             );
                           },
                         ),
-                         Divider(
+                        Divider(
                           color: Colors.white,
                           thickness: 1,
                         ),

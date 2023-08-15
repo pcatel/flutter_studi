@@ -6,7 +6,7 @@ class FichePage extends StatelessWidget {
 
   const FichePage({required this.livre, Key? key}) : super(key: key);
 
-  final double imageSize = 200; // Taille des images
+  final double imageSize = 250; // Taille des images
 
   @override
   Widget build(BuildContext context) {
@@ -21,20 +21,30 @@ class FichePage extends StatelessWidget {
             flex: 10,
             child: _buildRowWithColor(
               child: Row(
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Auteur:'),
+                  //Text('Auteur:'),
                   SizedBox(width: 8),
-                  Text('${livre.prenomAuteur} ${livre.nomAuteur}'),
+                  Text(
+                    '${livre.prenomAuteur} ${livre.nomAuteur}',
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 249, 249, 249),
+                    
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
                 ],
               ),
-              color: Colors.blue,
+              color: Color.fromARGB(255, 3, 53, 82),
             ),
           ),
           Expanded(
             flex: 50,
             child: _buildRowWithColor(
               child: _buildImageContainerRow(context),
-              color: Colors.green,
+              color: Color.fromARGB(255, 247, 248, 249),
             ),
           ),
           Expanded(
@@ -47,7 +57,7 @@ class FichePage extends StatelessWidget {
                   Text(livre.genre),
                 ],
               ),
-              color: Colors.orange,
+              color: Color.fromARGB(255, 3, 53, 82),
             ),
           ),
           Expanded(
@@ -64,7 +74,7 @@ class FichePage extends StatelessWidget {
                   Text(livre.rayon),
                 ],
               ),
-              color: Colors.purple,
+              color: Color.fromARGB(255, 247, 248, 249),
             ),
           ),
           Expanded(
@@ -77,7 +87,7 @@ class FichePage extends StatelessWidget {
                   Text(livre.commentaire),
                 ],
               ),
-              color: Colors.red,
+              color: Color.fromARGB(255, 3, 53, 82),
             ),
           ),
           Expanded(
@@ -90,7 +100,7 @@ class FichePage extends StatelessWidget {
                   Text(livre.pret),
                 ],
               ),
-              color: Colors.yellow,
+              color: const Color.fromARGB(255, 255, 255, 254),
             ),
           ),
         ],
@@ -98,8 +108,7 @@ class FichePage extends StatelessWidget {
     );
   }
 
-  Widget _buildRowWithColor(
-      {required Widget child, required Color color}) {
+  Widget _buildRowWithColor({required Widget child, required Color color}) {
     return Container(
       color: color,
       padding: EdgeInsets.all(8),

@@ -85,14 +85,14 @@ class _BarreIconesState extends State<BarreIcones> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 167, 202, 232), // Couleur de l'arrière-plan
+        color: Color(0xFFD46F4D), // Couleur de l'arrière-plan
         borderRadius: BorderRadius.circular(10), // Vous pouvez ajuster le rayon de bordure selon vos préférences
       ),
       child: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color.fromARGB(255, 3, 53, 82),
+        backgroundColor: Color(0xFFD46F4D),
         selectedItemColor: Colors.white, // Couleur de l'icône sélectionnée
         unselectedItemColor: Colors.grey, // Couleur des icônes non sélectionnées
         items: _images.asMap().entries.map((entry) {
