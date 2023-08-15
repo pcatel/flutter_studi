@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'livre.dart';
-//import 'dart:convert';
-//import 'package:flutter/services.dart';
 
 class FichePage extends StatelessWidget {
   final Livre livre;
@@ -17,12 +15,12 @@ class FichePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(livre.titre),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 16),
-            // Auteur
-            _buildRowWithColor(
+      body: Column(
+        children: [
+          // Auteur
+          Expanded(
+            flex: 10,
+            child: _buildRowWithColor(
               child: Row(
                 children: [
                   Text('Auteur:'),
@@ -32,22 +30,32 @@ class FichePage extends StatelessWidget {
               ),
               color: Colors.blue,
             ),
-            SizedBox(height: 16),
-            // Photo et Résumé
-            _buildRowWithColor(
-              child: Flex(
-                direction: Axis.horizontal,
+          ),
+          SizedBox(height: 16),
+          // Photo et Résumé
+          Expanded(
+            flex: 50,
+            child: _buildRowWithColor(
+              child: Row(
                 children: [
-                  Flexible(child: _buildImageContainer(context, livre.photo, 'photo')),
+                  Expanded(
+                    child: _buildImageContainer(context, livre.photo, 'photo'),
+                  ),
                   SizedBox(width: 16),
-                  Flexible(child: _buildImageContainer(context, livre.resume.url, 'resume')),
+                  Expanded(
+                    child: _buildImageContainer(
+                        context, livre.resume.url, 'resume'),
+                  ),
                 ],
               ),
               color: Colors.green,
             ),
-            SizedBox(height: 16),
-            // Genre
-            _buildRowWithColor(
+          ),
+          SizedBox(height: 16),
+          // Genre
+          Expanded(
+            flex: 10,
+            child: _buildRowWithColor(
               child: Row(
                 children: [
                   Text('Genre:'),
@@ -57,9 +65,12 @@ class FichePage extends StatelessWidget {
               ),
               color: Colors.orange,
             ),
-            SizedBox(height: 16),
-            // Localisation et Rayon
-            _buildRowWithColor(
+          ),
+          SizedBox(height: 16),
+          // Localisation et Rayon
+          Expanded(
+            flex: 10,
+            child: _buildRowWithColor(
               child: Row(
                 children: [
                   Text('Localisation:'),
@@ -73,9 +84,12 @@ class FichePage extends StatelessWidget {
               ),
               color: Colors.purple,
             ),
-            SizedBox(height: 16),
-            // Commentaire
-            _buildRowWithColor(
+          ),
+          SizedBox(height: 16),
+          // Commentaire
+          Expanded(
+            flex: 10,
+            child: _buildRowWithColor(
               child: Row(
                 children: [
                   Text('Commentaire:'),
@@ -85,9 +99,12 @@ class FichePage extends StatelessWidget {
               ),
               color: Colors.red,
             ),
-            SizedBox(height: 16),
-            // Pret
-            _buildRowWithColor(
+          ),
+          SizedBox(height: 16),
+          // Pret
+          Expanded(
+            flex: 10,
+            child: _buildRowWithColor(
               child: Row(
                 children: [
                   Text('Pret:'),
@@ -97,9 +114,9 @@ class FichePage extends StatelessWidget {
               ),
               color: Colors.yellow,
             ),
-            SizedBox(height: 16),
-          ],
-        ),
+          ),
+          SizedBox(height: 16),
+        ],
       ),
     );
   }
@@ -114,25 +131,33 @@ class FichePage extends StatelessWidget {
 
   Widget _buildImageContainer(BuildContext context, String url, String type) {
     return GestureDetector(
-      onTap: () => _showFullScreenImage(context, url, type,),
+      onTap: () => _showFullScreenImage(
+        context,
+        url,
+        type,
+      ),
       child: Container(
         width: imageSize,
         height: imageSize,
         child: Align(
           alignment: Alignment.center,
           child: url.isNotEmpty
-              ? Image.network(Uri.parse("https://www.pascalcatel.com/biblio/${_sanitizeString(url)}").toString())
+              ? Image.network(Uri.parse(
+                      "https://www.pascalcatel.com/biblio/${_sanitizeString(url)}")
+                  .toString())
               : Placeholder(),
         ),
       ),
     );
   }
 
-  void _showFullScreenImage(BuildContext context, String imageUrl, String type) {
+  void _showFullScreenImage(
+      BuildContext context, String imageUrl, String type) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FullScreenImagePage(imageUrl: imageUrl, type: type,  titre: livre.titre),
+        builder: (context) => FullScreenImagePage(
+            imageUrl: imageUrl, type: type, titre: livre.titre),
       ),
     );
   }
@@ -147,7 +172,12 @@ class FullScreenImagePage extends StatelessWidget {
   final String type;
   final String titre;
 
-  const FullScreenImagePage({required this.imageUrl, required this.type,  required this.titre, Key? key}) : super(key: key);
+  const FullScreenImagePage(
+      {required this.imageUrl,
+      required this.type,
+      required this.titre,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -162,10 +192,14 @@ class FullScreenImagePage extends StatelessWidget {
             onTap: () => Navigator.pop(context),
             child: Center(
               child: type == 'photo'
-                  ? Image.network(Uri.parse("https://www.pascalcatel.com/biblio/${_sanitizeString(imageUrl)}").toString())
+                  ? Image.network(Uri.parse(
+                          "https://www.pascalcatel.com/biblio/${_sanitizeString(imageUrl)}")
+                      .toString())
                   : type == 'resume'
-                  ? Image.network(Uri.parse("https://www.pascalcatel.com/biblio/${_sanitizeString(imageUrl)}").toString())
-                  : SizedBox.shrink(),
+                      ? Image.network(Uri.parse(
+                              "https://www.pascalcatel.com/biblio/${_sanitizeString(imageUrl)}")
+                          .toString())
+                      : SizedBox.shrink(),
             ),
           ),
           Positioned(
