@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'button_navigation.dart';
 class Ecran6 extends StatelessWidget {
   const Ecran6({Key? key}) : super(key: key);
 

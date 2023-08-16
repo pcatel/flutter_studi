@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'fiche.dart';
 import 'livre.dart';
+import 'button_navigation.dart';
 
 class Ecran2 extends StatefulWidget {
   const Ecran2({Key? key}) : super(key: key);
@@ -122,6 +123,7 @@ class _Ecran2State extends State<Ecran2> {
           ),
         ],
       ),
+      bottomNavigationBar: const BarreIcones(),
     );
   }
 }
@@ -228,6 +230,7 @@ class _FicheGenreState extends State<FicheGenre> {
           ],
         ),
       ),
+      bottomNavigationBar: const BarreIcones(),
     );
   }
 }

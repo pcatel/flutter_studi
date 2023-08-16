@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'livre.dart';
+import 'button_navigation.dart';
 
 class FichePage extends StatelessWidget {
   final Livre livre;
@@ -105,6 +106,7 @@ class FichePage extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: const BarreIcones(),
     );
   }
 

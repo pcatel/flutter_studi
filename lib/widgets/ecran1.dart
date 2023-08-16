@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'fiche.dart';
 import 'livre.dart';
+import 'button_navigation.dart';
 
 class Ecran1 extends StatefulWidget {
   const Ecran1({Key? key}) : super(key: key);
@@ -94,7 +95,8 @@ class _Ecran1State extends State<Ecran1> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(),
+      //bottomNavigationBar: BottomAppBar(),
+       bottomNavigationBar: const BarreIcones(),
     );
   }
 }

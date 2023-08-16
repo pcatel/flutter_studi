@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
-
+import 'button_navigation.dart';
 void main() {
   runApp(MyApp());
 }
@@ -132,6 +132,7 @@ class _MonEcranDeModificationState extends State<MonEcranDeModification> {
           );
         },
       ),
+      bottomNavigationBar: const BarreIcones(),
     );
   }
 }

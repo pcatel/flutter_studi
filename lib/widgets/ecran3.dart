@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'fiche.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
 import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
-
+import 'button_navigation.dart';
 class Ecran3 extends StatefulWidget {
   const Ecran3({Key? key}) : super(key: key);
 
@@ -86,12 +86,7 @@ class _Ecran3State extends State<Ecran3> {
           },
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: Text('Nombre de tableaux disponibles : ${jsonData?.length ?? 0}'),
-        ),
-      ),
+     bottomNavigationBar: const BarreIcones(),
     );
   }
 }
@@ -199,6 +194,7 @@ class FicheAuteur extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const BarreIcones(),
     );
   }
 }

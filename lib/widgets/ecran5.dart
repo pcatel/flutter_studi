@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'fiche.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
 import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
-
+import 'button_navigation.dart';
 class Ecran5 extends StatefulWidget {
   const Ecran5({Key? key}) : super(key: key);
 
@@ -127,6 +127,7 @@ class _Ecran5State extends State<Ecran5> {
           ],
         ),
       ),
+      bottomNavigationBar: const BarreIcones(),
     );
   }
 
