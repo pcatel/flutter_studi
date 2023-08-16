@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_studi/widgets/home_screen.dart';
 import 'ecran1.dart';
 import 'ecran2.dart';
 import 'ecran3.dart';
@@ -17,21 +18,23 @@ class _BarreIconesState extends State<BarreIcones> {
   int _selectedIndex = 0;
 
   static const List<String> _images = [
+    'assets/images/accueil.png',
     'assets/images/livres.png',
     'assets/images/genre.png',
     'assets/images/auteur.png',
     'assets/images/localisation.png',
     'assets/images/rechercher.png',
-    'assets/images/administrer.png',
+
   ];
 
   static const List<String> _labels = [
+    'Accueil',
     'Livres',
     'Genre',
     'Auteur',
     'Localisation',
     'Rechercher',
-    'Administrer',
+
   ];
 
   void _onItemTapped(int index) {
@@ -43,34 +46,42 @@ class _BarreIconesState extends State<BarreIcones> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ecran1()),
+          MaterialPageRoute(builder: (context) => HomeScreen()),
         );
         break;
+      
+      
       case 1:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ecran2()),
+          MaterialPageRoute(builder: (context) => Ecran1()),
         );
         break;
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ecran3()),
+          MaterialPageRoute(builder: (context) => Ecran2()),
         );
         break;
       case 3:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ecran4()),
+          MaterialPageRoute(builder: (context) => Ecran3()),
         );
         break;
       case 4:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ecran5()),
+          MaterialPageRoute(builder: (context) => Ecran4()),
         );
         break;
       case 5:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Ecran5()),
+        );
+        break;
+      case 6:
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Ecran6()),

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'fiche.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
 import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
 import 'button_navigation.dart';
+
 class Ecran5 extends StatefulWidget {
   const Ecran5({Key? key}) : super(key: key);
 
@@ -40,7 +41,8 @@ class _Ecran5State extends State<Ecran5> {
     } else if (critereRecherche == 'localisation') {
       critere = 'localisations';
     }
-    return '$critere ($nombreLivresTrouves ${critere} trouvés)';
+    //return '$critere ($nombreLivresTrouves ${critere} trouvés)';
+    return '$critere : $texteRecherche ($nombreLivresTrouves titres)';
   }
 
   @override
@@ -48,6 +50,7 @@ class _Ecran5State extends State<Ecran5> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_getAppBarTitle()),
+        backgroundColor: Color(0xFF430C05),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -57,15 +60,28 @@ class _Ecran5State extends State<Ecran5> {
               children: [
                 Expanded(
                   child: TextField(
-                    onChanged: (value) => setState(() => texteRecherche = value),
+                    onChanged: (value) =>
+                        setState(() => texteRecherche = value),
                     decoration: InputDecoration(
-                      hintText: 'Rechercher un livre, auteur ou localisation...',
+                      hintText:
+                          'Rechercher un livre, auteur ou localisation...',
                     ),
                   ),
                 ),
-                ElevatedButton(
+                FilledButton(
                   onPressed: () => _rechercher(),
-                  child: Text('Rechercher'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Color(0xFF430C05),
+                    elevation: 20, // Elevation
+                    shadowColor: Colors.amber, // Shadow Color
+                   
+                    
+                  ),
+                  child: 
+                  //Text('Rechercher'),
+                  Icon(Icons.search,size: 20,
+                  
+                  ),
                 ),
               ],
             ),
@@ -135,33 +151,43 @@ class _Ecran5State extends State<Ecran5> {
     setState(() {
       if (critereRecherche == 'livre') {
         resultatsRecherche = livres
-            .where((livre) => livre.titre.toLowerCase().contains(texteRecherche.toLowerCase()))
+            .where((livre) => livre.titre
+                .toLowerCase()
+                .contains(texteRecherche.toLowerCase()))
             .toList();
       } else if (critereRecherche == 'auteur') {
         resultatsRecherche = livres
-            .where((livre) => livre.nomAuteur.toLowerCase().contains(texteRecherche.toLowerCase()))
+            .where((livre) => livre.nomAuteur
+                .toLowerCase()
+                .contains(texteRecherche.toLowerCase()))
             .toList();
       } else if (critereRecherche == 'localisation') {
         resultatsRecherche = livres
-            .where((livre) => livre.localisation.toLowerCase().contains(texteRecherche.toLowerCase()))
+            .where((livre) => livre.localisation
+                .toLowerCase()
+                .contains(texteRecherche.toLowerCase()))
             .toList();
       } else {
         resultatsRecherche = [];
       }
 
-      afficherMessagePasDeLivres = (texteRecherche.isNotEmpty && resultatsRecherche.isEmpty);
+      afficherMessagePasDeLivres =
+          (texteRecherche.isNotEmpty && resultatsRecherche.isEmpty);
     });
   }
 
   void _ouvrirFicheLivre(Livre livre) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => FichePage(livre: livre)), // Afficher la page de la fiche du livre
+      MaterialPageRoute(
+          builder: (context) =>
+              FichePage(livre: livre)), // Afficher la page de la fiche du livre
     );
   }
 
   Widget _getHighlightedTextWidget(String text) {
-    final highlightedText = texteRecherche.isNotEmpty && text.toLowerCase().contains(texteRecherche.toLowerCase())
+    final highlightedText = texteRecherche.isNotEmpty &&
+            text.toLowerCase().contains(texteRecherche.toLowerCase())
         ? RichText(
             text: TextSpan(
               style: TextStyle(color: Colors.black),

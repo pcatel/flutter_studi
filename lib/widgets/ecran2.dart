@@ -49,6 +49,7 @@ class _Ecran2State extends State<Ecran2> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Les Genres'),
+         backgroundColor: Color(0xFF430C05),
       ),
       body: Column(
         children: [

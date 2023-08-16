@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'button_navigation.dart';
+
+//import 'button_navigation.dart';
 class Ecran6 extends StatelessWidget {
   const Ecran6({Key? key}) : super(key: key);
 
@@ -12,6 +13,7 @@ class Ecran6 extends StatelessWidget {
       body: const Center(
         child: Text('Gestion'),
       ),
+      //bottomNavigationBar: BottomAppBar(),
     );
   }
 }

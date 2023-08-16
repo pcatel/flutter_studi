@@ -6,7 +6,7 @@ import 'ecran2.dart';
 import 'ecran3.dart';
 import 'ecran4.dart';
 import 'ecran5.dart';
-import 'ecran6.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/auteur.png',
     'assets/images/localisation.png',
     'assets/images/rechercher.png',
-    'assets/images/administrer.png',
+    
   ];
 
   final List<String> _labels = [
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'Auteur',
     'Localisation',
     'Rechercher',
-    'Administrer',
+ 
   ];
 
   void _onIconTap(int index) {
@@ -66,12 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
           MaterialPageRoute(builder: (context) => Ecran5()),
         );
         break;
-      case 5:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Ecran6()),
-        );
-        break;
+     
       default:
         break;
     }

@@ -61,6 +61,7 @@ class _Ecran3State extends State<Ecran3> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Les Auteurs'),
+         backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: PaginatedDataTable(
@@ -155,6 +156,7 @@ class FicheAuteur extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(nomAuteur),
+         backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: Column(

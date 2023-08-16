@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'fiche.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
+
 class Ecran4 extends StatefulWidget {
   const Ecran4({Key? key}) : super(key: key);
 
@@ -24,6 +25,12 @@ class _Ecran4State extends State<Ecran4> {
   Future<void> _chargerDonnees() async {
     try {
       String data = await rootBundle.loadString('data/livres.json');
+
+
+
+      // size of the screen
+
+
       setState(() {
         jsonData = jsonDecode(data);
         localisationsList = _extractlocalisations(jsonData);
@@ -45,118 +52,140 @@ class _Ecran4State extends State<Ecran4> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double containerHeight = screenHeight * 0.1;
+//var size = MediaQuery.of(context).size; 
+  
+/*24 is for notification bar on Android*/
+//final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+
+
+//final double itemWidth = size.width / 2;
+
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Les localisations'),
+        backgroundColor: Color(0xFF430C05),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: containerHeight,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/Localisations/bureau.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Center(
-              child: Text(
-                'Your Container Content',
-                style: TextStyle(
-                  color: const Color.fromARGB(255, 86, 4, 4),
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
+          
+            child: Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+               
+                  crossAxisCount: 2,
+                 
+                  crossAxisSpacing: 2.0,
+                  mainAxisSpacing: 2.0,
+                  
                 ),
-              ),
-            ),
-          ),
-          SizedBox(height: 10),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 32.0,
-                mainAxisSpacing: 32.0,
-              ),
-              itemCount: localisationsList.length,
-              itemBuilder: (context, index) {
-                String localisation = localisationsList[index];
-                int count = jsonData.where((book) => book['localisation'] == localisation).length;
-                String imagePath = 'assets/images/Localisations/${localisation.toLowerCase()}.jpg';
 
-                return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Fichelocalisation(
-                          nomlocalisation: localisation,
-                          livres: jsonData
-                              .where((book) => book['localisation'] == localisation)
-                              .toList(),
-                        ),
-                      ),
-                    );
-                  },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Card(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(imagePath),
-                            fit: BoxFit.cover,
+               
+                itemCount: localisationsList.length,
+                itemBuilder: (context, index) {
+                  String localisation = localisationsList[index];
+                  int count = jsonData
+                      .where((book) => book['localisation'] == localisation)
+                      .length;
+                  String imagePath =
+                      'assets/images/Localisations/${localisation.toLowerCase()}.jpg';
+
+                  return Container(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Fichelocalisation(
+                              nomlocalisation: localisation,
+                              livres: jsonData
+                                  .where((book) =>
+                                      book['localisation'] == localisation)
+                                  .toList(),
+                            ),
                           ),
-                        ),
-                        alignment: Alignment.center,
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Fichelocalisation(
-                                      nomlocalisation: localisation,
-                                      livres: jsonData
-                                          .where((book) => book['localisation'] == localisation)
-                                          .toList(),
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                localisation,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
+                        );
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Card(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              //border: Border.all(),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  imagePath,
+                                
+                               
+                                
+                                
                                 ),
-                                textAlign: TextAlign.center,
+                                fit: BoxFit.cover,
+                                colorFilter: ColorFilter.mode(
+                                  Color.fromARGB(200, 67, 12,
+                                      5), // Utilisez une opacité plus élevée ici
+                                  BlendMode
+                                      .color, // Choisissez le mode de mélange approprié
+                                ),
                               ),
                             ),
-                            Text(
-                              '($count titres)',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.0,
-                              ),
-                              textAlign: TextAlign.center,
+                            alignment: Alignment.center,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Fichelocalisation(
+                                          nomlocalisation: localisation,
+                                          livres: jsonData
+                                              .where((book) =>
+                                                  book['localisation'] ==
+                                                  localisation)
+                                              .toList(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    localisation,
+                                    style: TextStyle(
+                                      backgroundColor: Color(0xFF430C05),
+                                      color: Color.fromARGB(198, 255, 254, 254),
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Text(
+                                  '($count titres)',
+                                  style: TextStyle(
+                                    backgroundColor: Color(0xFFD46F4D),
+                                    color: Color(0xFF430C05),
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ],
-      ),bottomNavigationBar: const BarreIcones(),
+      ),
+      bottomNavigationBar: const BarreIcones(),
     );
   }
 }
@@ -165,7 +194,8 @@ class Fichelocalisation extends StatefulWidget {
   final String nomlocalisation;
   final List<dynamic>? livres;
 
-  const Fichelocalisation({required this.nomlocalisation, this.livres, Key? key})
+  const Fichelocalisation(
+      {required this.nomlocalisation, this.livres, Key? key})
       : super(key: key);
 
   @override
@@ -179,8 +209,8 @@ class _FichelocalisationState extends State<Fichelocalisation> {
   List<dynamic> getCurrentPageLivres() {
     int startIndex = (currentPage - 1) * livresPerPage;
     int endIndex = startIndex + livresPerPage;
-    return widget.livres!
-        .sublist(startIndex, endIndex < widget.livres!.length ? endIndex : widget.livres!.length);
+    return widget.livres!.sublist(startIndex,
+        endIndex < widget.livres!.length ? endIndex : widget.livres!.length);
   }
 
   void previousPage() {
@@ -207,11 +237,13 @@ class _FichelocalisationState extends State<Fichelocalisation> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.nomlocalisation),
+        backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text('Nombre de livres pour ce localisation : ${widget.livres?.length ?? 0}'),
+            Text(
+                'Nombre de livres pour ce localisation : ${widget.livres?.length ?? 0}'),
             DataTable(
               columns: [
                 DataColumn(label: Text('Titre')),

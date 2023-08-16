@@ -15,6 +15,7 @@ class FichePage extends StatelessWidget {
       backgroundColor: Color.fromARGB(255, 100, 198, 244),
       appBar: AppBar(
         title: Text(livre.titre),
+         backgroundColor: Color(0xFF430C05),
       ),
       body: Column(
         children: [

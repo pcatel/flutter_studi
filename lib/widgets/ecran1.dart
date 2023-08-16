@@ -47,6 +47,7 @@ class _Ecran1State extends State<Ecran1> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Les livres (${jsonData.length})'),
+        backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: PaginatedDataTable(
@@ -95,8 +96,7 @@ class _Ecran1State extends State<Ecran1> {
           ],
         ),
       ),
-      //bottomNavigationBar: BottomAppBar(),
-       bottomNavigationBar: const BarreIcones(),
+      bottomNavigationBar: const BarreIcones(),
     );
   }
 }
