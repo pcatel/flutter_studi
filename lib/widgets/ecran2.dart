@@ -181,12 +181,14 @@ class _FicheGenreState extends State<FicheGenre> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.nomGenre),
+        //title: Text(widget.nomGenre),
+        title:  Text('${widget.nomGenre} (${widget.livres?.length ?? 0} titres)'),
+          backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text('Nombre de livres pour ce genre : ${widget.livres?.length ?? 0}'),
+            //Text('Nombre de livres pour ce genre : ${widget.livres?.length ?? 0}'),
             DataTable(
               columns: [
                 DataColumn(label: Text('Titre')),

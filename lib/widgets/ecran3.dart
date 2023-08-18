@@ -155,13 +155,14 @@ class FicheAuteur extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(nomAuteur),
+        title:  Text('${nomAuteur} ( ${livres?.length ?? 0} titres)'),
          backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text('Nombre de livres de l\'auteur : ${livres?.length ?? 0}'),
+            //Text('Nombre de livres de l\'auteur : ${livres?.length ?? 0}'),
+              //Text('${nomAuteur} ( ${livres?.length ?? 0} titres)'),
             if (livres != null)
               DataTable(
                 columns: [

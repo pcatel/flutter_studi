@@ -106,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+             
               children: [
                 Image.asset(
                   _images[index],

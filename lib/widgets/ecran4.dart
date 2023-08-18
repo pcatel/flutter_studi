@@ -26,11 +26,6 @@ class _Ecran4State extends State<Ecran4> {
     try {
       String data = await rootBundle.loadString('data/livres.json');
 
-
-
-      // size of the screen
-
-
       setState(() {
         jsonData = jsonDecode(data);
         localisationsList = _extractlocalisations(jsonData);
@@ -52,135 +47,98 @@ class _Ecran4State extends State<Ecran4> {
 
   @override
   Widget build(BuildContext context) {
-//var size = MediaQuery.of(context).size; 
-  
-/*24 is for notification bar on Android*/
-//final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-
-
-//final double itemWidth = size.width / 2;
-
-
     return Scaffold(
+      backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: const Text('Les localisations'),
         backgroundColor: Color(0xFF430C05),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-          
-            child: Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-               
-                  crossAxisCount: 2,
-                 
-                  crossAxisSpacing: 2.0,
-                  mainAxisSpacing: 2.0,
-                  
-                ),
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 0.0,
+                mainAxisSpacing: 0.0,
+              ),
+              itemCount: localisationsList.length,
+              itemBuilder: (context, index) {
+                String localisation = localisationsList[index];
+                int count = jsonData
+                    .where((book) => book['localisation'] == localisation)
+                    .length;
+                String imagePath =
+                    'assets/images/Localisations/${localisation.toLowerCase()}.jpg';
 
-               
-                itemCount: localisationsList.length,
-                itemBuilder: (context, index) {
-                  String localisation = localisationsList[index];
-                  int count = jsonData
-                      .where((book) => book['localisation'] == localisation)
-                      .length;
-                  String imagePath =
-                      'assets/images/Localisations/${localisation.toLowerCase()}.jpg';
-
-                  return Container(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Fichelocalisation(
-                              nomlocalisation: localisation,
-                              livres: jsonData
-                                  .where((book) =>
-                                      book['localisation'] == localisation)
-                                  .toList(),
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Fichelocalisation(
+                          nomlocalisation: localisation,
+                          livres: jsonData
+                              .where((book) =>
+                                  book['localisation'] == localisation)
+                              .toList(),
+                        ),
+                      ),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Card(
+                      color: Colors.black,
+                      margin: EdgeInsets.all(25),
+                      child: Container(
+                        color: Colors.white,
+                        alignment: Alignment.center,
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              imagePath,
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                        );
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Card(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              //border: Border.all(),
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  imagePath,
-                                
-                               
-                                
-                                
-                                ),
-                                fit: BoxFit.cover,
-                                colorFilter: ColorFilter.mode(
-                                  Color.fromARGB(200, 67, 12,
-                                      5), // Utilisez une opacité plus élevée ici
-                                  BlendMode
-                                      .color, // Choisissez le mode de mélange approprié
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                color: Color.fromARGB(200, 67, 12, 5),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      localisation,
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(198, 255, 254, 254),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      '($count titres)',
+                                      style: TextStyle(
+                                        color: Color(0xFFFFBF66),
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                            alignment: Alignment.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => Fichelocalisation(
-                                          nomlocalisation: localisation,
-                                          livres: jsonData
-                                              .where((book) =>
-                                                  book['localisation'] ==
-                                                  localisation)
-                                              .toList(),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    localisation,
-                                    style: TextStyle(
-                                      backgroundColor: Color(0xFF430C05),
-                                      color: Color.fromARGB(198, 255, 254, 254),
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Text(
-                                  '($count titres)',
-                                  style: TextStyle(
-                                    backgroundColor: Color(0xFFD46F4D),
-                                    color: Color(0xFF430C05),
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
+                          ],
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -191,20 +149,20 @@ class _Ecran4State extends State<Ecran4> {
 }
 
 class Fichelocalisation extends StatefulWidget {
-  final String nomlocalisation;
-  final List<dynamic>? livres;
-
   const Fichelocalisation(
       {required this.nomlocalisation, this.livres, Key? key})
       : super(key: key);
+
+  final List<dynamic>? livres;
+  final String nomlocalisation;
 
   @override
   _FichelocalisationState createState() => _FichelocalisationState();
 }
 
 class _FichelocalisationState extends State<Fichelocalisation> {
-  int livresPerPage = 4;
   int currentPage = 1;
+  int livresPerPage = 12;
 
   List<dynamic> getCurrentPageLivres() {
     int startIndex = (currentPage - 1) * livresPerPage;
@@ -236,19 +194,37 @@ class _FichelocalisationState extends State<Fichelocalisation> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.nomlocalisation),
+        //title: Text(widget.nomlocalisation),
+        title: Text('${widget.nomlocalisation} ( ${widget.livres?.length ?? 0} titres)'),
         backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text(
-                'Nombre de livres pour ce localisation : ${widget.livres?.length ?? 0}'),
+            //Text(
+               // 'Nombre de livres pour cette localisation : ${widget.livres?.length ?? 0}'),
             DataTable(
               columns: [
-                DataColumn(label: Text('Titre')),
-                DataColumn(label: Text('localisation')),
-                DataColumn(label: Text('Année')),
+                DataColumn(
+                  label: Text(
+                    'Titre',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+               DataColumn(
+                  label: Text(
+                    'Titre',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
               rows: currentLivres
                   .map(
@@ -268,8 +244,8 @@ class _FichelocalisationState extends State<Fichelocalisation> {
                             child: Text(livre['Titre'] ?? ''),
                           ),
                         ),
-                        DataCell(Text(livre['localisation'] ?? '')),
-                        DataCell(Text(livre['Année'] ?? '')),
+                        DataCell(Text(livre['Nom Auteur'] ?? '')),
+                        //DataCell(Text(livre['Année'] ?? '')),
                       ],
                     ),
                   )
@@ -298,3 +274,5 @@ class _FichelocalisationState extends State<Fichelocalisation> {
     );
   }
 }
+
+// ... (autres parties du code)
