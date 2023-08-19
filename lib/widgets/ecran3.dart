@@ -67,32 +67,51 @@ class _Ecran3State extends State<Ecran3> {
         backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
-        child: PaginatedDataTable(
-          //header: Text('Les livres'),
-          rowsPerPage: _DataSource.rowsPerPageDataSource,
-          availableRowsPerPage: [
-            12,
-            24,
-            36
-          ], // Liste des valeurs disponibles pour rowsPerPage
-          columns: const [
-            DataColumn(label: Text('Auteur')),
-            DataColumn(label: Text('Nbre de livre')),
+        child: Column(
+          children: [
+            PaginatedDataTable(
+              // header: Text('Les livres'),
+              //arrowHeadColor: Color.fromARGB(66, 37, 13, 13),
+
+              rowsPerPage: _DataSource.rowsPerPageDataSource,
+             
+              columns: [
+                DataColumn(
+                  label: Container(
+                    width: 200,
+
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 5), // Marge horizontale
+                    child: Text('Titre'),
+                  ),
+                ),
+
+                DataColumn(
+                  label: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 5), // Marge horizontale
+                    child: Text('Nbre'),
+                  ),
+                ),
+                //DataColumn(label: Text('Année')),
+              ],
+
+              source: _DataSource(auteursList, jsonData,
+                  _afficherFicheAuteur), // Passer la méthode _afficherFicheAuteur ici
+              //onPageChanged: (int newPage) {
+              //  setState(() {
+              //    currentPage = newPage;
+              //  });
+            //  },
+            //  onRowsPerPageChanged: (int? value) {
+              //  if (value != null) {
+               //   setState(() {
+               //     _DataSource.rowsPerPageDataSource = value;
+              //    });
+            //    }
+            //  },
+            ),
           ],
-          source: _DataSource(auteursList, jsonData,
-              _afficherFicheAuteur), // Passer la méthode _afficherFicheAuteur ici
-          onPageChanged: (int newPage) {
-            setState(() {
-              currentPage = newPage;
-            });
-          },
-          onRowsPerPageChanged: (int? value) {
-            if (value != null) {
-              setState(() {
-                _DataSource.rowsPerPageDataSource = value;
-              });
-            }
-          },
         ),
       ),
       bottomNavigationBar: const BarreIcones(),
@@ -178,37 +197,59 @@ class FicheAuteur extends StatelessWidget {
             //Text('Nombre de livres de l\'auteur : ${livres?.length ?? 0}'),
             //Text('${nomAuteur} ( ${livres?.length ?? 0} titres)'),
             if (livres != null)
-              DataTable(
-              headingRowColor: MaterialStateColor.resolveWith((states) => Colors.grey), // Couleur de fond des titres
-                columns: [
-                  DataColumn(label: Text('Titre')),
-                  DataColumn(label: Text('Genre')),
-                  //DataColumn(label: Text('Année')),
-                ],
-                rows: livres!
-                    .map(
-                      (livre) => DataRow(
-                        cells: [
-                          DataCell(
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        FichePage(livre: Livre.fromJson(livre)),
-                                  ),
-                                );
-                              },
-                              child: Text(livre['Titre'] ?? ''),
-                            ),
-                          ),
-                          DataCell(Text(livre['Genre'] ?? '')),
-                          // DataCell(Text(livre['Année'] ?? '')),
-                        ],
+              Container(
+                width:
+                    double.infinity, // Pour occuper toute la largeur de l'écran
+                child: DataTable(
+                  headingRowColor: MaterialStateColor.resolveWith((states) =>
+                      Color(0xFFD46F4D)), // Couleur de fond des titres
+
+                  
+                  columns: [
+                    DataColumn(
+                      label: Container(
+                        width: 200,
+
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5), // Marge horizontale
+                        child: Text('Titre'),
                       ),
-                    )
-                    .toList(),
+                    ),
+
+                    DataColumn(
+                      label: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5), // Marge horizontale
+                        child: Text('Genre'),
+                      ),
+                    ),
+                    //DataColumn(label: Text('Année')),
+                  ],
+                  rows: livres!
+                      .map(
+                        (livre) => DataRow(
+                          cells: [
+                            DataCell(
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FichePage(
+                                          livre: Livre.fromJson(livre)),
+                                    ),
+                                  );
+                                },
+                                child: Text(livre['Titre'] ?? ''),
+                              ),
+                            ),
+                            DataCell(Text(livre['Genre'] ?? '')),
+                            // DataCell(Text(livre['Année'] ?? '')),
+                          ],
+                        ),
+                      )
+                      .toList(),
+                ),
               ),
           ],
         ),
