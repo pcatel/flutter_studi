@@ -14,7 +14,7 @@ class Ecran1 extends StatefulWidget {
 
 class _Ecran1State extends State<Ecran1> {
   List<dynamic> jsonData = [];
-  int rowsPerPage = 15;
+  int rowsPerPage = 12;
   int currentPage = 0;
 
   @override
@@ -37,107 +37,99 @@ class _Ecran1State extends State<Ecran1> {
   void _afficherFicheLivre(Livre livre) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => FichePage(livre: livre)),
+      MaterialPageRoute(builder: (context) => FichePage(livre: livre)),
+    );
+  }
+
+  List<DataRow> _createRows(int startingIndex) {
+    return List<DataRow>.generate(
+      rowsPerPage,
+      (index) {
+        final dataIndex = startingIndex + index;
+        if (dataIndex < jsonData.length) {
+          var livre = Livre.fromJson(jsonData[dataIndex]);
+          return DataRow(
+            cells: [
+              DataCell(
+                InkWell(
+                  onTap: () => _afficherFicheLivre(livre),
+                  child: Text(
+                    jsonData[dataIndex]['Titre'] ?? 'Titre manquant',
+                  ),
+                ),
+              ),
+              DataCell(
+                Text(jsonData[dataIndex]['Nom Auteur'] ?? 'Auteur manquant'),
+              ),
+            ],
+          );
+        }
+        return DataRow(cells: [DataCell(Text(''))]);
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final startingIndex = currentPage * rowsPerPage;
+
     return Scaffold(
+      backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: Text('Les livres (${jsonData.length})'),
         backgroundColor: Color(0xFF430C05),
       ),
-      body: SingleChildScrollView(
-        child: PaginatedDataTable(
-          rowsPerPage: rowsPerPage,
-          availableRowsPerPage: [15, 25, 35],
-          onRowsPerPageChanged: (int? value) {
-            if (value != null) {
-              setState(() {
-                rowsPerPage = value;
-              });
-            }
-          },
-          columnSpacing: 16.0,
-          dataRowMinHeight: 40.0,
-          dataRowMaxHeight: 40.0,
-          headingRowHeight: 64.0,
-          horizontalMargin: 16.0,
-          onPageChanged: (int newPage) {
-            setState(() {
-              currentPage = newPage;
-            });
-          },
-          source: _DataSource(jsonData, rowsPerPage, currentPage,
-              _afficherFicheLivre),
-          columns: const [
-            DataColumn(
-              label: Text(
-                'Titre',
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            child: DataTable(
+             headingRowColor: MaterialStateColor.resolveWith((states) =>
+                        Color(0xFFD46F4D)),
+              columns: [
+                DataColumn(label: Text('Titre')),
+                  DataColumn(label: Text('Auteur')),
+              ],
+              rows: _createRows(startingIndex),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_left),
+                onPressed: () {
+                  if (currentPage > 0) {
+                    setState(() {
+                      currentPage--;
+                    });
+                  }
+                },
+              ),
+              Text(
+                'Page ${currentPage + 1}',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.blue,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            DataColumn(
-              label: Text(
-                'Nom Auteur',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
-                ),
+              IconButton(
+                icon: Icon(Icons.arrow_right),
+                onPressed: () {
+                  final totalPages =
+                      (jsonData.length / rowsPerPage).ceil();
+                  if (currentPage < totalPages - 1) {
+                    setState(() {
+                      currentPage++;
+                    });
+                  }
+                },
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
       bottomNavigationBar: const BarreIcones(),
     );
   }
-}
-
-class _DataSource extends DataTableSource {
-  final List<dynamic> _jsonData;
-  final int _rowsPerPage;
-  final int currentPage;
-  final Function(Livre) _afficherFicheLivre;
-
-  _DataSource(this._jsonData, this._rowsPerPage, this.currentPage,
-      this._afficherFicheLivre);
-
-  @override
-  DataRow? getRow(int index) {
-    int realIndex = index + currentPage * _rowsPerPage;
-    if (realIndex >= _jsonData.length) {
-      return null;
-    }
-    var livre = Livre.fromJson(_jsonData[realIndex]);
-    return DataRow(
-      cells: [
-        DataCell(
-          InkWell(
-            onTap: () => _afficherFicheLivre(livre),
-            child: Text(
-              _jsonData[realIndex]['Titre'] ?? 'Titre manquant',
-            ),
-          ),
-        ),
-        DataCell(Text(_jsonData[realIndex]['Nom Auteur'] ?? 'Auteur manquant')),
-      ],
-    );
-  }
-
-  @override
-  int get rowCount => _jsonData.length;
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get selectedRowCount => 0; // Supprimer la gestion de la sélection
 }

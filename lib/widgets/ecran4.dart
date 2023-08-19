@@ -193,6 +193,7 @@ class _FichelocalisationState extends State<Fichelocalisation> {
     List<dynamic> currentLivres = getCurrentPageLivres();
 
     return Scaffold(
+     backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         //title: Text(widget.nomlocalisation),
         title: Text('${widget.nomlocalisation} ( ${widget.livres?.length ?? 0} titres)'),
@@ -203,53 +204,58 @@ class _FichelocalisationState extends State<Fichelocalisation> {
           children: [
             //Text(
                // 'Nombre de livres pour cette localisation : ${widget.livres?.length ?? 0}'),
-            DataTable(
-              columns: [
-                DataColumn(
-                  label: Text(
-                    'Titre',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
+            Container(
+
+ width:
+                    double.infinity, // Pour occuper toute la largeur de l'écran
+
+
+              child: DataTable(
+                headingRowColor: MaterialStateColor.resolveWith((states) =>
+                      Color(0xFFD46F4D)), // Couleur de fond des titres
+                columns: [
+                  DataColumn(
+                   label: Container(
+                        width: 200,
+
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5), // Marge horizontale
+                        child: Text('Titre'),
+                      ),
                   ),
-                ),
-               DataColumn(
-                  label: Text(
-                    'Titre',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
+                 DataColumn(
+                    label: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5), // Marge horizontale
+                        child: Text('Genre'),
+                      ),
                   ),
-                ),
-              ],
-              rows: currentLivres
-                  .map(
-                    (livre) => DataRow(
-                      cells: [
-                        DataCell(
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      FichePage(livre: Livre.fromJson(livre)),
-                                ),
-                              );
-                            },
-                            child: Text(livre['Titre'] ?? ''),
+                ],
+                rows: currentLivres
+                    .map(
+                      (livre) => DataRow(
+                        cells: [
+                          DataCell(
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        FichePage(livre: Livre.fromJson(livre)),
+                                  ),
+                                );
+                              },
+                              child: Text(livre['Titre'] ?? ''),
+                            ),
                           ),
-                        ),
-                        DataCell(Text(livre['Nom Auteur'] ?? '')),
-                        //DataCell(Text(livre['Année'] ?? '')),
-                      ],
-                    ),
-                  )
-                  .toList(),
+                          DataCell(Text(livre['Nom Auteur'] ?? '')),
+                          //DataCell(Text(livre['Année'] ?? '')),
+                        ],
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

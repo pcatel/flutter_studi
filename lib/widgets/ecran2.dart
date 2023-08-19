@@ -47,6 +47,7 @@ class _Ecran2State extends State<Ecran2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: const Text('Les Genres'),
         backgroundColor: Color(0xFF430C05),
@@ -191,30 +192,36 @@ class _FicheGenreState extends State<FicheGenre> {
         child: Column(
           children: [
             //Text('Nombre de livres pour ce genre : ${widget.livres?.length ?? 0}'),
-            DataTable(
-              columns: [
-                DataColumn(label: Text('Titre')),
-                DataColumn(label: Text('Auteur')),
-                //DataColumn(label: Text('Année')),
-              ],
-              rows: currentLivres
-                  .map(
-                    (livre) => DataRow(
-                      cells: [
-                        DataCell(
-                          InkWell(
-                            onTap: () {
-                              _afficherFicheLivre(Livre.fromJson(livre));
-                            },
-                            child: Text(livre['Titre'] ?? ''),
+            Container(
+              width:
+                    double.infinity, // Pour occuper toute la largeur de l'écran
+              child: DataTable(
+              headingRowColor: MaterialStateColor.resolveWith((states) =>
+                        Color(0xFFD46F4D)), // C
+                columns: [
+                  DataColumn(label: Text('Titre')),
+                  DataColumn(label: Text('Auteur')),
+                  //DataColumn(label: Text('Année')),
+                ],
+                rows: currentLivres
+                    .map(
+                      (livre) => DataRow(
+                        cells: [
+                          DataCell(
+                            InkWell(
+                              onTap: () {
+                                _afficherFicheLivre(Livre.fromJson(livre));
+                              },
+                              child: Text(livre['Titre'] ?? ''),
+                            ),
                           ),
-                        ),
-                        DataCell(Text(livre['Nom Auteur'] ?? '')),
-                        // DataCell(Text(livre['Année'] ?? '')),
-                      ],
-                    ),
-                  )
-                  .toList(),
+                          DataCell(Text(livre['Nom Auteur'] ?? '')),
+                          // DataCell(Text(livre['Année'] ?? '')),
+                        ],
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
