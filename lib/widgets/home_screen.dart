@@ -7,7 +7,6 @@ import 'ecran3.dart';
 import 'ecran4.dart';
 import 'ecran5.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -22,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/auteur.png',
     'assets/images/localisation.png',
     'assets/images/rechercher.png',
-    
   ];
 
   final List<String> _labels = [
@@ -31,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
     'Auteur',
     'Localisation',
     'Rechercher',
- 
   ];
 
   void _onIconTap(int index) {
@@ -66,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
           MaterialPageRoute(builder: (context) => Ecran5()),
         );
         break;
-     
+
       default:
         break;
     }
@@ -88,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottomRight: Radius.circular(25),
               bottomLeft: Radius.circular(25)),
         ),
-        elevation: 0.00,
+        elevation: .00,
         backgroundColor: Color(0xFF430C05),
       ),
       body: GridView.builder(
@@ -106,7 +103,6 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-             
               children: [
                 Image.asset(
                   _images[index],

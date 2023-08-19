@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'fiche.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
 import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
 import 'button_navigation.dart';
+
 class Ecran3 extends StatefulWidget {
   const Ecran3({Key? key}) : super(key: key);
 
@@ -12,9 +13,9 @@ class Ecran3 extends StatefulWidget {
 }
 
 class _Ecran3State extends State<Ecran3> {
-  List<dynamic>? jsonData;
   List<String> auteursList = [];
   int currentPage = 0;
+  List<dynamic>? jsonData;
 
   @override
   void initState() {
@@ -47,7 +48,8 @@ class _Ecran3State extends State<Ecran3> {
   }
 
   void _afficherFicheAuteur(String nomAuteur) {
-    List<dynamic>? livres = jsonData?.where((book) => book['Nom Auteur'] == nomAuteur).toList();
+    List<dynamic>? livres =
+        jsonData?.where((book) => book['Nom Auteur'] == nomAuteur).toList();
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -59,20 +61,26 @@ class _Ecran3State extends State<Ecran3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(8, 197, 209, 1),
       appBar: AppBar(
         title: const Text('Les Auteurs'),
-         backgroundColor: Color(0xFF430C05),
+        backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: PaginatedDataTable(
-          header: Text('Les livres'),
+          //header: Text('Les livres'),
           rowsPerPage: _DataSource.rowsPerPageDataSource,
-          availableRowsPerPage: [4, 8, 12], // Liste des valeurs disponibles pour rowsPerPage
+          availableRowsPerPage: [
+            12,
+            24,
+            36
+          ], // Liste des valeurs disponibles pour rowsPerPage
           columns: const [
             DataColumn(label: Text('Auteur')),
             DataColumn(label: Text('Nbre de livre')),
           ],
-          source: _DataSource(auteursList, jsonData, _afficherFicheAuteur), // Passer la méthode _afficherFicheAuteur ici
+          source: _DataSource(auteursList, jsonData,
+              _afficherFicheAuteur), // Passer la méthode _afficherFicheAuteur ici
           onPageChanged: (int newPage) {
             setState(() {
               currentPage = newPage;
@@ -87,18 +95,22 @@ class _Ecran3State extends State<Ecran3> {
           },
         ),
       ),
-     bottomNavigationBar: const BarreIcones(),
+      bottomNavigationBar: const BarreIcones(),
     );
   }
 }
 
 class _DataSource extends DataTableSource {
+  _DataSource(this._auteursList, this._jsonData,
+      this._onRowTap); // Passer _onRowTap au constructeur
+
+  static int rowsPerPageDataSource = 12;
+
   final List<String> _auteursList;
+  int _currentPage = 0;
   final List<dynamic>? _jsonData;
   final Function(String) _onRowTap; // Ajouter la variable _onRowTap
   int _selectedRowCount = 0;
-
-  _DataSource(this._auteursList, this._jsonData, this._onRowTap); // Passer _onRowTap au constructeur
 
   @override
   DataRow? getRow(int index) {
@@ -107,14 +119,16 @@ class _DataSource extends DataTableSource {
       return null;
     }
     String nomAuteur = _auteursList[realIndex];
-    int count = _jsonData!.where((book) => book['Nom Auteur'] == nomAuteur).length;
+    int count =
+        _jsonData!.where((book) => book['Nom Auteur'] == nomAuteur).length;
     return DataRow.byIndex(
       index: index,
       cells: [
         DataCell(
           GestureDetector(
             onTap: () {
-              _onRowTap(nomAuteur); // Utiliser la méthode _onRowTap passée au constructeur
+              _onRowTap(
+                  nomAuteur); // Utiliser la méthode _onRowTap passée au constructeur
             },
             child: Text(nomAuteur),
           ),
@@ -125,50 +139,51 @@ class _DataSource extends DataTableSource {
   }
 
   @override
-  int get rowCount => _auteursList.length;
+  bool get isRowCountApproximate => false;
 
   @override
-  bool get isRowCountApproximate => false;
+  int get rowCount => _auteursList.length;
 
   @override
   int get selectedRowCount => _selectedRowCount;
 
   int get currentPage => _currentPage;
+
   set currentPage(int value) {
     if (_currentPage == value) return;
     _currentPage = value;
     notifyListeners();
   }
-
-  int _currentPage = 0;
-
-  static int rowsPerPageDataSource = 4;
 }
 
 class FicheAuteur extends StatelessWidget {
-  final String nomAuteur;
-  final List<dynamic>? livres;
+  const FicheAuteur({required this.nomAuteur, this.livres, Key? key})
+      : super(key: key);
 
-  const FicheAuteur({required this.nomAuteur, this.livres, Key? key}) : super(key: key);
+  final List<dynamic>? livres;
+  final String nomAuteur;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
-        title:  Text('${nomAuteur} ( ${livres?.length ?? 0} titres)'),
-         backgroundColor: Color(0xFF430C05),
+        title: Text(
+            '${nomAuteur} (${livres?.length ?? 0} ${livres?.length == 1 ? 'titre' : 'titres'})'),
+        backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             //Text('Nombre de livres de l\'auteur : ${livres?.length ?? 0}'),
-              //Text('${nomAuteur} ( ${livres?.length ?? 0} titres)'),
+            //Text('${nomAuteur} ( ${livres?.length ?? 0} titres)'),
             if (livres != null)
               DataTable(
+              headingRowColor: MaterialStateColor.resolveWith((states) => Colors.grey), // Couleur de fond des titres
                 columns: [
                   DataColumn(label: Text('Titre')),
                   DataColumn(label: Text('Genre')),
-                  DataColumn(label: Text('Année')),
+                  //DataColumn(label: Text('Année')),
                 ],
                 rows: livres!
                     .map(
@@ -180,7 +195,8 @@ class FicheAuteur extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => FichePage(livre: Livre.fromJson(livre)),
+                                    builder: (context) =>
+                                        FichePage(livre: Livre.fromJson(livre)),
                                   ),
                                 );
                               },
@@ -188,7 +204,7 @@ class FicheAuteur extends StatelessWidget {
                             ),
                           ),
                           DataCell(Text(livre['Genre'] ?? '')),
-                          DataCell(Text(livre['Année'] ?? '')),
+                          // DataCell(Text(livre['Année'] ?? '')),
                         ],
                       ),
                     )

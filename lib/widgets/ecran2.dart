@@ -49,7 +49,7 @@ class _Ecran2State extends State<Ecran2> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Les Genres'),
-         backgroundColor: Color(0xFF430C05),
+        backgroundColor: Color(0xFF430C05),
       ),
       body: Column(
         children: [
@@ -141,14 +141,14 @@ class FicheGenre extends StatefulWidget {
 }
 
 class _FicheGenreState extends State<FicheGenre> {
-  int livresPerPage = 4;
+  int livresPerPage = 12;
   int currentPage = 1;
 
   List<dynamic> getCurrentPageLivres() {
     int startIndex = (currentPage - 1) * livresPerPage;
     int endIndex = startIndex + livresPerPage;
-    return widget.livres!
-        .sublist(startIndex, endIndex < widget.livres!.length ? endIndex : widget.livres!.length);
+    return widget.livres!.sublist(startIndex,
+        endIndex < widget.livres!.length ? endIndex : widget.livres!.length);
   }
 
   void previousPage() {
@@ -180,10 +180,12 @@ class _FicheGenreState extends State<FicheGenre> {
     List<dynamic> currentLivres = getCurrentPageLivres();
 
     return Scaffold(
+      backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         //title: Text(widget.nomGenre),
-        title:  Text('${widget.nomGenre} (${widget.livres?.length ?? 0} titres)'),
-          backgroundColor: Color(0xFF430C05),
+        title:
+            Text('${widget.nomGenre} (${widget.livres?.length ?? 0} titres)'),
+        backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -192,8 +194,8 @@ class _FicheGenreState extends State<FicheGenre> {
             DataTable(
               columns: [
                 DataColumn(label: Text('Titre')),
-                DataColumn(label: Text('Genre')),
-                DataColumn(label: Text('Année')),
+                DataColumn(label: Text('Auteur')),
+                //DataColumn(label: Text('Année')),
               ],
               rows: currentLivres
                   .map(
@@ -207,8 +209,8 @@ class _FicheGenreState extends State<FicheGenre> {
                             child: Text(livre['Titre'] ?? ''),
                           ),
                         ),
-                        DataCell(Text(livre['Genre'] ?? '')),
-                        DataCell(Text(livre['Année'] ?? '')),
+                        DataCell(Text(livre['Nom Auteur'] ?? '')),
+                        // DataCell(Text(livre['Année'] ?? '')),
                       ],
                     ),
                   )
