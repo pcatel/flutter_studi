@@ -39,13 +39,8 @@ class Livre {
       prenomAuteur: json['Prénom Auteur'] ?? '',
       photo: json['Photo'] ?? '',
       resume: ImageUrl(json['Résumé'] ?? ''),
-
-
-
-
-      
       genre: json['Genre'] ?? '',
-      localisation: json['Localisation'] ?? '',
+      localisation: json['localisation'] ?? '',
       rayon: json['Rayon'] ?? '',
       commentaire: json['Commentaire'] ?? '',
       pret: json['Pret'] ?? '',

@@ -47,7 +47,7 @@ class _Ecran2State extends State<Ecran2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     backgroundColor: Color(0xFF08C5D1),
+      backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: const Text('Les Genres'),
         backgroundColor: Color(0xFF430C05),
@@ -194,13 +194,42 @@ class _FicheGenreState extends State<FicheGenre> {
             //Text('Nombre de livres pour ce genre : ${widget.livres?.length ?? 0}'),
             Container(
               width:
-                    double.infinity, // Pour occuper toute la largeur de l'écran
+                  double.infinity, // Pour occuper toute la largeur de l'écran
               child: DataTable(
-              headingRowColor: MaterialStateColor.resolveWith((states) =>
-                        Color(0xFFD46F4D)), // C
+                headingRowColor: MaterialStateColor.resolveWith(
+                    (states) => Color(0xFFD46F4D)), // C
                 columns: [
-                  DataColumn(label: Text('Titre')),
-                  DataColumn(label: Text('Auteur')),
+                  DataColumn(
+                    label: Container(
+                      width: 200,
+
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 5), // Marge horizontale
+                      child: Text(
+                        'Titre',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Container(
+                      width: 200,
+
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 5), // Marge horizontale
+                      child: Text('Auteur',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                   //DataColumn(label: Text('Année')),
                 ],
                 rows: currentLivres
@@ -212,7 +241,9 @@ class _FicheGenreState extends State<FicheGenre> {
                               onTap: () {
                                 _afficherFicheLivre(Livre.fromJson(livre));
                               },
-                              child: Text(livre['Titre'] ?? ''),
+                              child: Text(
+                                livre['Titre'] ?? '',
+                              ),
                             ),
                           ),
                           DataCell(Text(livre['Nom Auteur'] ?? '')),
@@ -231,7 +262,11 @@ class _FicheGenreState extends State<FicheGenre> {
                   onPressed: previousPage,
                 ),
                 Text(
-                  'Rows per page $livresPerPage ${currentPage * livresPerPage - livresPerPage + 1}-${currentPage * livresPerPage} of ${widget.livres!.length}',
+                  '${currentPage * livresPerPage - livresPerPage + 1}-${currentPage * livresPerPage} of ${widget.livres!.length}',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 IconButton(
                   icon: Icon(Icons.arrow_right),

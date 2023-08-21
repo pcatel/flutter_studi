@@ -84,11 +84,41 @@ class _Ecran1State extends State<Ecran1> {
           Container(
             width: double.infinity,
             child: DataTable(
-             headingRowColor: MaterialStateColor.resolveWith((states) =>
-                        Color(0xFFD46F4D)),
+              headingRowColor:
+                  MaterialStateColor.resolveWith((states) => Color(0xFFD46F4D)),
               columns: [
-                DataColumn(label: Text('Titre')),
-                  DataColumn(label: Text('Auteur')),
+                DataColumn(
+                  label: Container(
+                    width: 200,
+
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 5), // Marge horizontale
+                    child: Text(
+                      'Titre',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Container(
+                    width: 200,
+
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 5), // Marge horizontale
+                    child: Text(
+                      'Auteur',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ],
               rows: _createRows(startingIndex),
             ),
@@ -116,8 +146,7 @@ class _Ecran1State extends State<Ecran1> {
               IconButton(
                 icon: Icon(Icons.arrow_right),
                 onPressed: () {
-                  final totalPages =
-                      (jsonData.length / rowsPerPage).ceil();
+                  final totalPages = (jsonData.length / rowsPerPage).ceil();
                   if (currentPage < totalPages - 1) {
                     setState(() {
                       currentPage++;

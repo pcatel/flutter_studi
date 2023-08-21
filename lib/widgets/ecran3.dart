@@ -74,7 +74,7 @@ class _Ecran3State extends State<Ecran3> {
               //arrowHeadColor: Color.fromARGB(66, 37, 13, 13),
 
               rowsPerPage: _DataSource.rowsPerPageDataSource,
-             
+
               columns: [
                 DataColumn(
                   label: Container(
@@ -82,7 +82,14 @@ class _Ecran3State extends State<Ecran3> {
 
                     padding: EdgeInsets.symmetric(
                         horizontal: 5), // Marge horizontale
-                    child: Text('Titre'),
+                    child: Text(
+                      'Titre',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
 
@@ -90,7 +97,14 @@ class _Ecran3State extends State<Ecran3> {
                   label: Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: 5), // Marge horizontale
-                    child: Text('Nbre'),
+                    child: Text(
+                      'Nbre',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
                 //DataColumn(label: Text('Année')),
@@ -102,14 +116,14 @@ class _Ecran3State extends State<Ecran3> {
               //  setState(() {
               //    currentPage = newPage;
               //  });
-            //  },
-            //  onRowsPerPageChanged: (int? value) {
+              //  },
+              //  onRowsPerPageChanged: (int? value) {
               //  if (value != null) {
-               //   setState(() {
-               //     _DataSource.rowsPerPageDataSource = value;
+              //   setState(() {
+              //     _DataSource.rowsPerPageDataSource = value;
               //    });
-            //    }
-            //  },
+              //    }
+              //  },
             ),
           ],
         ),
@@ -204,7 +218,6 @@ class FicheAuteur extends StatelessWidget {
                   headingRowColor: MaterialStateColor.resolveWith((states) =>
                       Color(0xFFD46F4D)), // Couleur de fond des titres
 
-                  
                   columns: [
                     DataColumn(
                       label: Container(
@@ -212,7 +225,14 @@ class FicheAuteur extends StatelessWidget {
 
                         padding: EdgeInsets.symmetric(
                             horizontal: 5), // Marge horizontale
-                        child: Text('Titre'),
+                        child: Text(
+                          'Titre',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
 
@@ -220,7 +240,14 @@ class FicheAuteur extends StatelessWidget {
                       label: Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: 5), // Marge horizontale
-                        child: Text('Genre'),
+                        child: Text(
+                          'Genre',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                     //DataColumn(label: Text('Année')),

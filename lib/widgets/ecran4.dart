@@ -193,42 +193,55 @@ class _FichelocalisationState extends State<Fichelocalisation> {
     List<dynamic> currentLivres = getCurrentPageLivres();
 
     return Scaffold(
-     backgroundColor: Color(0xFF08C5D1),
+      backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         //title: Text(widget.nomlocalisation),
-        title: Text('${widget.nomlocalisation} ( ${widget.livres?.length ?? 0} titres)'),
+        title: Text(
+            '${widget.nomlocalisation} ( ${widget.livres?.length ?? 0} titres)'),
         backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             //Text(
-               // 'Nombre de livres pour cette localisation : ${widget.livres?.length ?? 0}'),
+            // 'Nombre de livres pour cette localisation : ${widget.livres?.length ?? 0}'),
             Container(
-
- width:
-                    double.infinity, // Pour occuper toute la largeur de l'écran
-
+              width:
+                  double.infinity, // Pour occuper toute la largeur de l'écran
 
               child: DataTable(
                 headingRowColor: MaterialStateColor.resolveWith((states) =>
-                      Color(0xFFD46F4D)), // Couleur de fond des titres
+                    Color(0xFFD46F4D)), // Couleur de fond des titres
                 columns: [
                   DataColumn(
-                   label: Container(
-                        width: 200,
-
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 5), // Marge horizontale
-                        child: Text('Titre'),
-                      ),
-                  ),
-                 DataColumn(
                     label: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 5), // Marge horizontale
-                        child: Text('Genre'),
+                      width: 200,
+
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 5), // Marge horizontale
+                      child: Text(
+                        'Titre',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 5), // Marge horizontale
+                      child: Text(
+                        'Genre',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
                 rows: currentLivres
