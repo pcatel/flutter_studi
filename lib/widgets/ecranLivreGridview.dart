@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'fiche.dart';
+import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
-import 'ecran1.dart';
+import 'ecranLivre.dart';
 import 'drawer.dart';
 
 class Ecran8 extends StatefulWidget {

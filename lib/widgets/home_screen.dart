@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'drawer.dart';
 import 'button_navigation.dart';
-import 'ecran1.dart';
-import 'ecran2.dart';
-import 'ecran3.dart';
-import 'ecran4.dart';
-import 'ecran5.dart';
+import 'ecranLivre.dart';
+import 'ecranGenre.dart';
+import 'ecranAuteur.dart';
+import 'ecranLocalisation.dart';
+import 'ecranRechercher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

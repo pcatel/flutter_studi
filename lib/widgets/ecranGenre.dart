@@ -1,21 +1,21 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'fiche.dart';
+import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
 import 'drawer.dart';
 
-class Ecran4 extends StatefulWidget {
-  const Ecran4({Key? key}) : super(key: key);
+class Ecran2 extends StatefulWidget {
+  const Ecran2({Key? key}) : super(key: key);
 
   @override
-  _Ecran4State createState() => _Ecran4State();
+  _Ecran2State createState() => _Ecran2State();
 }
 
-class _Ecran4State extends State<Ecran4> {
+class _Ecran2State extends State<Ecran2> {
   List<dynamic> jsonData = [];
-  List<String> localisationsList = [];
+  List<String> genresList = [];
 
   @override
   void initState() {
@@ -26,24 +26,23 @@ class _Ecran4State extends State<Ecran4> {
   Future<void> _chargerDonnees() async {
     try {
       String data = await rootBundle.loadString('data/livres.json');
-
       setState(() {
         jsonData = jsonDecode(data);
-        localisationsList = _extractlocalisations(jsonData);
+        genresList = _extractGenres(jsonData);
       });
     } catch (e) {
       print('Erreur lors du chargement des données : $e');
     }
   }
 
-  List<String> _extractlocalisations(List<dynamic> jsonData) {
-    Set<String> localisationsSet = Set();
+  List<String> _extractGenres(List<dynamic> jsonData) {
+    Set<String> genresSet = Set();
     for (var book in jsonData) {
-      if (book.containsKey('localisation')) {
-        localisationsSet.add(book['localisation']);
+      if (book.containsKey('Genre')) {
+        genresSet.add(book['Genre']);
       }
     }
-    return localisationsSet.toList();
+    return genresSet.toList();
   }
 
   @override
@@ -52,87 +51,70 @@ class _Ecran4State extends State<Ecran4> {
       drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
-        title: const Text('Les localisations'),
+        title: const Text('Les Genres'),
         backgroundColor: Color(0xFF430C05),
       ),
       body: Column(
         children: [
+          SizedBox(height: 10),
           Expanded(
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 0.0,
-                mainAxisSpacing: 0.0,
+                crossAxisCount: 3,
+                crossAxisSpacing: 32.0,
+                mainAxisSpacing: 32.0,
               ),
-              itemCount: localisationsList.length,
+              itemCount: genresList.length,
               itemBuilder: (context, index) {
-                String localisation = localisationsList[index];
-                int count = jsonData
-                    .where((book) => book['localisation'] == localisation)
-                    .length;
+                String genre = genresList[index];
+                int count =
+                    jsonData.where((book) => book['Genre'] == genre).length;
                 String imagePath =
-                    'assets/images/Localisations/${localisation.toLowerCase()}.jpg';
+                    'assets/images/Genres/${genre.toLowerCase()}.jpg';
 
                 return InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Fichelocalisation(
-                          nomlocalisation: localisation,
+                        builder: (context) => FicheGenre(
+                          nomGenre: genre,
                           livres: jsonData
-                              .where((book) =>
-                                  book['localisation'] == localisation)
+                              .where((book) => book['Genre'] == genre)
                               .toList(),
                         ),
                       ),
                     );
                   },
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(20.0),
                     child: Card(
-                      color: Colors.black,
-                      margin: EdgeInsets.all(25),
                       child: Container(
-                        color: Colors.white,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(imagePath),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                         alignment: Alignment.center,
-                        child: Stack(
+                        child: Column(
                           children: [
-                            Image.asset(
-                              imagePath,
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                color: Color.fromARGB(200, 67, 12, 5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      localisation,
-                                      style: TextStyle(
-                                        color:
-                                            Color.fromARGB(198, 255, 254, 254),
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    Text(
-                                      '($count titres)',
-                                      style: TextStyle(
-                                        color: Color(0xFFFFBF66),
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
+                            Text(
+                              genre,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
                               ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              '($count titres)',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),
@@ -150,21 +132,20 @@ class _Ecran4State extends State<Ecran4> {
   }
 }
 
-class Fichelocalisation extends StatefulWidget {
-  const Fichelocalisation(
-      {required this.nomlocalisation, this.livres, Key? key})
+class FicheGenre extends StatefulWidget {
+  final String nomGenre;
+  final List<dynamic>? livres;
+
+  const FicheGenre({required this.nomGenre, this.livres, Key? key})
       : super(key: key);
 
-  final List<dynamic>? livres;
-  final String nomlocalisation;
-
   @override
-  _FichelocalisationState createState() => _FichelocalisationState();
+  _FicheGenreState createState() => _FicheGenreState();
 }
 
-class _FichelocalisationState extends State<Fichelocalisation> {
-  int currentPage = 1;
+class _FicheGenreState extends State<FicheGenre> {
   int livresPerPage = 12;
+  int currentPage = 1;
 
   List<dynamic> getCurrentPageLivres() {
     int startIndex = (currentPage - 1) * livresPerPage;
@@ -190,6 +171,13 @@ class _FichelocalisationState extends State<Fichelocalisation> {
     }
   }
 
+  void _afficherFicheLivre(Livre livre) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FichePage(livre: livre)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     List<dynamic> currentLivres = getCurrentPageLivres();
@@ -198,23 +186,21 @@ class _FichelocalisationState extends State<Fichelocalisation> {
       drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
-        //title: Text(widget.nomlocalisation),
-        title: Text(
-            '${widget.nomlocalisation} ( ${widget.livres?.length ?? 0} titres)'),
+        //title: Text(widget.nomGenre),
+        title:
+            Text('${widget.nomGenre} (${widget.livres?.length ?? 0} titres)'),
         backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //Text(
-            // 'Nombre de livres pour cette localisation : ${widget.livres?.length ?? 0}'),
+            //Text('Nombre de livres pour ce genre : ${widget.livres?.length ?? 0}'),
             Container(
               width:
                   double.infinity, // Pour occuper toute la largeur de l'écran
-
               child: DataTable(
-                headingRowColor: MaterialStateColor.resolveWith((states) =>
-                    Color(0xFFD46F4D)), // Couleur de fond des titres
+                headingRowColor: MaterialStateColor.resolveWith(
+                    (states) => Color(0xFFD46F4D)), // C
                 columns: [
                   DataColumn(
                     label: Container(
@@ -234,11 +220,12 @@ class _FichelocalisationState extends State<Fichelocalisation> {
                   ),
                   DataColumn(
                     label: Container(
+                      width: 200,
+
                       padding: EdgeInsets.symmetric(
                           horizontal: 5), // Marge horizontale
-                      child: Text(
-                        'Genre',
-                        style: TextStyle(
+                      child: Text('Auteur',
+                      style: TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -246,27 +233,24 @@ class _FichelocalisationState extends State<Fichelocalisation> {
                       ),
                     ),
                   ),
+                  //DataColumn(label: Text('Année')),
                 ],
                 rows: currentLivres
                     .map(
                       (livre) => DataRow(
                         cells: [
                           DataCell(
-                            GestureDetector(
+                            InkWell(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        FichePage(livre: Livre.fromJson(livre)),
-                                  ),
-                                );
+                                _afficherFicheLivre(Livre.fromJson(livre));
                               },
-                              child: Text(livre['Titre'] ?? ''),
+                              child: Text(
+                                livre['Titre'] ?? '',
+                              ),
                             ),
                           ),
                           DataCell(Text(livre['Nom Auteur'] ?? '')),
-                          //DataCell(Text(livre['Année'] ?? '')),
+                          // DataCell(Text(livre['Année'] ?? '')),
                         ],
                       ),
                     )
@@ -281,7 +265,11 @@ class _FichelocalisationState extends State<Fichelocalisation> {
                   onPressed: previousPage,
                 ),
                 Text(
-                  'Rows per page $livresPerPage ${currentPage * livresPerPage - livresPerPage + 1}-${currentPage * livresPerPage} of ${widget.livres!.length}',
+                  '${currentPage * livresPerPage - livresPerPage + 1}-${currentPage * livresPerPage} of ${widget.livres!.length}',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 IconButton(
                   icon: Icon(Icons.arrow_right),
@@ -296,5 +284,3 @@ class _FichelocalisationState extends State<Fichelocalisation> {
     );
   }
 }
-
-// ... (autres parties du code)

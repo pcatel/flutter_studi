@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'fiche.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
+import 'ficheLivre.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
 import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
 import 'button_navigation.dart';
 import 'drawer.dart';

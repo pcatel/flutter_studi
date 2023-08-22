@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_studi/widgets/home_screen.dart';
-import 'ecran1.dart';
-import 'ecran2.dart';
-import 'ecran3.dart';
-import 'ecran4.dart';
-import 'ecran5.dart';
+import 'ecranLivre.dart';
+import 'ecranGenre.dart';
+import 'ecranAuteur.dart';
+import 'ecranLocalisation.dart';
+import 'ecranRechercher.dart';
 import 'ecran6.dart';
 
 class BarreIcones extends StatefulWidget {
@@ -104,8 +104,8 @@ class _BarreIconesState extends State<BarreIcones> {
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Color(0xFFD46F4D),
-        selectedItemColor: Colors.white, // Couleur de l'icône sélectionnée
-        unselectedItemColor: Colors.grey, // Couleur des icônes non sélectionnées
+        selectedItemColor: Colors.black, // Couleur de l'icône sélectionnée
+        unselectedItemColor: Colors.white, // Couleur des icônes non sélectionnées
         items: _images.asMap().entries.map((entry) {
           int index = entry.key;
           String imagePath = entry.value;
@@ -127,7 +127,7 @@ class _BarreIconesState extends State<BarreIcones> {
         unselectedLabelStyle: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.normal,
-          color: Colors.black, // Couleur du texte du label non sélectionné
+          color: Colors.white, // Couleur du texte du label non sélectionné
         ),
       ),
     );
