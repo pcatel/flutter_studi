@@ -5,17 +5,17 @@ import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
 import 'ecranLivreGridview.dart';
-import 'drawer.dart';
+//import 'drawer.dart';
 
 
-class Ecran1 extends StatefulWidget {
-  const Ecran1({Key? key}) : super(key: key);
+class EcranLivre extends StatefulWidget {
+  const EcranLivre({Key? key}) : super(key: key);
 
   @override
-  _Ecran1State createState() => _Ecran1State();
+  _EcranLivreState createState() => _EcranLivreState();
 }
 
-class _Ecran1State extends State<Ecran1> {
+class _EcranLivreState extends State<EcranLivre> {
   List<dynamic> jsonData = [];
   int rowsPerPage = 12;
   int currentPage = 0;
@@ -77,7 +77,7 @@ class _Ecran1State extends State<Ecran1> {
     final startingIndex = currentPage * rowsPerPage;
 
     return Scaffold(
-     drawer: MyDrawerWidget(),
+     //drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: Text('Les livres (${jsonData.length})'),
@@ -89,7 +89,7 @@ class _Ecran1State extends State<Ecran1> {
               // Lorsque l'icône est appuyée, ouvrir l'écran 8
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Ecran8()), // Remplacez Ecran8 par le nom correct de votre écran
+                MaterialPageRoute(builder: (context) => EcranLivreGridview()), // Remplacez Ecran8 par le nom correct de votre écran
               );
             },
           ),

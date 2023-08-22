@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
-import 'drawer.dart';
+//import 'drawer.dart';
 
 class FichePage extends StatelessWidget {
   final Livre livre;
@@ -13,7 +13,7 @@ class FichePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MyDrawerWidget(),
+      //drawer: MyDrawerWidget(),
       backgroundColor: Color.fromARGB(255, 100, 198, 244),
       appBar: AppBar(
         title: Text(livre.titre),
@@ -230,7 +230,7 @@ class FullScreenImagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MyDrawerWidget(),
+      //drawer: MyDrawerWidget(),
       backgroundColor: Color.fromARGB(255, 100, 198, 244),
       appBar: AppBar(
         title: Text(titre),

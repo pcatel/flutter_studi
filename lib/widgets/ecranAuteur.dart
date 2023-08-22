@@ -4,16 +4,16 @@ import 'package:flutter/services.dart';
 import 'ficheLivre.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
 import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
 import 'button_navigation.dart';
-import 'drawer.dart';
+//import 'drawer.dart';
 
-class Ecran3 extends StatefulWidget {
-  const Ecran3({Key? key}) : super(key: key);
+class EcranAuteur extends StatefulWidget {
+  const EcranAuteur({Key? key}) : super(key: key);
 
   @override
-  _Ecran3State createState() => _Ecran3State();
+  _EcranAuteurState createState() => _EcranAuteurState();
 }
 
-class _Ecran3State extends State<Ecran3> {
+class _EcranAuteurState extends State<EcranAuteur> {
   List<String> auteursList = [];
   int currentPage = 0;
   List<dynamic>? jsonData;
@@ -62,7 +62,7 @@ class _Ecran3State extends State<Ecran3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MyDrawerWidget(),
+      //drawer: MyDrawerWidget(),
       backgroundColor: Color.fromRGBO(8, 197, 209, 1),
       appBar: AppBar(
         title: const Text('Les Auteurs'),
@@ -201,7 +201,7 @@ class FicheAuteur extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MyDrawerWidget(),
+      //drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: Text(

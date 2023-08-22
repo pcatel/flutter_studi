@@ -4,16 +4,17 @@ import 'package:flutter/services.dart';
 import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
-import 'drawer.dart';
+//import 'drawer.dart';
+import 'ecranGenreGridview.dart';
 
-class Ecran2 extends StatefulWidget {
-  const Ecran2({Key? key}) : super(key: key);
+class EcranGenre extends StatefulWidget {
+  const EcranGenre({Key? key}) : super(key: key);
 
   @override
-  _Ecran2State createState() => _Ecran2State();
+  _EcranGenreState createState() => _EcranGenreState();
 }
 
-class _Ecran2State extends State<Ecran2> {
+class _EcranGenreState extends State<EcranGenre> {
   List<dynamic> jsonData = [];
   List<String> genresList = [];
 
@@ -48,11 +49,24 @@ class _Ecran2State extends State<Ecran2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MyDrawerWidget(),
+      //drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
+      
       appBar: AppBar(
         title: const Text('Les Genres'),
         backgroundColor: Color(0xFF430C05),
+           actions: [
+          IconButton(
+            icon: Icon(Icons.grid_view_sharp), // Icône pour ouvrir l'écran 8
+            onPressed: () {
+              // Lorsque l'icône est appuyée, ouvrir l'écran 8
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EcranGenreGridview()), // Remplacez Ecran8 par le nom correct de votre écran
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -183,7 +197,7 @@ class _FicheGenreState extends State<FicheGenre> {
     List<dynamic> currentLivres = getCurrentPageLivres();
 
     return Scaffold(
-      drawer: MyDrawerWidget(),
+      //drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         //title: Text(widget.nomGenre),

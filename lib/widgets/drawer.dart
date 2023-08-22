@@ -99,7 +99,7 @@ class MyDrawerWidget extends StatelessWidget {
                             Navigator.pop(context);
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Ecran1()),
+                              MaterialPageRoute(builder: (context) => EcranLivre()),
                             );
                           },
                         ),
@@ -129,7 +129,7 @@ class MyDrawerWidget extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Ecran2()),
+                                  builder: (context) => const EcranGenre()),
                             );
                           },
                         ),
@@ -158,7 +158,7 @@ class MyDrawerWidget extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Ecran3()),
+                                  builder: (context) => const EcranAuteur()),
                             );
                           },
                         ),
@@ -188,7 +188,7 @@ class MyDrawerWidget extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Ecran4()),
+                                  builder: (context) => const EcranLocalisation()),
                             );
                           },
                         ),
@@ -217,7 +217,7 @@ class MyDrawerWidget extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Ecran5()),
+                                  builder: (context) => const EcranRechercher()),
                             );
                           },
                         ),

@@ -4,17 +4,17 @@ import 'package:flutter/services.dart';
 import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
-import 'ecranLivre.dart';
+import 'ecranGenre.dart';
 import 'drawer.dart';
 
-class EcranLivreGridview extends StatefulWidget {
-  const EcranLivreGridview({Key? key}) : super(key: key);
+class EcranGenreGridview extends StatefulWidget {
+  const EcranGenreGridview({Key? key}) : super(key: key);
 
   @override
-  _EcranLivreGridviewState createState() => _EcranLivreGridviewState();
+  _EcranGenreGridviewState createState() => _EcranGenreGridviewState();
 }
 
-class _EcranLivreGridviewState extends State<EcranLivreGridview> {
+class _EcranGenreGridviewState extends State<EcranGenreGridview> {
   List<dynamic> jsonData = [];
   int currentPage = 0;
 
@@ -73,7 +73,7 @@ class _EcranLivreGridviewState extends State<EcranLivreGridview> {
       drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
-        title: Text('Les livres (${jsonData.length})'),
+        title: Text('Les livres(${jsonData.length})'),
         backgroundColor: Color(0xFF430C05),
         actions: [
           IconButton(
@@ -84,7 +84,7 @@ class _EcranLivreGridviewState extends State<EcranLivreGridview> {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        EcranLivre()), // Remplacez Ecran1 par le nom correct de votre écran
+                        EcranGenre()), // Remplacez Ecran1 par le nom correct de votre écran
               );
             },
           ),

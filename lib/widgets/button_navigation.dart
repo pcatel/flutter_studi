@@ -54,31 +54,31 @@ class _BarreIconesState extends State<BarreIcones> {
       case 1:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ecran1()),
+          MaterialPageRoute(builder: (context) => EcranLivre()),
         );
         break;
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ecran2()),
+          MaterialPageRoute(builder: (context) => EcranGenre()),
         );
         break;
       case 3:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ecran3()),
+          MaterialPageRoute(builder: (context) => EcranAuteur()),
         );
         break;
       case 4:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ecran4()),
+          MaterialPageRoute(builder: (context) => EcranLocalisation()),
         );
         break;
       case 5:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Ecran5()),
+          MaterialPageRoute(builder: (context) => EcranRechercher()),
         );
         break;
       case 6:

@@ -7,14 +7,14 @@ import 'ficheLivre.dart'; // Importez la classe FichePage depuis le fichier fich
 import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
 import 'button_navigation.dart';
 
-class Ecran5 extends StatefulWidget {
-  const Ecran5({Key? key}) : super(key: key);
+class EcranRechercher extends StatefulWidget {
+  const EcranRechercher({Key? key}) : super(key: key);
 
   @override
-  _Ecran5State createState() => _Ecran5State();
+  _EcranRechercherState createState() => _EcranRechercherState();
 }
 
-class _Ecran5State extends State<Ecran5> {
+class _EcranRechercherState extends State<EcranRechercher> {
   List<Livre> livres = [];
   List<Livre> resultatsRecherche = [];
   String critereRecherche = 'livre';

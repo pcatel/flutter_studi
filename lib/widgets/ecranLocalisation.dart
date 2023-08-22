@@ -4,16 +4,16 @@ import 'package:flutter/services.dart';
 import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
-import 'drawer.dart';
+//import 'drawer.dart';
 
-class Ecran4 extends StatefulWidget {
-  const Ecran4({Key? key}) : super(key: key);
+class EcranLocalisation extends StatefulWidget {
+  const EcranLocalisation({Key? key}) : super(key: key);
 
   @override
-  _Ecran4State createState() => _Ecran4State();
+  _EcranLocalisationState createState() => _EcranLocalisationState();
 }
 
-class _Ecran4State extends State<Ecran4> {
+class _EcranLocalisationState extends State<EcranLocalisation> {
   List<dynamic> jsonData = [];
   List<String> localisationsList = [];
 
@@ -49,7 +49,7 @@ class _Ecran4State extends State<Ecran4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MyDrawerWidget(),
+      //drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: const Text('Les localisations'),
@@ -195,7 +195,7 @@ class _FichelocalisationState extends State<Fichelocalisation> {
     List<dynamic> currentLivres = getCurrentPageLivres();
 
     return Scaffold(
-      drawer: MyDrawerWidget(),
+      //drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         //title: Text(widget.nomlocalisation),
