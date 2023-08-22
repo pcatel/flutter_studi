@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'drawer.dart';
 
 //import 'button_navigation.dart';
 class Ecran6 extends StatelessWidget {
@@ -7,6 +8,7 @@ class Ecran6 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawerWidget(),
       appBar: AppBar(
         title: const Text('Gestion'),
       ),

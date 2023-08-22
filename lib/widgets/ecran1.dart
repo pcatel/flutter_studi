@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'fiche.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
+import 'ecran8.dart';
+import 'drawer.dart';
+
 
 class Ecran1 extends StatefulWidget {
   const Ecran1({Key? key}) : super(key: key);
@@ -74,10 +77,23 @@ class _Ecran1State extends State<Ecran1> {
     final startingIndex = currentPage * rowsPerPage;
 
     return Scaffold(
+     drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: Text('Les livres (${jsonData.length})'),
         backgroundColor: Color(0xFF430C05),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.grid_view_sharp), // Icône pour ouvrir l'écran 8
+            onPressed: () {
+              // Lorsque l'icône est appuyée, ouvrir l'écran 8
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Ecran8()), // Remplacez Ecran8 par le nom correct de votre écran
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [

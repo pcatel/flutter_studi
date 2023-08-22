@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'fiche.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
+import 'drawer.dart';
 
 class Ecran2 extends StatefulWidget {
   const Ecran2({Key? key}) : super(key: key);
@@ -47,6 +48,7 @@ class _Ecran2State extends State<Ecran2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: const Text('Les Genres'),
@@ -181,6 +183,7 @@ class _FicheGenreState extends State<FicheGenre> {
     List<dynamic> currentLivres = getCurrentPageLivres();
 
     return Scaffold(
+      drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         //title: Text(widget.nomGenre),

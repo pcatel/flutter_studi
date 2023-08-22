@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
+import 'drawer.dart';
 
 class FichePage extends StatelessWidget {
   final Livre livre;
@@ -12,6 +13,7 @@ class FichePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawerWidget(),
       backgroundColor: Color.fromARGB(255, 100, 198, 244),
       appBar: AppBar(
         title: Text(livre.titre),
@@ -31,35 +33,41 @@ class FichePage extends StatelessWidget {
                   Text(
                     '${livre.prenomAuteur} ${livre.nomAuteur}',
                     style: TextStyle(
-                      color: const Color.fromARGB(255, 249, 249, 249),
-                    
+                      color: const   Color(0xFFD46F4D),
+                  
                       fontSize: 26,
                       fontWeight: FontWeight.bold
                     ),
                   ),
                 ],
               ),
-              color: Color.fromARGB(255, 3, 53, 82),
+              color: Color(0xFF00353F),
             ),
           ),
           Expanded(
             flex: 50,
             child: _buildRowWithColor(
               child: _buildImageContainerRow(context),
-              color: Color.fromARGB(255, 247, 248, 249),
+              color: Color(0xFFD46F4D),
             ),
           ),
           Expanded(
             flex: 10,
             child: _buildRowWithColor(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Genre:'),
+                 
                   SizedBox(width: 8),
-                  Text(livre.genre),
+                  Text(livre.genre,style: TextStyle(
+                      color: const   Color(0xFF00353F),
+                  
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold
+                    ),),
                 ],
               ),
-              color: Color.fromARGB(255, 3, 53, 82),
+              color: Color(0xFF08C5D1),
             ),
           ),
           Expanded(
@@ -67,16 +75,36 @@ class FichePage extends StatelessWidget {
             child: _buildRowWithColor(
               child: Row(
                 children: [
-                  Text('Localisation:'),
+                  Text('Localisation:',style: TextStyle(
+                      color: const   Color(0xFF00353F),
+                  
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),),
                   SizedBox(width: 8),
-                  Text(livre.localisation),
+                  Text(livre.localisation,style: TextStyle(
+                      color: const   Color(0xFF00353F),
+                  
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),),
                   SizedBox(width: 16),
-                  Text('Rayon:'),
+                  Text('Rayon:',style: TextStyle(
+                      color: const   Color(0xFF00353F),
+                  
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),),
                   SizedBox(width: 8),
-                  Text(livre.rayon),
+                  Text(livre.rayon,style: TextStyle(
+                      color: const   Color(0xFF00353F),
+                  
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),),
                 ],
               ),
-              color: Color.fromARGB(255, 247, 248, 249),
+              color: Color(0xFFFFBF66),
             ),
           ),
           Expanded(
@@ -84,12 +112,22 @@ class FichePage extends StatelessWidget {
             child: _buildRowWithColor(
               child: Row(
                 children: [
-                  Text('Commentaire:'),
+                  Text('Commentaire:',style: TextStyle(
+                      color: const   Color(0xFFFEFFFF),
+                  
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),),
                   SizedBox(width: 8),
-                  Text(livre.commentaire),
+                  Text(livre.commentaire,style: TextStyle(
+                      color: const   Color(0xFFFEFFFF),
+                  
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),),
                 ],
               ),
-              color: Color.fromARGB(255, 3, 53, 82),
+              color: Color(0xFFD46F4D),
             ),
           ),
           Expanded(
@@ -97,12 +135,22 @@ class FichePage extends StatelessWidget {
             child: _buildRowWithColor(
               child: Row(
                 children: [
-                  Text('Pret:'),
+                  Text('Pret:',style: TextStyle(
+                      color: const   Color(0xFFFEFFFF),
+                  
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),),
                   SizedBox(width: 8),
-                  Text(livre.pret),
+                  Text(livre.pret,style: TextStyle(
+                      color: Color(0xFFFEFFFF),
+                  
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),),
                 ],
               ),
-              color: const Color.fromARGB(255, 255, 255, 254),
+              color: Color(0xFF430C05),
             ),
           ),
         ],
@@ -182,6 +230,7 @@ class FullScreenImagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawerWidget(),
       backgroundColor: Color.fromARGB(255, 100, 198, 244),
       appBar: AppBar(
         title: Text(titre),

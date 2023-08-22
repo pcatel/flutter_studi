@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'fiche.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
 import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
 import 'button_navigation.dart';
+import 'drawer.dart';
 
 class Ecran3 extends StatefulWidget {
   const Ecran3({Key? key}) : super(key: key);
@@ -61,6 +62,7 @@ class _Ecran3State extends State<Ecran3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawerWidget(),
       backgroundColor: Color.fromRGBO(8, 197, 209, 1),
       appBar: AppBar(
         title: const Text('Les Auteurs'),
@@ -199,6 +201,7 @@ class FicheAuteur extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: Text(

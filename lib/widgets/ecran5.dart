@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'drawer.dart';
 
 import 'fiche.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
 import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
@@ -131,6 +132,7 @@ class _Ecran5State extends State<Ecran5> {
     }
 
     return Scaffold(
+      drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: Text(_getAppBarTitle()),

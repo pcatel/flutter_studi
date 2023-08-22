@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 import 'button_navigation.dart';
+import 'drawer.dart';
 void main() {
   runApp(MyApp());
 }
@@ -67,6 +68,7 @@ class _Ecran7State extends State<Ecran7> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawerWidget(),
       appBar: AppBar(
         title: const Text('Chargement'),
       ),
