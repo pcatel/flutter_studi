@@ -4,18 +4,18 @@ import 'package:flutter/services.dart';
 import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
-import 'ecranGenre.dart';
+import 'ecranAuteur.dart';
 //import 'drawer.dart';
 
-class EcranGenreGridview extends StatefulWidget {
-final String selectedGenre;
-   const EcranGenreGridview({Key? key, required this.selectedGenre}) : super(key: key);
+class EcranAuteurGridview extends StatefulWidget {
+final String selectedAuteur;
+   const EcranAuteurGridview({Key? key, required this.selectedAuteur}) : super(key: key);
 
   @override
-  _EcranGenreGridviewState createState() => _EcranGenreGridviewState();
+  _EcranAuteurGridviewState createState() => _EcranAuteurGridviewState();
 }
 
-class _EcranGenreGridviewState extends State<EcranGenreGridview> {
+class _EcranAuteurGridviewState extends State<EcranAuteurGridview> {
   //List<dynamic> jsonData = [];
 List<dynamic> jsonData = [];
   List<dynamic> filteredLivres = [];
@@ -35,8 +35,8 @@ List<dynamic> jsonData = [];
       String data = await rootBundle.loadString('data/livres.json');
       setState(() {
         jsonData = jsonDecode(data);
-        // Filtrer les livres correspondant au genre sélectionné
-        filteredLivres = jsonData.where((livreData) => livreData['Genre'] == widget.selectedGenre).toList();
+        // Filtrer les livres correspondant à l'auteur sélectionné
+        filteredLivres = jsonData.where((livreData) => livreData['Nom Auteur'] == widget.selectedAuteur).toList();
       });
     } catch (e) {
       print('Erreur lors du chargement des données : $e');
@@ -81,6 +81,7 @@ List<dynamic> jsonData = [];
       //drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
+      
         title: Text('Les livres(${filteredLivres.length})'),
         backgroundColor: Color(0xFF430C05),
         actions: [
@@ -92,7 +93,7 @@ List<dynamic> jsonData = [];
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        EcranGenre()), // Remplacez Ecran1 par le nom correct de votre écran
+                        EcranAuteur()), // Remplacez Ecran1 par le nom correct de votre écran
               );
             },
           ),

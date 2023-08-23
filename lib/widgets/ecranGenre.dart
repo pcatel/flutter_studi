@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
-//import 'drawer.dart';
+import 'drawer.dart';
 import 'ecranGenreGridview.dart';
 
 class EcranGenre extends StatefulWidget {
@@ -17,6 +17,7 @@ class EcranGenre extends StatefulWidget {
 class _EcranGenreState extends State<EcranGenre> {
   List<dynamic> jsonData = [];
   List<String> genresList = [];
+ 
 
   @override
   void initState() {
@@ -49,24 +50,13 @@ class _EcranGenreState extends State<EcranGenre> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //drawer: MyDrawerWidget(),
+      drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
-      
+
       appBar: AppBar(
         title: const Text('Les Genres'),
         backgroundColor: Color(0xFF430C05),
-           actions: [
-          IconButton(
-            icon: Icon(Icons.grid_view_sharp), // Icône pour ouvrir l'écran 8
-            onPressed: () {
-              // Lorsque l'icône est appuyée, ouvrir l'écran 8
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EcranGenreGridview()), // Remplacez Ecran8 par le nom correct de votre écran
-              );
-            },
-          ),
-        ],
+       
       ),
       body: Column(
         children: [
@@ -204,6 +194,23 @@ class _FicheGenreState extends State<FicheGenre> {
         title:
             Text('${widget.nomGenre} (${widget.livres?.length ?? 0} titres)'),
         backgroundColor: Color(0xFF430C05),
+         actions: [
+          IconButton(
+            icon: Icon(Icons.grid_view_sharp), // Icône pour ouvrir EcranGenreGridview
+            onPressed: () {
+              // Lorsque l'icône est appuyée, ouvrir EcranGenreGridview
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                       EcranGenreGridview(selectedGenre: widget.nomGenre)),
+                        // EcranGenreGridview()),
+                        
+                         // Remplacez Ecran8 par le nom correct de votre écran
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -238,8 +245,9 @@ class _FicheGenreState extends State<FicheGenre> {
 
                       padding: EdgeInsets.symmetric(
                           horizontal: 5), // Marge horizontale
-                      child: Text('Auteur',
-                      style: TextStyle(
+                      child: Text(
+                        'Auteur',
+                        style: TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
-//import 'drawer.dart';
+import 'drawer.dart';
 
 class EcranLocalisation extends StatefulWidget {
   const EcranLocalisation({Key? key}) : super(key: key);
@@ -49,7 +49,7 @@ class _EcranLocalisationState extends State<EcranLocalisation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //drawer: MyDrawerWidget(),
+      drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: const Text('Les localisations'),

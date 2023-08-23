@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'ficheLivre.dart'; // Importez la classe FichePage depuis le fichier fiche.dart
-import 'livre.dart'; // Importez la classe Livre depuis le fichier livre.dart
+import 'ficheLivre.dart';
+import 'livre.dart'; 
 import 'button_navigation.dart';
-//import 'drawer.dart';
+import 'drawer.dart';
+import 'ecranAuteurGridview.dart';
 
 class EcranAuteur extends StatefulWidget {
   const EcranAuteur({Key? key}) : super(key: key);
@@ -62,11 +63,12 @@ class _EcranAuteurState extends State<EcranAuteur> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //drawer: MyDrawerWidget(),
+      drawer: MyDrawerWidget(),
       backgroundColor: Color.fromRGBO(8, 197, 209, 1),
       appBar: AppBar(
         title: const Text('Les Auteurs'),
         backgroundColor: Color(0xFF430C05),
+        
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -207,6 +209,23 @@ class FicheAuteur extends StatelessWidget {
         title: Text(
             '${nomAuteur} (${livres?.length ?? 0} ${livres?.length == 1 ? 'titre' : 'titres'})'),
         backgroundColor: Color(0xFF430C05),
+          actions: [
+          IconButton(
+            icon: Icon(Icons.grid_view_sharp), // Icône pour ouvrir EcranGenreGridview
+            onPressed: () {
+              // Lorsque l'icône est appuyée, ouvrir EcranGenreGridview
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                       EcranAuteurGridview(selectedAuteur: nomAuteur)),
+                        //EcranAuteurGridview()),
+                        
+                         // Remplacez Ecran8 par le nom correct de votre écran
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
