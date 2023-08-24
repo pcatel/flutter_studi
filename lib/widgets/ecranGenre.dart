@@ -184,27 +184,21 @@ class _FicheGenreState extends State<FicheGenre> {
     List<dynamic> currentLivres = getCurrentPageLivres();
 
     return Scaffold(
-      //drawer: MyDrawerWidget(),
+      drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
-        //title: Text(widget.nomGenre),
         title:
             Text('${widget.nomGenre} (${widget.livres?.length ?? 0} titres)'),
         backgroundColor: Color(0xFF430C05),
         actions: [
           IconButton(
-            icon: Icon(
-                Icons.grid_view_sharp), // Icône pour ouvrir EcranGenreGridview
+            icon: Icon(Icons.grid_view_sharp),
             onPressed: () {
-              // Lorsque l'icône est appuyée, ouvrir EcranGenreGridview
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
                         EcranGenreGridview(selectedGenre: widget.nomGenre)),
-                // EcranGenreGridview()),
-
-                // Remplacez Ecran8 par le nom correct de votre écran
               );
             },
           ),
@@ -213,20 +207,16 @@ class _FicheGenreState extends State<FicheGenre> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //Text('Nombre de livres pour ce genre : ${widget.livres?.length ?? 0}'),
             Container(
-              width:
-                  double.infinity, // Pour occuper toute la largeur de l'écran
+              width: double.infinity,
               child: DataTable(
                 headingRowColor: MaterialStateColor.resolveWith(
-                    (states) => Color(0xFFD46F4D)), // C
+                    (states) => Color(0xFFD46F4D)),
                 columns: [
                   DataColumn(
                     label: Container(
                       width: 200,
-
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 5), // Marge horizontale
+                      padding: EdgeInsets.symmetric(horizontal: 5),
                       child: Text(
                         'Titre',
                         style: TextStyle(
@@ -240,9 +230,7 @@ class _FicheGenreState extends State<FicheGenre> {
                   DataColumn(
                     label: Container(
                       width: 200,
-
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 5), // Marge horizontale
+                      padding: EdgeInsets.symmetric(horizontal: 5),
                       child: Text(
                         'Auteur',
                         style: TextStyle(
@@ -253,7 +241,6 @@ class _FicheGenreState extends State<FicheGenre> {
                       ),
                     ),
                   ),
-                  //DataColumn(label: Text('Année')),
                 ],
                 rows: currentLivres
                     .map(
@@ -270,33 +257,33 @@ class _FicheGenreState extends State<FicheGenre> {
                             ),
                           ),
                           DataCell(Text(livre['Nom Auteur'] ?? '')),
-                          // DataCell(Text(livre['Année'] ?? '')),
                         ],
                       ),
                     )
                     .toList(),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_left),
-                  onPressed: previousPage,
-                ),
-                Text(
-                  '${currentPage * livresPerPage - livresPerPage + 1}-${currentPage * livresPerPage} of ${widget.livres!.length}',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+            if (widget.livres!.length > livresPerPage)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_left),
+                    onPressed: previousPage,
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_right),
-                  onPressed: nextPage,
-                ),
-              ],
-            ),
+                  Text(
+                    '${currentPage * livresPerPage - livresPerPage + 1}-${currentPage * livresPerPage} of ${widget.livres!.length}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_right),
+                    onPressed: nextPage,
+                  ),
+                ],
+              ),
           ],
         ),
       ),
@@ -304,3 +291,5 @@ class _FicheGenreState extends State<FicheGenre> {
     );
   }
 }
+
+// Ajoutez les autres parties de votre code ici, comme BarreIcones, Livre, FichePage, etc.

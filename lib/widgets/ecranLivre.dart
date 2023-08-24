@@ -7,7 +7,6 @@ import 'button_navigation.dart';
 import 'ecranLivreGridview.dart';
 //import 'drawer.dart';
 
-
 class EcranLivre extends StatefulWidget {
   const EcranLivre({Key? key}) : super(key: key);
 
@@ -17,7 +16,6 @@ class EcranLivre extends StatefulWidget {
 
 class _EcranLivreState extends State<EcranLivre> {
   List<dynamic> jsonData = [];
-  int rowsPerPage = 12;
   int currentPage = 0;
 
   @override
@@ -37,6 +35,13 @@ class _EcranLivreState extends State<EcranLivre> {
     }
   }
 
+  int calculateRowsPerPage(BuildContext context) {
+    final availableHeight = MediaQuery.of(context).size.height -
+        AppBar().preferredSize.height -
+        kToolbarHeight;
+    return (availableHeight / 60).floor(); // Ajustez la hauteur de ligne selon vos besoins
+  }
+
   void _afficherFicheLivre(Livre livre) {
     Navigator.push(
       context,
@@ -46,7 +51,7 @@ class _EcranLivreState extends State<EcranLivre> {
 
   List<DataRow> _createRows(int startingIndex) {
     return List<DataRow>.generate(
-      rowsPerPage,
+      calculateRowsPerPage(context), // Utilisez la fonction ici
       (index) {
         final dataIndex = startingIndex + index;
         if (dataIndex < jsonData.length) {
@@ -74,10 +79,10 @@ class _EcranLivreState extends State<EcranLivre> {
 
   @override
   Widget build(BuildContext context) {
-    final startingIndex = currentPage * rowsPerPage;
+    final startingIndex = currentPage * calculateRowsPerPage(context);
 
     return Scaffold(
-     //drawer: MyDrawerWidget(),
+      //drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: Text('Les livres (${jsonData.length})'),
@@ -106,7 +111,6 @@ class _EcranLivreState extends State<EcranLivre> {
                 DataColumn(
                   label: Container(
                     width: 200,
-
                     padding: EdgeInsets.symmetric(
                         horizontal: 5), // Marge horizontale
                     child: Text(
@@ -122,7 +126,6 @@ class _EcranLivreState extends State<EcranLivre> {
                 DataColumn(
                   label: Container(
                     width: 200,
-
                     padding: EdgeInsets.symmetric(
                         horizontal: 5), // Marge horizontale
                     child: Text(
@@ -162,7 +165,7 @@ class _EcranLivreState extends State<EcranLivre> {
               IconButton(
                 icon: Icon(Icons.arrow_right),
                 onPressed: () {
-                  final totalPages = (jsonData.length / rowsPerPage).ceil();
+                  final totalPages = (jsonData.length / calculateRowsPerPage(context)).ceil();
                   if (currentPage < totalPages - 1) {
                     setState(() {
                       currentPage++;

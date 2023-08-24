@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'ficheLivre.dart';
-import 'livre.dart'; 
+import 'livre.dart';
 import 'button_navigation.dart';
 import 'drawer.dart';
 import 'ecranAuteurGridview.dart';
@@ -64,72 +64,48 @@ class _EcranAuteurState extends State<EcranAuteur> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: MyDrawerWidget(),
-      backgroundColor: Color.fromRGBO(8, 197, 209, 1),
+      backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: const Text('Les Auteurs'),
         backgroundColor: Color(0xFF430C05),
-        
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            PaginatedDataTable(
-              // header: Text('Les livres'),
-              //arrowHeadColor: Color.fromARGB(66, 37, 13, 13),
-
-              rowsPerPage: _DataSource.rowsPerPageDataSource,
-
-              columns: [
-                DataColumn(
-                  label: Container(
-                    width: 200,
-
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 5), // Marge horizontale
-                    child: Text(
-                      'Titre',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+        child: PaginatedDataTable(
+          //arrowHeadColor: Color.fromARGB(66, 37, 13, 13),
+          rowsPerPage: _DataSource.rowsPerPageDataSource,
+          columns: [
+            DataColumn(
+              label: Container(
+                width: 200,
+                padding:
+                    EdgeInsets.symmetric(horizontal: 5), // Marge horizontale
+                child: Text(
+                  'Titre',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-
-                DataColumn(
-                  label: Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 5), // Marge horizontale
-                    child: Text(
-                      'Nbre',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                //DataColumn(label: Text('Année')),
-              ],
-
-              source: _DataSource(auteursList, jsonData,
-                  _afficherFicheAuteur), // Passer la méthode _afficherFicheAuteur ici
-              //onPageChanged: (int newPage) {
-              //  setState(() {
-              //    currentPage = newPage;
-              //  });
-              //  },
-              //  onRowsPerPageChanged: (int? value) {
-              //  if (value != null) {
-              //   setState(() {
-              //     _DataSource.rowsPerPageDataSource = value;
-              //    });
-              //    }
-              //  },
+              ),
             ),
+            DataColumn(
+              label: Container(
+                padding:
+                    EdgeInsets.symmetric(horizontal: 5), // Marge horizontale
+                child: Text(
+                  'Nbre',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            //DataColumn(label: Text('Année')),
           ],
+          source: _DataSource(auteursList, jsonData, _afficherFicheAuteur),
         ),
       ),
       bottomNavigationBar: const BarreIcones(),
@@ -172,6 +148,9 @@ class _DataSource extends DataTableSource {
         ),
         DataCell(Text('$count')),
       ],
+      color: index == 0
+          ? MaterialStateColor.resolveWith((states) => Color(0xFFD46F4D))
+          : MaterialStateColor.resolveWith((states) => Colors.white),
     );
   }
 
@@ -209,19 +188,20 @@ class FicheAuteur extends StatelessWidget {
         title: Text(
             '${nomAuteur} (${livres?.length ?? 0} ${livres?.length == 1 ? 'titre' : 'titres'})'),
         backgroundColor: Color(0xFF430C05),
-          actions: [
+        actions: [
           IconButton(
-            icon: Icon(Icons.grid_view_sharp), // Icône pour ouvrir EcranGenreGridview
+            icon: Icon(
+                Icons.grid_view_sharp), // Icône pour ouvrir EcranGenreGridview
             onPressed: () {
               // Lorsque l'icône est appuyée, ouvrir EcranGenreGridview
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                       EcranAuteurGridview(selectedAuteur: nomAuteur)),
-                        //EcranAuteurGridview()),
-                        
-                         // Remplacez Ecran8 par le nom correct de votre écran
+                        EcranAuteurGridview(selectedAuteur: nomAuteur)),
+                //EcranAuteurGridview()),
+
+                // Remplacez Ecran8 par le nom correct de votre écran
               );
             },
           ),
@@ -237,14 +217,10 @@ class FicheAuteur extends StatelessWidget {
                 width:
                     double.infinity, // Pour occuper toute la largeur de l'écran
                 child: DataTable(
-                  headingRowColor: MaterialStateColor.resolveWith((states) =>
-                      Color(0xFFD46F4D)), // Couleur de fond des titres
-
                   columns: [
                     DataColumn(
                       label: Container(
                         width: 200,
-
                         padding: EdgeInsets.symmetric(
                             horizontal: 5), // Marge horizontale
                         child: Text(
@@ -257,7 +233,6 @@ class FicheAuteur extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     DataColumn(
                       label: Container(
                         padding: EdgeInsets.symmetric(

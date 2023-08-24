@@ -9,7 +9,6 @@ import 'drawer.dart';
 
 class EcranLivreGridview extends StatefulWidget {
   const EcranLivreGridview({Key? key}) : super(key: key);
-  
 
   @override
   _EcranLivreGridviewState createState() => _EcranLivreGridviewState();
@@ -18,6 +17,7 @@ class EcranLivreGridview extends StatefulWidget {
 class _EcranLivreGridviewState extends State<EcranLivreGridview> {
   List<dynamic> jsonData = [];
   int currentPage = 0;
+  int livresPerPage = 12; // Nombre de livres par page
 
   @override
   void initState() {
@@ -51,25 +51,24 @@ class _EcranLivreGridviewState extends State<EcranLivreGridview> {
   int get itemsPerPage {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
-    // Calculer le nombre d'éléments par page en fonction de la taille de l'écran
     final int crossAxisCount =
-        (screenWidth / 110).floor(); // Ajustez 150 selon vos besoins
+        (screenWidth / 110).floor(); // Ajustez 110 selon vos besoins
     final int rowCount =
-        (screenHeight / 110).floor(); // Ajustez 150 selon vos besoins
+        (screenHeight / 110).floor(); // Ajustez 110 selon vos besoins
     return crossAxisCount * rowCount;
   }
 
   List<dynamic> get currentPageData {
-    final int startIndex = currentPage * itemsPerPage;
-    final int endIndex = (currentPage + 1) * itemsPerPage;
-    return jsonData.sublist(
-        startIndex, endIndex > jsonData.length ? jsonData.length : endIndex);
+    final int startIndex = currentPage * livresPerPage;
+    final int endIndex =
+        (currentPage + 1) * livresPerPage > jsonData.length
+            ? jsonData.length
+            : (currentPage + 1) * livresPerPage;
+    return jsonData.sublist(startIndex, endIndex);
   }
 
   @override
   Widget build(BuildContext context) {
-   
-
     return Scaffold(
       drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
@@ -78,14 +77,13 @@ class _EcranLivreGridviewState extends State<EcranLivreGridview> {
         backgroundColor: Color(0xFF430C05),
         actions: [
           IconButton(
-            icon: Icon(Icons.list), // Icône pour ouvrir l'écran 1
+            icon: Icon(Icons.list),
             onPressed: () {
-              // Lorsque l'icône est appuyée, ouvrir l'écran 1
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        EcranLivre()), // Remplacez Ecran1 par le nom correct de votre écran
+                  builder: (context) => EcranLivre(),
+                ),
               );
             },
           ),
@@ -94,80 +92,118 @@ class _EcranLivreGridviewState extends State<EcranLivreGridview> {
       body: Column(
         children: [
           Expanded(
-              child: GridView.builder(
-            padding: EdgeInsets.all(10.0),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: (MediaQuery.of(context).size.width / 110).floor(),
-              mainAxisSpacing: MediaQuery.of(context).size.height * 0.02,
-              crossAxisSpacing: MediaQuery.of(context).size.width * 0.02,
-              childAspectRatio: 0.90,
-            ),
-            itemCount: currentPageData.length,
-      itemBuilder: (BuildContext context, int index) {
-  var livreData = currentPageData[index];
+            child: GridView.builder(
+              padding: EdgeInsets.all(10.0),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount:
+                    (MediaQuery.of(context).size.width / 110).floor(),
+                mainAxisSpacing: MediaQuery.of(context).size.height * 0.02,
+                crossAxisSpacing: MediaQuery.of(context).size.width * 0.02,
+                childAspectRatio: 0.90,
+              ),
+              itemCount: currentPageData.length,
+              itemBuilder: (BuildContext context, int index) {
+                var livreData = currentPageData[index];
 
-  return Card(
-    elevation: 4,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(5.0),
-    ),
-    color: Color(0xFF00353F),
-    child: InkWell(
-      onTap: () {
-        Livre livre = Livre.fromJson(livreData);
-        _afficherFicheLivre(livre);
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FutureBuilder<String>(
-            future: _sanitizeString(livreData['Photo']),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Erreur : ${snapshot.error}');
-              } else {
-                String imageUrl = snapshot.data ?? '';
-                return Image.network(
-                  Uri.parse(
-                    "https://www.pascalcatel.com/biblio/$imageUrl",
-                  ).toString(),
-                  width: 50,
-                  height: 75,
-                  fit: BoxFit.cover,
+                return Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  color: Color(0xFF00353F),
+                  child: InkWell(
+                    onTap: () {
+                      Livre livre = Livre.fromJson(livreData);
+                      _afficherFicheLivre(livre);
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FutureBuilder<String>(
+                          future: _sanitizeString(livreData['Photo']),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Erreur : ${snapshot.error}');
+                            } else {
+                              String imageUrl = snapshot.data ?? '';
+                              return Image.network(
+                                Uri.parse(
+                                  "https://www.pascalcatel.com/biblio/$imageUrl",
+                                ).toString(),
+                                width: 50,
+                                height: 75,
+                                fit: BoxFit.cover,
+                              );
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: 5,
+                          width: 100,
+                        ),
+                        Text(
+                          livreData['Titre'] ?? 'Titre manquant',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 255, 254, 254),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                          ),
+                        ),
+                        Text(
+                          livreData['Nom Auteur'] ?? 'Auteur manquant',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFFFFBF66),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
-              }
-            },
+              },
+            ),
           ),
-          SizedBox(
-            height: 5,
-            width: 100,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.chevron_left),
+                  onPressed: () {
+                    setState(() {
+                      if (currentPage > 0) {
+                        currentPage--;
+                      }
+                    });
+                  },
+                ),
+                Text(
+                  '${currentPage * livresPerPage + 1}-${(currentPage + 1) * livresPerPage} of ${jsonData.length}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.chevron_right),
+                  onPressed: () {
+                    setState(() {
+                      if ((currentPage + 1) * livresPerPage < jsonData.length) {
+                        currentPage++;
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
-          Text(
-            livreData['Titre'] ?? 'Titre manquant',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: const Color.fromARGB(255, 255, 254, 254),
-                fontWeight: FontWeight.bold,
-                fontSize: 10),
-          ),
-          Text(
-            livreData['Nom Auteur'] ?? 'Auteur manquant',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Color(0xFFFFBF66),
-                fontWeight: FontWeight.bold,
-                fontSize: 12),
-          ),
-        ],
-      ),
-    ),
-  );
-},
-
-          )),
-       
         ],
       ),
       bottomNavigationBar: const BarreIcones(),
