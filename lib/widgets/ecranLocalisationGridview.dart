@@ -4,18 +4,18 @@ import 'package:flutter/services.dart';
 import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
-import 'ecranAuteur.dart';
+import 'ecranLocalisation.dart';
 //import 'drawer.dart';
 
-class EcranAuteurGridview extends StatefulWidget {
-final String selectedAuteur;
-   const EcranAuteurGridview({Key? key, required this.selectedAuteur}) : super(key: key);
+class EcranLocalisationGridview extends StatefulWidget {
+final String selectedLocalisation;
+   const EcranLocalisationGridview({Key? key, required this.selectedLocalisation}) : super(key: key);
 
   @override
-  _EcranAuteurGridviewState createState() => _EcranAuteurGridviewState();
+  _EcranLocalisationGridviewState createState() => _EcranLocalisationGridviewState();
 }
 
-class _EcranAuteurGridviewState extends State<EcranAuteurGridview> {
+class _EcranLocalisationGridviewState extends State<EcranLocalisationGridview> {
   //List<dynamic> jsonData = [];
 List<dynamic> jsonData = [];
   List<dynamic> filteredLivres = [];
@@ -36,7 +36,7 @@ List<dynamic> jsonData = [];
       setState(() {
         jsonData = jsonDecode(data);
         // Filtrer les livres correspondant à l'auteur sélectionné
-        filteredLivres = jsonData.where((livreData) => livreData['Nom Auteur'] == widget.selectedAuteur).toList();
+        filteredLivres = jsonData.where((livreData) => livreData['localisation'] == widget.selectedLocalisation).toList();
       });
     } catch (e) {
       print('Erreur lors du chargement des données : $e');
@@ -82,9 +82,8 @@ List<dynamic> jsonData = [];
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
       
-       
-
-         title: Text('${widget.selectedAuteur} (${filteredLivres.length})'),
+        //title: Text('Les livres(${filteredLivres.length})'),
+         title: Text('${widget.selectedLocalisation} (${filteredLivres.length})'),
         backgroundColor: Color(0xFF430C05),
         actions: [
           IconButton(
@@ -95,7 +94,7 @@ List<dynamic> jsonData = [];
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        EcranAuteur()), // Remplacez Ecran1 par le nom correct de votre écran
+                        EcranLocalisation()), // Remplacez Ecran1 par le nom correct de votre écran
               );
             },
           ),
@@ -164,7 +163,7 @@ List<dynamic> jsonData = [];
                 fontSize: 10),
           ),
           Text(
-            livreData['Nom Auteur'] ?? 'Auteur manquant',
+            livreData['Nom Localisation'] ?? 'Localisation manquant',
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Color(0xFFFFBF66),

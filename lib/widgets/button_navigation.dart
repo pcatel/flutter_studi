@@ -120,12 +120,12 @@ class _BarreIconesState extends State<BarreIcones> {
           );
         }).toList(),
         selectedLabelStyle: TextStyle(
-          fontSize: 14,
+          fontSize: 12,
           fontWeight: FontWeight.bold,
           color: Colors.black, // Couleur du texte du label sélectionné
         ),
         unselectedLabelStyle: TextStyle(
-          fontSize: 14,
+          fontSize: 12,
           fontWeight: FontWeight.normal,
           color: Colors.white, // Couleur du texte du label non sélectionné
         ),

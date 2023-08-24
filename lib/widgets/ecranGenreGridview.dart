@@ -81,7 +81,7 @@ List<dynamic> jsonData = [];
       //drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
-        title: Text('Les livres(${filteredLivres.length})'),
+        title: Text('${widget.selectedGenre} (${filteredLivres.length})'),
         backgroundColor: Color(0xFF430C05),
         actions: [
           IconButton(

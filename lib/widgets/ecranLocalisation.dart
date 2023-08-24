@@ -5,6 +5,7 @@ import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
 import 'drawer.dart';
+import 'ecranLocalisationGridview.dart';
 
 class EcranLocalisation extends StatefulWidget {
   const EcranLocalisation({Key? key}) : super(key: key);
@@ -202,6 +203,22 @@ class _FichelocalisationState extends State<Fichelocalisation> {
         title: Text(
             '${widget.nomlocalisation} ( ${widget.livres?.length ?? 0} titres)'),
         backgroundColor: Color(0xFF430C05),
+                actions: [
+          IconButton(
+            icon: Icon(Icons.grid_view_sharp), // Icône pour ouvrir EcranGenreGridview
+            onPressed: () {
+              // Lorsque l'icône est appuyée, ouvrir EcranGenreGridview
+             
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                       EcranLocalisationGridview(selectedLocalisation: widget.nomlocalisation)),
+                       
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
