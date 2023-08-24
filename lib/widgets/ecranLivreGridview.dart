@@ -68,7 +68,7 @@ class _EcranLivreGridviewState extends State<EcranLivreGridview> {
 
   @override
   Widget build(BuildContext context) {
-    final int totalPages = (jsonData.length / itemsPerPage).ceil();
+   
 
     return Scaffold(
       drawer: MyDrawerWidget(),
@@ -167,38 +167,7 @@ class _EcranLivreGridviewState extends State<EcranLivreGridview> {
 },
 
           )),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(Icons.arrow_left),
-                onPressed: () {
-                  if (currentPage > 0) {
-                    setState(() {
-                      currentPage--;
-                    });
-                  }
-                },
-              ),
-              Text(
-                'Page ${currentPage + 1} / $totalPages',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              IconButton(
-                icon: Icon(Icons.arrow_right),
-                onPressed: () {
-                  if (currentPage < totalPages - 1) {
-                    setState(() {
-                      currentPage++;
-                    });
-                  }
-                },
-              ),
-            ],
-          ),
+       
         ],
       ),
       bottomNavigationBar: const BarreIcones(),

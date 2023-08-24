@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'ficheLivre.dart';
 import 'livre.dart';
 import 'button_navigation.dart';
-import 'ecranAuteur.dart';
+//import 'ecranAuteur.dart';
 //import 'drawer.dart';
 
 class EcranAuteurGridview extends StatefulWidget {
@@ -90,13 +90,7 @@ List<dynamic> jsonData = [];
           IconButton(
             icon: Icon(Icons.list), // Icône pour ouvrir l'écran 1
             onPressed: () {
-              // Lorsque l'icône est appuyée, ouvrir l'écran 1
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        EcranAuteur()), // Remplacez Ecran1 par le nom correct de votre écran
-              );
+              Navigator.pop(context); // Revenir à l'écran précédent
             },
           ),
         ],

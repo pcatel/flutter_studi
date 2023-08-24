@@ -17,7 +17,6 @@ class EcranGenre extends StatefulWidget {
 class _EcranGenreState extends State<EcranGenre> {
   List<dynamic> jsonData = [];
   List<String> genresList = [];
- 
 
   @override
   void initState() {
@@ -52,11 +51,9 @@ class _EcranGenreState extends State<EcranGenre> {
     return Scaffold(
       drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
-
       appBar: AppBar(
         title: const Text('Les Genres'),
         backgroundColor: Color(0xFF430C05),
-       
       ),
       body: Column(
         children: [
@@ -194,19 +191,20 @@ class _FicheGenreState extends State<FicheGenre> {
         title:
             Text('${widget.nomGenre} (${widget.livres?.length ?? 0} titres)'),
         backgroundColor: Color(0xFF430C05),
-         actions: [
+        actions: [
           IconButton(
-            icon: Icon(Icons.grid_view_sharp), // Icône pour ouvrir EcranGenreGridview
+            icon: Icon(
+                Icons.grid_view_sharp), // Icône pour ouvrir EcranGenreGridview
             onPressed: () {
               // Lorsque l'icône est appuyée, ouvrir EcranGenreGridview
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                       EcranGenreGridview(selectedGenre: widget.nomGenre)),
-                        // EcranGenreGridview()),
-                        
-                         // Remplacez Ecran8 par le nom correct de votre écran
+                        EcranGenreGridview(selectedGenre: widget.nomGenre)),
+                // EcranGenreGridview()),
+
+                // Remplacez Ecran8 par le nom correct de votre écran
               );
             },
           ),
