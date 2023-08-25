@@ -64,48 +64,52 @@ class _EcranAuteurState extends State<EcranAuteur> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: MyDrawerWidget(),
-      backgroundColor: Color(0xFF08C5D1),
+      backgroundColor: Color.fromRGBO(8, 197, 209, 1),
       appBar: AppBar(
         title: const Text('Les Auteurs'),
         backgroundColor: Color(0xFF430C05),
       ),
       body: SingleChildScrollView(
-        child: PaginatedDataTable(
-          //arrowHeadColor: Color.fromARGB(66, 37, 13, 13),
-          rowsPerPage: _DataSource.rowsPerPageDataSource,
-          columns: [
-            DataColumn(
-              label: Container(
-                width: 200,
-                padding:
-                    EdgeInsets.symmetric(horizontal: 5), // Marge horizontale
-                child: Text(
-                  'Titre',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+        child: Column(
+          children: [
+            Container(
+              color: Colors.blue,
+              child: PaginatedDataTable(
+                rowsPerPage: _DataSource.rowsPerPageDataSource,
+                columns: [
+                  DataColumn(
+                    label: Container(
+                      width: 200,
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(
+                        'Titre',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  DataColumn(
+                    label: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(
+                        'Nbre',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+                source: _DataSource(auteursList, jsonData,
+                    _afficherFicheAuteur),
               ),
             ),
-            DataColumn(
-              label: Container(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 5), // Marge horizontale
-                child: Text(
-                  'Nbre',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            //DataColumn(label: Text('Année')),
           ],
-          source: _DataSource(auteursList, jsonData, _afficherFicheAuteur),
         ),
       ),
       bottomNavigationBar: const BarreIcones(),
@@ -115,14 +119,14 @@ class _EcranAuteurState extends State<EcranAuteur> {
 
 class _DataSource extends DataTableSource {
   _DataSource(this._auteursList, this._jsonData,
-      this._onRowTap); // Passer _onRowTap au constructeur
+      this._onRowTap);
 
   static int rowsPerPageDataSource = 12;
 
   final List<String> _auteursList;
   int _currentPage = 0;
   final List<dynamic>? _jsonData;
-  final Function(String) _onRowTap; // Ajouter la variable _onRowTap
+  final Function(String) _onRowTap;
   int _selectedRowCount = 0;
 
   @override
@@ -140,17 +144,13 @@ class _DataSource extends DataTableSource {
         DataCell(
           GestureDetector(
             onTap: () {
-              _onRowTap(
-                  nomAuteur); // Utiliser la méthode _onRowTap passée au constructeur
+              _onRowTap(nomAuteur);
             },
             child: Text(nomAuteur),
           ),
         ),
         DataCell(Text('$count')),
       ],
-      color: index == 0
-          ? MaterialStateColor.resolveWith((states) => Color(0xFFD46F4D))
-          : MaterialStateColor.resolveWith((states) => Colors.white),
     );
   }
 
@@ -182,7 +182,6 @@ class FicheAuteur extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title: Text(
@@ -190,18 +189,12 @@ class FicheAuteur extends StatelessWidget {
         backgroundColor: Color(0xFF430C05),
         actions: [
           IconButton(
-            icon: Icon(
-                Icons.grid_view_sharp), // Icône pour ouvrir EcranGenreGridview
+            icon: Icon(Icons.grid_view_sharp),
             onPressed: () {
-              // Lorsque l'icône est appuyée, ouvrir EcranGenreGridview
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        EcranAuteurGridview(selectedAuteur: nomAuteur)),
-                //EcranAuteurGridview()),
-
-                // Remplacez Ecran8 par le nom correct de votre écran
+                  builder: (context) => EcranAuteurGridview(selectedAuteur: nomAuteur)),
               );
             },
           ),
@@ -210,71 +203,65 @@ class FicheAuteur extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //Text('Nombre de livres de l\'auteur : ${livres?.length ?? 0}'),
-            //Text('${nomAuteur} ( ${livres?.length ?? 0} titres)'),
-            if (livres != null)
-              Container(
-                width:
-                    double.infinity, // Pour occuper toute la largeur de l'écran
-                child: DataTable(
-                  columns: [
-                    DataColumn(
-                      label: Container(
-                        width: 200,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 5), // Marge horizontale
-                        child: Text(
-                          'Titre',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+            Container(
+              width: double.infinity,
+              child: DataTable(
+                headingRowColor: MaterialStateColor.resolveWith((states) =>
+                    Color(0xFFD46F4D)),
+                columns: [
+                  DataColumn(
+                    label: Container(
+                      width: 200,
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(
+                        'Titre',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    DataColumn(
-                      label: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 5), // Marge horizontale
-                        child: Text(
-                          'Genre',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  ),
+                  DataColumn(
+                    label: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      child: Text(
+                        'Genre',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    //DataColumn(label: Text('Année')),
-                  ],
-                  rows: livres!
-                      .map(
-                        (livre) => DataRow(
-                          cells: [
-                            DataCell(
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => FichePage(
-                                          livre: Livre.fromJson(livre)),
-                                    ),
-                                  );
-                                },
-                                child: Text(livre['Titre'] ?? ''),
-                              ),
+                  ),
+                ],
+                rows: livres!
+                    .map(
+                      (livre) => DataRow(
+                        cells: [
+                          DataCell(
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FichePage(
+                                        livre: Livre.fromJson(livre)),
+                                  ),
+                                );
+                              },
+                              child: Text(livre['Titre'] ?? ''),
                             ),
-                            DataCell(Text(livre['Genre'] ?? '')),
-                            // DataCell(Text(livre['Année'] ?? '')),
-                          ],
-                        ),
-                      )
-                      .toList(),
-                ),
+                          ),
+                          DataCell(Text(livre['Genre'] ?? '')),
+                        ],
+                      ),
+                    )
+                    .toList(),
               ),
+            ),
           ],
         ),
       ),

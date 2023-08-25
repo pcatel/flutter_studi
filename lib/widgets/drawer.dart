@@ -11,8 +11,8 @@ class MyDrawerWidget extends StatelessWidget {
 
   Future<void> _launchAppOrBrowser(String url) async {
     final Uri uri = Uri.parse(url);
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       await launchUrl(uri);
     }

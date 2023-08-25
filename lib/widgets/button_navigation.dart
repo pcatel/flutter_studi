@@ -5,7 +5,7 @@ import 'ecranGenre.dart';
 import 'ecranAuteur.dart';
 import 'ecranLocalisation.dart';
 import 'ecranRechercher.dart';
-import 'ecran6.dart';
+//import 'ecran6.dart';
 
 class BarreIcones extends StatefulWidget {
   const BarreIcones({Key? key}) : super(key: key);
@@ -81,12 +81,7 @@ class _BarreIconesState extends State<BarreIcones> {
           MaterialPageRoute(builder: (context) => EcranRechercher()),
         );
         break;
-      case 6:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Ecran6()),
-        );
-        break;
+    
       default:
         break;
     }
