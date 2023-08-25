@@ -240,25 +240,25 @@ class MyDrawerWidget extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        _launchAppOrBrowser("https://www.facebook.com/");
+                        _launchAppOrBrowser("https://www.facebook.com/pascal.catel.18/");
                       },
                       child: Image.asset('assets/images/Reseaux/facebook.png'),
                     ),
                     GestureDetector(
                       onTap: () {
-                        _launchAppOrBrowser("https://www.instagram.com/");
+                        _launchAppOrBrowser("https://www.instagram.com/pascal.catel.18/");
                       },
                       child: Image.asset('assets/images/Reseaux/instagram.png'),
                     ),
                     GestureDetector(
                       onTap: () {
-                        _launchAppOrBrowser("https://www.tiktok.com/");
+                        _launchAppOrBrowser("https://www.tiktok.com/@pascalcatel");
                       },
                       child: Image.asset('assets/images/Reseaux/tiktok.png'),
                     ),
                     GestureDetector(
                       onTap: () {
-                        _launchAppOrBrowser("https://www.linkedin.com/");
+                        _launchAppOrBrowser("https://www.linkedin.com/in/pascal-catel-2215a043/");
                       },
                       child: Image.asset('assets/images/Reseaux/linkedin.png'),
                     ),

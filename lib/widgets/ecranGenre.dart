@@ -56,14 +56,15 @@ class _EcranGenreState extends State<EcranGenre> {
         backgroundColor: Color(0xFF430C05),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 10),
           Expanded(
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 32.0,
-                mainAxisSpacing: 32.0,
+                crossAxisCount: 2,
+                //crossAxisSpacing: 32.0,
+               // mainAxisSpacing: 32.0,
               ),
               itemCount: genresList.length,
               itemBuilder: (context, index) {
@@ -95,10 +96,13 @@ class _EcranGenreState extends State<EcranGenre> {
                           image: DecorationImage(
                             image: AssetImage(imagePath),
                             fit: BoxFit.cover,
+                         alignment: Alignment.center,
                           ),
                         ),
-                        alignment: Alignment.center,
+                       
                         child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+
                           children: [
                             Text(
                               genre,
@@ -184,7 +188,7 @@ class _FicheGenreState extends State<FicheGenre> {
     List<dynamic> currentLivres = getCurrentPageLivres();
 
     return Scaffold(
-      drawer: MyDrawerWidget(),
+      //drawer: MyDrawerWidget(),
       backgroundColor: Color(0xFF08C5D1),
       appBar: AppBar(
         title:
@@ -291,5 +295,3 @@ class _FicheGenreState extends State<FicheGenre> {
     );
   }
 }
-
-// Ajoutez les autres parties de votre code ici, comme BarreIcones, Livre, FichePage, etc.

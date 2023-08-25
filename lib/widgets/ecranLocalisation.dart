@@ -57,6 +57,8 @@ class _EcranLocalisationState extends State<EcranLocalisation> {
         backgroundColor: Color(0xFF430C05),
       ),
       body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: GridView.builder(
